@@ -93,5 +93,69 @@
         "username": "john",
         "password": "fistikis"
     },
-    "bot_name": "FactorBot"
+    "bot_name": "FactorBot",
+
+    "strategy_factor_mix": [
+        {
+            "factor": "momentum",
+            "weight": 1,
+            "kwargs": {
+                "start_days_ago": 30,
+                "end_days_ago": 1
+            }
+        },
+        {
+            "factor": "momentum",
+            "weight": 1,
+            "kwargs": {
+                "start_days_ago": 7,
+                "end_days_ago": 1
+            }
+        },
+        {
+            "factor": "momentum",
+            "weight": 1,
+            "kwargs": {
+                "start_days_ago": 1,
+                "end_days_ago": 0,
+                "reversal": true
+            }
+        },
+        {
+            "factor": "volume_momentum",
+            "weight": 1,
+            "kwargs": {
+                "window_days": 7
+            }
+        },
+        {
+            "factor": "factor_vol_adjusted_momentum",
+            "weight": 1,
+            "kwargs": {
+                "momentum_window_days": 30,
+                "vol_window_days": 30
+            }
+        },
+        {
+            "factor": "factor_overextension",
+            "weight": 1,
+            "kwargs": {
+                "ema_window_days": 30
+            }
+        },
+        {
+            "factor": "liquidity",
+            "weight": 1,
+            "kwargs": {
+                "window_days": 30
+            }
+        },
+        {
+            "factor": "size",
+            "weight": 1,
+            "kwargs": {
+                "window_days": 30
+            }
+        }
+    ]
 }
