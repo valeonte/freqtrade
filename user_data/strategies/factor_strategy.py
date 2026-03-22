@@ -18,7 +18,7 @@ class FactorStrategy(IStrategy):
     INTERFACE_VERSION = 3
 
     # ── Risk management ───────────────────────────────────────────────────────
-    stoploss = -0.15
+    stoploss = -0.3
     trailing_stop = False
 
     # ── Timeframe & warmup ────────────────────────────────────────────────────
