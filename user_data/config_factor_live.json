@@ -1,5 +1,5 @@
 {
-    "max_open_trades": 2,
+    "max_open_trades": 4,
     "stake_currency": "USDT",
     "stake_amount": "unlimited",
     "tradable_balance_ratio": 0.99,
@@ -15,7 +15,6 @@
         "secret": "",
         "pair_blacklist": [
             "BNB/.*",
-            "BFUSD/.*",
             "WBTC/.*",
             "WETH/.*",
             "WBNB/.*",
@@ -41,21 +40,28 @@
             ".*BEAR/.*",
             ".*3L/.*",
             ".*3S/.*",
+            ".*USD/.*",
             "USD.*/.*"
         ]
     },
     "pairlists": [
             {
                 "method": "MarketCapPairList",
-                "number_assets": 100,
-                "max_rank": 150,
+                "number_assets": 200,
+                "max_rank": 300,
                 "refresh_period": 86400
             },
             {"method": "AgeFilter", "min_days_listed": 10},
             {"method": "PrecisionFilter"},
             {
+                "method": "RangeStabilityFilter",
+                "lookback_days": 10,
+                "min_rate_of_change": 0.01,
+                "refresh_period": 86400
+            },
+            {
                 "method": "VolumePairList",
-                "number_assets": 50,
+                "number_assets": 100,
                 "sort_key": "quoteVolume",
                 "refresh_period": 86400
             }
