@@ -103,7 +103,9 @@
             "factor": "volume_momentum",
             "weight": 1,
             "kwargs": {
-                "window_days": 7
+                "window_days": 7,
+                "recent_volume_days": 3,
+                "baseline_volume_days": 30
             }
         },
         {

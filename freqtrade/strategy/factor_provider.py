@@ -37,7 +37,9 @@ class FactorProvider:
 
         return dataframe
 
-    def volume_momentum(self, dataframe: pd.DataFrame, window_days: int) -> pd.DataFrame:
+    def volume_momentum(
+        self, dataframe: pd.DataFrame, window_days: int, recent_volume_days: int, baseline_volume_days: int
+    ) -> pd.DataFrame:
         """
         Volume-confirmed momentum.
         Combines price momentum with volume surprise (actual vs rolling average).
@@ -52,15 +54,18 @@ class FactorProvider:
 
         # Volume surprise: ratio of recent avg volume to longer-term baseline
         # Use 3d recent vs 30d baseline — captures abnormal activity
-        vol_recent   = dataframe['volume'].rolling(3 * self.day_multiplier).mean()
-        vol_baseline = dataframe['volume'].rolling(30 * self.day_multiplier).mean()
+        vol_recent   = dataframe['volume'].rolling(recent_volume_days * self.day_multiplier).mean()
+        vol_baseline = dataframe['volume'].rolling(baseline_volume_days * self.day_multiplier).mean()
         volume_surprise = vol_recent / vol_baseline  # > 1 means above-average volume
 
         # Log-transform volume surprise to reduce impact of extreme spikes
         # e.g. 10x volume doesn't get 10x weight — log(10) ~ 2.3x
         volume_surprise_log = np.log(volume_surprise.clip(lower=0.1))
 
-        dataframe[f"vol_mom_{window_days}d"] = price_momentum * volume_surprise_log
+        dataframe[
+            f"vol_mom_{window_days}d_{recent_volume_days}d_{baseline_volume_days}d"
+        ] = price_momentum * volume_surprise_log
+
         return dataframe
 
     def factor_vol_adjusted_momentum(
