@@ -24,7 +24,9 @@ class FactorProvider:
 
         return factor_gen(dataframe, **factor["kwargs"])
 
-    def momentum(self, dataframe: pd.DataFrame, start_days_ago: int, end_days_ago: int, reversal: bool = False) -> pd.DataFrame:
+    def momentum(
+        self, dataframe: pd.DataFrame, start_days_ago: int, end_days_ago: int, reversal: bool = False
+    ) -> pd.DataFrame:
         col_name = ("rev" if reversal else "mom") + f"_{start_days_ago}d_{end_days_ago}d"
 
         start_idx = start_days_ago * self.day_multiplier
@@ -125,7 +127,7 @@ class FactorProvider:
         window = window_days * self.day_multiplier
         returns = dataframe['close'].pct_change(self.day_multiplier).abs()
 
-        # Dollar volume: price × volume (gives volume in USDT terms)
+        # Dollar volume: price x volume (gives volume in USDT terms)
         dollar_volume = (dataframe['close'] * dataframe['volume']).rolling(self.day_multiplier).sum()
 
         # Avoid division by zero on zero-volume candles (holidays, delistings)
