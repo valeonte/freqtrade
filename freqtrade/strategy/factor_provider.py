@@ -16,18 +16,19 @@ class FactorProvider:
     def __init__(self, strategy: IStrategy) -> None:
         self._strategy = strategy
 
+        self.timeframe_minutes = int(self._strategy.timeframe[:-1])
+        self.day_multiplier = 24 * 60 // self.timeframe_minutes
+
     def add_factor_from_definition(self, factor: dict, dataframe: pd.DataFrame) -> pd.DataFrame:
         factor_gen = getattr(self, factor["factor"])
 
         return factor_gen(dataframe, **factor["kwargs"])
 
     def momentum(self, dataframe: pd.DataFrame, start_days_ago: int, end_days_ago: int, reversal: bool = False) -> pd.DataFrame:
-        assert self._strategy.timeframe == "15m", "This assumes timeframe 15m!"
-
         col_name = ("rev" if reversal else "mom") + f"_{start_days_ago}d_{end_days_ago}d"
 
-        start_idx = start_days_ago * 24 * 4
-        end_idx = end_days_ago * 24 * 4
+        start_idx = start_days_ago * self.day_multiplier
+        end_idx = end_days_ago * self.day_multiplier
 
         mult = -1 if reversal else 1
         dataframe[col_name] = mult * (dataframe["close"].shift(end_idx) / dataframe["close"].shift(start_idx) - 1)
@@ -42,16 +43,15 @@ class FactorProvider:
         Penalises momentum achieved on low volume (likely to revert),
         amplifies momentum achieved on high volume (likely to persist).
         """
-        assert self._strategy.timeframe == "15m", "This assumes timeframe 15m!"
-        window = window_days * 24 * 4
+        window = window_days * self.day_multiplier
 
         # Price return over window
         price_momentum = dataframe['close'].pct_change(window)
 
         # Volume surprise: ratio of recent avg volume to longer-term baseline
         # Use 3d recent vs 30d baseline — captures abnormal activity
-        vol_recent   = dataframe['volume'].rolling(3 * 24 * 4).mean()
-        vol_baseline = dataframe['volume'].rolling(30 * 24 * 4).mean()
+        vol_recent   = dataframe['volume'].rolling(3 * self.day_multiplier).mean()
+        vol_baseline = dataframe['volume'].rolling(30 * self.day_multiplier).mean()
         volume_surprise = vol_recent / vol_baseline  # > 1 means above-average volume
 
         # Log-transform volume surprise to reduce impact of extreme spikes
@@ -71,10 +71,9 @@ class FactorProvider:
         Penalises assets that moved up on a single spike.
         Rewards assets with steady, consistent uptrends.
         """
-        assert self._strategy.timeframe == "15m", "This assumes timeframe 15m!"
-        momentum_window = momentum_window_days*24*4
-        volume_window = vol_window_days*24*4
-        yearly_window = 365.25 * 24 * 4
+        momentum_window = momentum_window_days * self.day_multiplier
+        volume_window = vol_window_days * self.day_multiplier
+        yearly_window = 365.25 * self.day_multiplier
 
         returns = dataframe['close'].pct_change()
 
@@ -100,8 +99,7 @@ class FactorProvider:
         Sign is INVERTED before adding to composite score since
         high overextension predicts negative returns.
         """
-        assert self._strategy.timeframe == "15m", "This assumes timeframe 15m!"
-        ema_window = ema_window_days * 24 * 4
+        ema_window = ema_window_days * self.day_multiplier
 
         ema = dataframe['close'].ewm(span=ema_window, adjust=False).mean()
 
@@ -124,12 +122,11 @@ class FactorProvider:
         Dollar volume used instead of share volume since crypto prices
         vary enormously — normalises across assets.
         """
-        assert self._strategy.timeframe == "15m", "This assumes timeframe 15m!"
-        window = window_days * 24 * 4
-        returns = dataframe['close'].pct_change(24*4).abs()
+        window = window_days * self.day_multiplier
+        returns = dataframe['close'].pct_change(self.day_multiplier).abs()
 
         # Dollar volume: price × volume (gives volume in USDT terms)
-        dollar_volume = (dataframe['close'] * dataframe['volume']).rolling(24*4).sum()
+        dollar_volume = (dataframe['close'] * dataframe['volume']).rolling(self.day_multiplier).sum()
 
         # Avoid division by zero on zero-volume candles (holidays, delistings)
         dollar_volume = dollar_volume.replace(0, np.nan)
@@ -152,8 +149,7 @@ class FactorProvider:
 
         SMALL = HIGH expected return → invert so high score = small cap
         """
-        assert self._strategy.timeframe == "15m", "This assumes timeframe 15m!"
-        window = window_days * 24 * 4
+        window = window_days * self.day_multiplier
 
         dollar_volume = dataframe['close'] * dataframe['volume']
         avg_dollar_volume = dollar_volume.rolling(window).mean()
