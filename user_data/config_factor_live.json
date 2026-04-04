@@ -77,7 +77,7 @@
         "order_book_top": 1
     },
     "api_server": {
-        "enabled": true,
+        "enabled": false,
         "listen_ip_address": "127.0.0.1",
         "listen_port": 8080,
         "verbosity": "error",
@@ -89,6 +89,41 @@
         "password": "fistikis"
     },
     "bot_name": "FactorBot",
+
+    "telegram": {
+        "enabled": true,
+        "token": "",
+        "chat_id": "",
+        "allow_custom_messages": true,
+        "notification_settings": {
+            "status": "on",
+            "warning": "on",
+            "startup": "off",
+            "entry": "on",
+            "entry_fill": "on",
+            "entry_cancel": "on",
+            "exit": {
+                "roi": "on",
+                "emergency_exit": "on",
+                "force_exit": "on",
+                "exit_signal": "silent",
+                "trailing_stop_loss": "on",
+                "stop_loss": "on",
+                "stoploss_on_exchange": "on",
+                "custom_exit": "on",
+                "partial_exit": "on",
+                "*": "on"
+            },
+            "exit_cancel": "on",
+            "exit_fill": "on",
+            "protection_trigger": "off",
+            "protection_trigger_global": "on",
+            "strategy_msg": "off",
+            "show_candle": "off"
+        },
+        "reload": true,
+        "balance_dust_level": 0.01
+    },
 
     "strategy_factor_mix": [
         {
