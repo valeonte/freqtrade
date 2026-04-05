@@ -189,5 +189,10 @@
                 "window_days": 30
             }
         }
-    ]
+    ],
+
+    "strategy_settings": {
+        "entry_signal_threshold": 0.9,
+        "exit_signal_threshold": 0.5
+    }
 }

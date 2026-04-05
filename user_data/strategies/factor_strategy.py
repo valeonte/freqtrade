@@ -37,6 +37,10 @@ class FactorStrategy(IStrategy):
         self.__cached_date = None
         self.__cached_composite = None
 
+        strategy_settings = self.config.get("strategy_settings", {})
+        self.exit_signal_threshold = strategy_settings.get("exit_signal_threshold", 0.5)
+        self.entry_signal_threshold = strategy_settings.get("entry_signal_threshold", 0.9)
+
     def build_cross_sectional_indicators(self, dataframe: pd.DataFrame) -> pd.DataFrame:
         cache_date = dataframe["date"].iloc[-1]
         if self.__cached_date is not None and self.__cached_date == cache_date:
@@ -85,7 +89,9 @@ class FactorStrategy(IStrategy):
     # =========================================================================
 
     def populate_entry_trend(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
-        dataframe.loc[dataframe["signal"] > 0.9, ["enter_long", "enter_tag"]] = (1, "signal_top_decile")
+        dataframe.loc[
+            dataframe["signal"] > self.entry_signal_threshold, ["enter_long", "enter_tag"]
+        ] = (1, f"signal_over_{self.entry_signal_threshold}")
 
         return dataframe
 
@@ -94,7 +100,10 @@ class FactorStrategy(IStrategy):
     # =========================================================================
 
     def populate_exit_trend(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
-        dataframe.loc[dataframe["signal"] < 0.5, ["exit_long", "exit_tag"]] = (1, "signal_bottom_half")
+        dataframe.loc[
+            dataframe["signal"] < self.exit_signal_threshold, ["exit_long", "exit_tag"]
+        ] = (1, f"signal_below_{self.exit_signal_threshold}")
+
         return dataframe
 
     def custom_stake_amount(
