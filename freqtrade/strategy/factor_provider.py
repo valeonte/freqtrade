@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 import numpy as np
@@ -18,6 +19,7 @@ class FactorProvider:
 
         self.timeframe_minutes = int(self._strategy.timeframe[:-1])
         self.day_multiplier = 24 * 60 // self.timeframe_minutes
+        self.__last_warning_ts = datetime.datetime(1979, 2, 2, tzinfo=datetime.UTC)
 
     def add_factor_from_definition(self, factor: dict, dataframe: pd.DataFrame) -> pd.DataFrame:
         factor_gen = getattr(self, factor["factor"])
@@ -30,6 +32,16 @@ class FactorProvider:
         col_name = ("rev" if reversal else "mom") + f"_{start_days_ago}d_{end_days_ago}d"
 
         start_idx = start_days_ago * self.day_multiplier
+        if start_idx > len(dataframe):
+            now = datetime.datetime.now(tz=datetime.UTC)
+            if now - self.__last_warning_ts > datetime.timedelta(minutes=1):
+                logger.warning(
+                    "Shrinking start momentum index from %d to %d, which is max available!", start_idx, len(dataframe) - 1
+                )
+                self.__last_warning_ts = now
+
+            start_idx = len(dataframe) - 1
+
         end_idx = end_days_ago * self.day_multiplier
 
         mult = -1 if reversal else 1
@@ -55,7 +67,10 @@ class FactorProvider:
         # Volume surprise: ratio of recent avg volume to longer-term baseline
         # Use 3d recent vs 30d baseline — captures abnormal activity
         vol_recent   = dataframe['volume'].rolling(recent_volume_days * self.day_multiplier).mean()
-        vol_baseline = dataframe['volume'].rolling(baseline_volume_days * self.day_multiplier).mean()
+        window = baseline_volume_days * self.day_multiplier
+        vol_baseline = dataframe['volume'].rolling(
+            baseline_volume_days * self.day_multiplier, min_periods=min(len(dataframe), window)
+        ).mean()
         volume_surprise = vol_recent / vol_baseline  # > 1 means above-average volume
 
         # Log-transform volume surprise to reduce impact of extreme spikes
@@ -78,8 +93,8 @@ class FactorProvider:
         Penalises assets that moved up on a single spike.
         Rewards assets with steady, consistent uptrends.
         """
-        momentum_window = momentum_window_days * self.day_multiplier
-        volume_window = vol_window_days * self.day_multiplier
+        momentum_window = min(momentum_window_days * self.day_multiplier, len(dataframe) - 1)
+        volume_window = min(vol_window_days * self.day_multiplier, len(dataframe))
         yearly_window = 365.25 * self.day_multiplier
 
         returns = dataframe['close'].pct_change()
