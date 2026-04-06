@@ -1,5 +1,5 @@
 {
-    "max_open_trades": 4,
+    "max_open_trades": 5,
     "stake_currency": "USDT",
     "stake_amount": "unlimited",
     "tradable_balance_ratio": 0.99,
@@ -126,73 +126,31 @@
     },
 
     "strategy_factor_mix": [
+        {"factor": "momentum", "weight": 0.75, "kwargs": {"start_days_ago": 60, "end_days_ago": 1}},
+        {"factor": "momentum", "weight": 0.75, "kwargs": {"start_days_ago": 30, "end_days_ago": 1}},
         {
-            "factor": "momentum",
-            "weight": 1,
-            "kwargs": {
-                "start_days_ago": 30,
-                "end_days_ago": 1
-            }
+            "factor": "volume_momentum", "weight": 1.0,
+            "kwargs": {"window_days": 7, "recent_volume_days": 5, "baseline_volume_days": 60}
         },
         {
-            "factor": "momentum",
-            "weight": 1,
-            "kwargs": {
-                "start_days_ago": 7,
-                "end_days_ago": 1
-            }
+            "factor": "volume_momentum", "weight": 1.0,
+            "kwargs": {"window_days": 14, "recent_volume_days": 3, "baseline_volume_days": 30}
         },
         {
-            "factor": "momentum",
-            "weight": 1,
-            "kwargs": {
-                "start_days_ago": 1,
-                "end_days_ago": 0,
-                "reversal": true
-            }
+            "factor": "factor_vol_adjusted_momentum", "weight": 1.5,
+            "kwargs": {"momentum_window_days": 60, "vol_window_days": 30}
         },
         {
-            "factor": "volume_momentum",
-            "weight": 1,
-            "kwargs": {
-                "window_days": 7,
-                "recent_volume_days": 3,
-                "baseline_volume_days": 30
-            }
+            "factor": "factor_vol_adjusted_momentum", "weight": 1.5,
+            "kwargs": {"momentum_window_days": 30, "vol_window_days": 30}
         },
         {
-            "factor": "factor_vol_adjusted_momentum",
-            "weight": 1,
-            "kwargs": {
-                "momentum_window_days": 30,
-                "vol_window_days": 30
-            }
+            "factor": "factor_vol_adjusted_momentum", "weight": 1.0,
+            "kwargs": {"momentum_window_days": 14, "vol_window_days": 14}
         },
-        {
-            "factor": "factor_overextension",
-            "weight": 1,
-            "kwargs": {
-                "ema_window_days": 30
-            }
-        },
-        {
-            "factor": "liquidity",
-            "weight": 1,
-            "kwargs": {
-                "window_days": 30
-            }
-        },
-        {
-            "factor": "size",
-            "weight": 1,
-            "kwargs": {
-                "window_days": 30
-            }
-        }
+        {"factor": "liquidity", "weight": 1.5, "kwargs": {"window_days": 14}},
+        {"factor": "size", "weight": 1.5, "kwargs": {"window_days": 14}}
     ],
 
-    "strategy_settings": {
-        "entry_signal_threshold": 0.9,
-        "exit_signal_threshold": 0.5
-    }
+    "strategy_settings": {"entry_signal_threshold": 0.9, "exit_signal_threshold": 0.65}
 }
