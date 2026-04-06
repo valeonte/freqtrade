@@ -47,12 +47,14 @@ class FactorStrategy(IStrategy):
             return self.__cached_composite
 
         pair_factors = {}
+        factor_weights = {}
         logger.info("Calculating cross-sectional scores for %s", cache_date)
         for pair in self.dp.current_whitelist():
             df = self.dp.get_pair_dataframe(pair, self.timeframe)[["close", "volume"]].copy()
 
             for factor in self.config["strategy_factor_mix"]:
                 df = self.fp.add_factor_from_definition(factor, df)
+                factor_weights[df.columns[-1]] = factor["weight"]
 
             pair_factors[pair] = df
 
@@ -67,7 +69,7 @@ class FactorStrategy(IStrategy):
                 factor_data.sub(factor_data.mean(axis=1), axis=0)
                 .div(factor_data.std(axis=1), axis=0)
                 .clip(-3, 3)
-            )
+            ) * factor_weights[factor]
             if composite_score is None:
                 composite_score = factor_data.fillna(0)
             else:
