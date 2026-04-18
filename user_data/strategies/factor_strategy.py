@@ -75,6 +75,8 @@ class FactorStrategy(IStrategy):
             else:
                 composite_score += factor_data
 
+        logger.info("Composite score calculated. Columns: %s", ", ".join(composite_score.columns))
+
         self.__cached_date = cache_date
         self.__cached_composite = composite_score.rank(axis=1, pct=True)
         return self.__cached_composite
@@ -82,7 +84,11 @@ class FactorStrategy(IStrategy):
 
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
         composite = self.build_cross_sectional_indicators(dataframe)
-        dataframe["signal"] = composite[metadata["pair"]]
+        if metadata["pair"] in composite:
+            dataframe["signal"] = composite[metadata["pair"]]
+        else:
+            logger.warning("Pair %s missing from composite score", metadata["pair"])
+            dataframe["signal"] = 0
 
         return dataframe
 
