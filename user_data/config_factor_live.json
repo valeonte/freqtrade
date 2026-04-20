@@ -8,10 +8,10 @@
     "trading_mode": "spot",
     "margin_mode": "",
     "timeframe": "30m",
-    "startup_candle_count": 4999,
+    "startup_candle_count": 3000,
     "exchange": {
         "name": "binance",
-        "ohlcv_candle_limit": 6000,
+        "ohlcv_candle_limit": 3000,
         "key": "",
         "secret": "",
         "pair_blacklist": [
