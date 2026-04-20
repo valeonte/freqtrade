@@ -8,7 +8,7 @@
     "cancel_open_orders_on_exit": false,
     "trading_mode": "spot",
     "margin_mode": "",
-    "timeframe": "15m",
+    "timeframe": "30m",
     "exchange": {
         "name": "binance",
         "ohlcv_candle_limit": 4000,
@@ -141,6 +141,8 @@
 
     "strategy_settings": {
         "entry_signal_threshold": 0.9,
-        "exit_signal_threshold": 0.5
+        "exit_signal_threshold": 0.65,
+        "conditional_takeprofit_pct": 0.20,
+        "conditional_takeprofit_rank_threshold": 0.90
     }
 }

@@ -7,7 +7,7 @@
     "cancel_open_orders_on_exit": false,
     "trading_mode": "spot",
     "margin_mode": "",
-    "timeframe": "15m",
+    "timeframe": "30m",
     "startup_candle_count": 4999,
     "exchange": {
         "name": "binance",
@@ -153,5 +153,10 @@
         {"factor": "size", "weight": 1.5, "kwargs": {"window_days": 14}}
     ],
 
-    "strategy_settings": {"entry_signal_threshold": 0.9, "exit_signal_threshold": 0.65}
+    "strategy_settings": {
+        "entry_signal_threshold": 0.9,
+        "exit_signal_threshold": 0.65,
+        "conditional_takeprofit_pct": 0.20,
+        "conditional_takeprofit_rank_threshold": 0.90
+    }
 }
