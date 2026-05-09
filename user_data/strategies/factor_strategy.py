@@ -4,6 +4,7 @@ from typing import Any, Optional
 
 import pandas as pd
 
+from freqtrade.enums import RunMode
 from freqtrade.strategy import FactorProvider, IStrategy, stoploss_from_open
 
 
@@ -95,7 +96,31 @@ class FactorStrategy(IStrategy):
 
         self.__cached_date = cache_date
         self.__cached_composite = composite_score.rank(axis=1, pct=True)
+        self._log_holdings_rank()
         return self.__cached_composite
+
+    def _log_holdings_rank(self) -> None:
+        """Log the current signal rank for every open trade."""
+        if self.__cached_composite is None:
+            return
+        if self.config.get("runmode") not in (RunMode.LIVE, RunMode.DRY_RUN):
+            return
+        try:
+            from freqtrade.persistence import Trade
+            open_trades = Trade.get_open_trades()
+            if not open_trades:
+                return
+            latest = self.__cached_composite.iloc[-1]
+            rankings = [
+                (t.pair, float(latest[t.pair]))
+                for t in open_trades
+                if t.pair in latest.index
+            ]
+            rankings.sort(key=lambda x: x[1], reverse=True)
+            lines = "  |  ".join(f"{pair} {rank:.2f}" for pair, rank in rankings)
+            logger.info("Holdings rank — %s", lines)
+        except Exception as e:
+            logger.warning("Could not log holdings rank: %s", e)
 
 
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
