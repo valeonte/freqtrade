@@ -44,11 +44,17 @@
             ".*USD/.*",
             "USD.*/.*",
 
+            "REGION/RESTRICTED",
             "币.*/.*",
             "KMNO/.*",
             "SAHARA/.*",
             "JTO/.*",
-            "TON/.*"
+            "TON/.*",
+            "ONDO/.*",
+            "STRK/.*",
+
+            "BINANCE/MONITORING",
+            "JASMY/.*"
         ]
     },
     "pairlists": [
