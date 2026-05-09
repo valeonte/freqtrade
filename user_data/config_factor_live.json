@@ -52,6 +52,7 @@
             "TON/.*",
             "ONDO/.*",
             "STRK/.*",
+            "PYTH/.*",
 
             "BINANCE/MONITORING",
             "JASMY/.*"
