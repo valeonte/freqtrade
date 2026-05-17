@@ -22,6 +22,7 @@ from freqtrade.strategy.strategy_helper import (
     stoploss_from_absolute,
     stoploss_from_open,
 )
+from freqtrade.strategy.factor_provider import FactorProvider
 
 
 # Imports to be used for `from freqtrade.strategy import *`

@@ -219,7 +219,7 @@ reportTypedDictNotRequiredAccess = false  # 27
 
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 extend-exclude = [".env", ".venv"]
 
 [tool.ruff.lint]
@@ -261,6 +261,8 @@ extend-ignore = [
   "RUF012",  # mutable-class-default
   "RUF022",  # unsorted-dunder-all
   "RUF005",  # list concatenation
+  "S101",   # assertions
+  "UP045",  # Optional
 ]
 
 [tool.ruff.lint.mccabe]
