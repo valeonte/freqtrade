@@ -43,6 +43,10 @@ class FactorProvider:
             start_idx = len(dataframe) - 1
 
         end_idx = end_days_ago * self.day_multiplier
+        if start_idx <= end_idx:
+            # Shrunk window no longer reaches back past its end: there is no momentum to measure
+            dataframe[col_name] = np.nan
+            return dataframe
 
         mult = -1 if reversal else 1
         dataframe[col_name] = mult * (dataframe["close"].shift(end_idx) / dataframe["close"].shift(start_idx) - 1)
