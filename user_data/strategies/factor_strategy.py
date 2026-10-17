@@ -5,7 +5,10 @@ from typing import Any, Optional
 import pandas as pd
 
 from freqtrade.enums import RunMode
+from freqtrade.enums.runmode import OPTIMIZE_MODES
 from freqtrade.strategy import FactorProvider, IStrategy, stoploss_from_open
+from freqtrade.strategy.holdout import check_holdout
+from freqtrade.strategy.universe import point_in_time_universe
 
 
 logger = logging.getLogger(__name__)
@@ -58,8 +61,19 @@ class FactorStrategy(IStrategy):
         self.cond_tp_pct = strategy_settings.get("conditional_takeprofit_pct", None)
         self.cond_tp_rank_threshold = strategy_settings.get("conditional_takeprofit_rank_threshold", 0.70)
 
+        # Point-in-time universe (kwargs of point_in_time_universe) for backtests over every pair
+        # ever listed; None = trade the whole whitelist, as live where the pairlist does this job
+        self.universe_settings = strategy_settings.get("universe", None)
+
+        check_holdout(self.config)
+
     def build_cross_sectional_indicators(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-        cache_date = dataframe["date"].iloc[-1]
+        if self.config.get("runmode") in OPTIMIZE_MODES:
+            # One pass covers the whole backtest; keying on each pair's last candle would
+            # recompute it for every pair whose data ends early (delisted pairs)
+            cache_date = "backtest"
+        else:
+            cache_date = dataframe["date"].iloc[-1]
         if self.__cached_date is not None and self.__cached_date == cache_date:
             return self.__cached_composite
 
@@ -67,7 +81,11 @@ class FactorStrategy(IStrategy):
         factor_weights = {}
         logger.info("Calculating cross-sectional scores for %s", cache_date)
         for pair in self.dp.current_whitelist():
-            df = self.dp.get_pair_dataframe(pair, self.timeframe)[["close", "volume"]].copy()
+            df = self.dp.get_pair_dataframe(pair, self.timeframe)
+            if df.empty:
+                continue
+            # Index by candle time so pairs with different histories line up row by row
+            df = df.set_index("date")[["close", "volume"]].copy()
 
             for factor in self.config["strategy_factor_mix"]:
                 df = self.fp.add_factor_from_definition(factor, df)
@@ -75,13 +93,23 @@ class FactorStrategy(IStrategy):
 
             pair_factors[pair] = df
 
-        factors = pair_factors[pair].columns[2:]
+        eligible = None
+        if self.universe_settings is not None:
+            eligible = point_in_time_universe(
+                pd.DataFrame({pair: df["close"] for pair, df in pair_factors.items()}),
+                pd.DataFrame({pair: df["volume"] for pair, df in pair_factors.items()}),
+                **self.universe_settings,
+            )
+
+        factors = next(iter(pair_factors.values())).columns[2:]
         composite_score = None
         for factor in factors:
             # combine all
             pair_data = {pair: pair_data[factor] for pair, pair_data in pair_factors.items()}
-            # drop all na
             factor_data = pd.DataFrame(pair_data)
+            if eligible is not None:
+                # Pairs outside the day's universe take no part in the cross-section
+                factor_data = factor_data.where(eligible)
             factor_data = (
                 factor_data.sub(factor_data.mean(axis=1), axis=0)
                 .div(factor_data.std(axis=1), axis=0)
@@ -94,8 +122,14 @@ class FactorStrategy(IStrategy):
 
         logger.info("Composite score calculated. Columns: %s", ", ".join(composite_score.columns))
 
+        ranks = composite_score.rank(axis=1, pct=True)
+        if eligible is not None:
+            # Outside the universe the signal is 0, like a pair dropped from a live pairlist:
+            # no entries, and any open trade exits on the next candle
+            ranks = ranks.where(eligible, 0.0)
+
         self.__cached_date = cache_date
-        self.__cached_composite = composite_score.rank(axis=1, pct=True)
+        self.__cached_composite = ranks
         self._log_holdings_rank()
         return self.__cached_composite
 
@@ -126,7 +160,7 @@ class FactorStrategy(IStrategy):
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
         composite = self.build_cross_sectional_indicators(dataframe)
         if metadata["pair"] in composite:
-            dataframe["signal"] = composite[metadata["pair"]]
+            dataframe["signal"] = dataframe["date"].map(composite[metadata["pair"]])
         else:
             logger.warning("Pair %s missing from composite score", metadata["pair"])
             dataframe["signal"] = 0
