@@ -1,0 +1,126 @@
+# Strategy research: state of play
+
+Read this first if you are picking up strategy research in this fork. It is the one place that
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-17.
+Keep it current: when you finish a study, add a row to the results and update the open leads.
+
+## Goal
+
+Find spot strategies for Binance that hold up out of sample, paper trade the best, and only then
+trade small real money, while research continues.
+
+## Rules (the owner's, not negotiable)
+
+- **Spot only.** The owner is in the UK and can't trade futures or margin, so nothing
+  market-neutral and no shorting. Futures *data* (funding rates) is fine as a signal.
+- **Everything runs on this machine.** The old server `cryp2` is retired: never run anything there.
+  If you ever need to look at it, read only (`ssh cryp2`), never write.
+- **One paper bot at a time.** A second only for a strategy that is materially different from the
+  running one (not a variant of it).
+- **The holdout is spent sparingly.** Candles from 2026-07-01 to 2026-10-17 are locked away
+  (`freqtrade/strategy/holdout.py`). Backtests and hyperopts that overlap them are refused.
+  A strategy that already shows an edge before July may get **one** look:
+  `FT_HOLDOUT_UNLOCK="<reason>"`, which appends to `user_data/holdout_ledger.jsonl`. Never tune
+  on the holdout, and never look twice at the same idea. Dates after 2026-10-17 are free (that is
+  where paper trades live).
+- **Workflow.** `main` tracks upstream freqtrade; `my-strats` is the owner's branch. Work on a
+  feature branch off `my-strats`, commit, push, open a PR into `my-strats` (body starts with the
+  attribution block, assign `valeonte`), and merge it when the owner has asked for merges.
+  Commits are allowed (the owner lifted their old no-commit rule on 2026-10-17).
+- **Write ideas down before running them.** Every study states its rule up front and reports
+  every variant, including the bad ones. Anything picked after seeing results is labelled
+  post-hoc.
+
+## Setup
+
+| What | Where |
+| --- | --- |
+| Research checkout | `~/repos/freqtrade` (fork `valeonte/freqtrade`, remotes `origin` and `upstream`) |
+| Python env | `.env/` built with `UV_PROJECT_ENVIRONMENT=.env pixi exec uv sync --frozen --extra plot --extra hyperopt --extra develop` (no system `uv` or `ensurepip`) |
+| Paper bot checkout | `~/repos/freqtrade-paper` (git worktree, branch `paper/running`, its own `.env`). Don't edit it; update it with `git merge --ff-only origin/my-strats` and restart the bot |
+| Paper bot schedule | owner's `crontab`: bot restarted every 10 min under `flock` if it died; `user_data/paper/reconcile.py` daily at 02:00 |
+| Honest-bed candles | `user_data/data_bed/binance/` (gitignored): 30m for 672 pairs from 2023-11, 1d for all from 2017-08, 1h BTC/ETH from 2018, funding for 432 perps from 2023-11 and BTC/ETH from 2019-09 in `futures/` |
+| Outside data | `user_data/data_bed/external/`: Fear & Greed (alternative.me), stablecoin supply (DefiLlama) |
+| Old live bot ledgers | `user_data/live_snapshots/cryp2-2026-10-17/` (read-only copies) |
+| Normal freqtrade downloads | `user_data/data/binance/` |
+
+### The honest test bed (`user_data/honest_bed/README.md`)
+
+Backtests on a fixed list of pairs picked today only see the coins that survived, which made the
+first strategy look brilliant and then lose money live. The bed fixes that:
+
+1. **Every pair ever listed**: `user_data/honest_bed/candidate_pairs.json`, all Binance USDT spot
+   pairs including 190 delisted ones (minus leveraged tokens, stablecoins, fiat, gold). Download
+   with `--include-inactive-pairs`.
+2. **A point-in-time universe** (`freqtrade/strategy/universe.py`): each day only the pairs a live
+   pairlist would have offered (trading, ≥ 60 days old, not pegged, top 100 by the previous day's
+   quote volume).
+3. **The holdout lock** above.
+
+Quick studies are vectorised pandas scripts under `user_data/candidates/<idea>/research.py`
+(daily target weights from closes up to day d, earning day d + 1, 0.15% per unit of turnover).
+Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
+
+## What has been tested
+
+| # | Idea | Verdict | Key numbers | Write-up |
+| --- | --- | --- | --- | --- |
+| 1 | **FactorStrategy** (cross-sectional momentum, top decile of ~100 alts, the old live bot) | **Dead** | Live Apr–Jun 2026 ≈ −23%. Honest bed: 2024 −53%, 2025 −84%, Nov 25–Mar 26 −78%; holdout −25% vs market +24%. Its research gains (+300% in 2024 on the 2026 pair list) were survivorship. Also had a pair-alignment bug (fixed) | `user_data/honest_bed/README.md`, `user_data/factor_experiments/RESEARCH_SUMMARY.md` (old, biased) |
+| 2 | GridBotStrategy (mean-reversion grid) | Dead | −0.3% over 106 trades, Sep 2025–Mar 2026 | — |
+| 3 | **BTC trend filter** (hold while BTC > 100-day average) | **Works as a risk filter** | 2018–Jun 2026 BTC: Sharpe 0.92 vs 0.59 hold, max DD −60% vs −81%. Holdout: +18% vs +36% hold | `candidates/btc_trend/` |
+| 4 | Short-term reversal (buy 1/3/7-day losers in the top 100) | Dead | −99..−100% vs −93% equal-weight universe, 2024–Jun 2026 | `candidates/reversal/` |
+| 5 | Funding cross-section (buy coins with the most negative perp funding) | Dead | −99..−100% vs −92% | `candidates/funding/` |
+| 6 | Spot-core variants of the BTC/ETH trend core (ensembles, own-trend gates, rotation, 40/40/20 rebalancing, large-cap basket, pullbacks, crash buying, ETH/BTC switch) | None beats the core | Core (BTC/ETH 50/50 gated by BTC SMA100): CAGR +49%, Sharpe 1.08, max DD −59% | `candidates/spot_core/` |
+| 7 | **Volatility targeting** on the core (~40%/yr) | **Adopted** (risk dial) | Freqtrade 2018-03–2026-06: CAGR +37% vs +52%, Sharpe 1.17 vs 1.14, worst DD 29% vs 42% | `candidates/vol_target/` |
+| 8 | Trend rule on top-5/10/20 baskets (by liquidity or age, point-in-time) | BTC gate helps every basket; none beats BTC/ETH | Best: top-5 oldest + BTC gate, Sharpe 0.93 vs 1.08; more coins = worse | `candidates/coin_trend/` |
+| 9 | Outside signals for BTC timing: Fear & Greed, stablecoin supply, funding, time of day, day of week | **Negative BTC funding works**; the rest no | Negative 7-day funding: 34 episodes since 2019, mean +4.2%, 71% up, t ≈ 2.8. Trend OR negative funding: Sharpe 1.26 vs 1.02 (post-hoc). Holdout look: funding never negative, no information | `candidates/signals/` |
+| 10 | **Negative funding added to the vol-targeted core** | **Running as the paper bot** | Freqtrade 2018-03–2026-06: CAGR +45%, Sharpe 1.31, worst DD 22% (vol target alone: +37%, 1.17, 29%) | `candidates/vol_target/README.md` |
+
+All write-up paths are under `user_data/`.
+
+### Lessons that apply to any new idea
+
+- **The altcoin universe decays.** In the honest top-100-by-volume universe the median coin from
+  1 Jan 2024 was down 89% by June 2026 (17 of 100 delisted); the average pair-day is about −0.2%.
+  Long-only altcoin rules fight that drift, and every one tried so far lost to it.
+- **BTC's own trend is the best on/off switch found**, better than each coin's own trend.
+- Short-horizon crypto losers keep losing (no reversal), and crowded-short coins keep falling.
+- Hourly seasonality doesn't persist; weekday effects don't survive costs.
+- Four reasonable variants of a strategy can differ by 25 points over a few months: insist on
+  several periods (2018–20, 2021–23, 2024–Jun 2026) and on beating a simple baseline in each.
+
+## What the paper bot runs now
+
+`FundingVolTrendStrategy` (`user_data/strategies/funding_vol_trend_strategy.py`), config
+`user_data/paper/config_btc_eth_funding_voltarget_dry.json`, dry run with a 1,000 USDT wallet,
+started 2026-10-17 23:07 BST:
+
+- BTC/USDT and ETH/USDT spot, daily candles.
+- Holds both while BTC closed above its 100-day average **or** the 7-day average of Binance's BTC
+  perpetual funding rate is negative.
+- Each coin's target is half the portfolio × min(1, 40% / realised volatility of the 50/50
+  basket over 30 days), resized when it drifts more than 20% from target.
+- No stop-loss, no take-profit.
+
+Log: `~/repos/freqtrade-paper/user_data/logs/paper-funding-voltarget.log`; daily reconciliation
+reports in `~/repos/freqtrade-paper/user_data/paper/reports/`. Stop: remove its crontab lines,
+then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
+
+## Open leads
+
+- **Something orthogonal to the paper bot.** Everything that worked so far is "BTC/ETH up-trend
+  timing". A second paper bot needs a different return source, still spot-only. Untested ideas:
+  market making / limit-order provision on liquid pairs (earning the spread; needs order-book
+  data and a fill model), listing-day or delisting-announcement effects, BTC/ETH pair relative
+  value done with spot only (switching between them), cash-and-carry is out (needs futures).
+- **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
+  gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
+- **Negative funding on ETH or other large caps** (only BTC's funding was tested as the signal).
+- **Paper vs backtest**: once the paper bot has a few weeks of trades, check `reconcile.py`
+  reports; any systematic gap matters more than any new idea.
+
+## Holdout ledger (2026-07-01 → 2026-10-17)
+
+1. Frozen FactorStrategy live config: −25% vs market +24%.
+2. BTC trend filter SMA 100: +18% vs +36% buy and hold.
+3. Negative BTC funding, alone and OR'd with the trend gate: never fired.
