@@ -76,6 +76,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 9 | Outside signals for BTC timing: Fear & Greed, stablecoin supply, funding, time of day, day of week | **Negative BTC funding works**; the rest no | Negative 7-day funding: 34 episodes since 2019, mean +4.2%, 71% up, t ≈ 2.8. Trend OR negative funding: Sharpe 1.26 vs 1.02 (post-hoc). Holdout look: funding never negative, no information | `candidates/signals/` |
 | 10 | **Negative funding added to the vol-targeted core** | **Running as the paper bot** | Freqtrade 2018-03–2026-06: CAGR +45%, Sharpe 1.31, worst DD 22% (vol target alone: +37%, 1.17, 29%) | `candidates/vol_target/README.md` |
 | 11 | Ideas uncorrelated with the paper bot: hourly dip buying and breakouts (also only while the bot is flat), intraday resting dip buys, new listings, stablecoin peg trading (delisted coins included), PAXG gold and EUR/USDT trend | **None deserves a second paper bot** | Long-only BTC/ETH rules correlate 0.3–0.8 with the bot on shared days, and the bot-flat versions lose. Stablecoin peg: corr ≈ 0, but UST's collapse costs ~20% and it made ~1%/yr since 2023. PAXG: corr ≈ 0.05, a 50/50 mix lifts Sharpe 1.35 → ~1.5, but that is gold's 2024–25 rally; the trend gate hurts gold on GLD 2005–26 | `candidates/uncorrelated/` |
+| 12 | Market making on spot (rest a buy h below the price, sell back at it; queue bracketed by trade-through vs touch fills on 1s candles) and BTC/ETH/ETH-BTC triangular arbitrage | Dead | Loses even at zero fees for h ≤ 0.2% (adverse selection); at 0.1% fees every h ≤ 0.5% loses 0.6–12% a pair-day; 1% dips +0.06%/trade, t = 0.8. Triangle gap > 3 taker fees ~0.5 s/day | `candidates/market_making/` |
 
 All write-up paths are under `user_data/`.
 
@@ -109,11 +110,12 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
-- **Something orthogonal to the paper bot.** Study 11 tried the cheap ideas and found nothing
-  (`candidates/uncorrelated/`). Long-only crypto can't avoid the bot's regime, stablecoin pegs
-  carry a crash tail for ~1%/yr, and gold is a diversifier with no timing edge. Still untested:
-  market making / limit-order provision on liquid pairs (needs order-book data and a fill model).
-  Holding PAXG with the bot's idle cash is an allocation question for the owner, not a tested edge.
+- **Something orthogonal to the paper bot.** Studies 11 and 12 tried the cheap ideas and market
+  making, and found nothing (`candidates/uncorrelated/`, `candidates/market_making/`). Long-only
+  crypto can't avoid the bot's regime. Stablecoin pegs carry a crash tail for ~1%/yr. Gold is a
+  diversifier with no timing edge. Resting-order spread capture loses to adverse selection and
+  0.1% fees. Holding PAXG with the bot's idle cash is an allocation question for the owner, not a
+  tested edge.
 - **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
   gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
 - **Negative funding on ETH or other large caps** (only BTC's funding was tested as the signal).
