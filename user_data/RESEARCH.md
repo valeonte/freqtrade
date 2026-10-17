@@ -75,6 +75,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 8 | Trend rule on top-5/10/20 baskets (by liquidity or age, point-in-time) | BTC gate helps every basket; none beats BTC/ETH | Best: top-5 oldest + BTC gate, Sharpe 0.93 vs 1.08; more coins = worse | `candidates/coin_trend/` |
 | 9 | Outside signals for BTC timing: Fear & Greed, stablecoin supply, funding, time of day, day of week | **Negative BTC funding works**; the rest no | Negative 7-day funding: 34 episodes since 2019, mean +4.2%, 71% up, t ≈ 2.8. Trend OR negative funding: Sharpe 1.26 vs 1.02 (post-hoc). Holdout look: funding never negative, no information | `candidates/signals/` |
 | 10 | **Negative funding added to the vol-targeted core** | **Running as the paper bot** | Freqtrade 2018-03–2026-06: CAGR +45%, Sharpe 1.31, worst DD 22% (vol target alone: +37%, 1.17, 29%) | `candidates/vol_target/README.md` |
+| 11 | Ideas uncorrelated with the paper bot: hourly dip buying and breakouts (also only while the bot is flat), intraday resting dip buys, new listings, stablecoin peg trading (delisted coins included), PAXG gold and EUR/USDT trend | **None deserves a second paper bot** | Long-only BTC/ETH rules correlate 0.3–0.8 with the bot on shared days, and the bot-flat versions lose. Stablecoin peg: corr ≈ 0, but UST's collapse costs ~20% and it made ~1%/yr since 2023. PAXG: corr ≈ 0.05, a 50/50 mix lifts Sharpe 1.35 → ~1.5, but that is gold's 2024–25 rally; the trend gate hurts gold on GLD 2005–26 | `candidates/uncorrelated/` |
 
 All write-up paths are under `user_data/`.
 
@@ -108,11 +109,11 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
-- **Something orthogonal to the paper bot.** Everything that worked so far is "BTC/ETH up-trend
-  timing". A second paper bot needs a different return source, still spot-only. Untested ideas:
-  market making / limit-order provision on liquid pairs (earning the spread; needs order-book
-  data and a fill model), listing-day or delisting-announcement effects, BTC/ETH pair relative
-  value done with spot only (switching between them), cash-and-carry is out (needs futures).
+- **Something orthogonal to the paper bot.** Study 11 tried the cheap ideas and found nothing
+  (`candidates/uncorrelated/`). Long-only crypto can't avoid the bot's regime, stablecoin pegs
+  carry a crash tail for ~1%/yr, and gold is a diversifier with no timing edge. Still untested:
+  market making / limit-order provision on liquid pairs (needs order-book data and a fill model).
+  Holding PAXG with the bot's idle cash is an allocation question for the owner, not a tested edge.
 - **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
   gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
 - **Negative funding on ETH or other large caps** (only BTC's funding was tested as the signal).
