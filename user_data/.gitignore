@@ -6,3 +6,4 @@ live_snapshots
 honest_bed/results
 honest_bed/*.log
 candidates/*/results
+candidates/*/*.log
