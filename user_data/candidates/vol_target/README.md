@@ -24,3 +24,20 @@ Profit by year (USDT on a 1,000 start, current bot / vol target): 2018 −348 / 
 Same trades, smaller when markets are jumpy: roughly a third less drawdown for a third less
 growth, with slightly better risk-adjusted numbers. Paper config:
 `user_data/paper/config_btc_eth_voltarget_dry.json`.
+
+## Adding the negative-funding switch (2026-10-17)
+
+`FundingVolTrendStrategy` holds while BTC is above its 100-day average **or** the 7-day average
+BTC perpetual funding is negative (see `user_data/candidates/signals/README.md`), sized by the same
+volatility target. Funding is public data: Binance's futures API live, the downloaded funding
+file in backtests; before September 2019 there is no funding history and the trend gate decides
+alone.
+
+| Freqtrade backtest | Vol target | + negative funding |
+| --- | --- | --- |
+| 2018-03 → 2026-06: CAGR / Sharpe / worst wallet drawdown | +37% / 1.17 / 29% | **+45% / 1.31 / 22%** |
+| 2019-10 → 2026-06 (funding available) | +41% / 1.25 / 29% | **+51% / 1.42 / 22%** |
+| Trades | 110 | 156 |
+
+The combination was chosen after seeing the signal study, so the paper run is its real test.
+This is the single paper bot from 2026-10-17: `user_data/paper/config_btc_eth_funding_voltarget_dry.json`.

@@ -31,6 +31,8 @@
     "trend_pair": "BTC/USDT",
     "vol_target": 0.4,
     "vol_window": 30,
-    "rebalance_band": 0.2
+    "rebalance_band": 0.2,
+    "funding_days": 7,
+    "funding_symbol": "BTC/USDT:USDT"
   }
 }
