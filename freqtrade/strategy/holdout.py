@@ -1,8 +1,9 @@
 """
 Holdout lock for strategy research.
 
-Candles from `HOLDOUT_START` on are kept away from research: a backtest or hyperopt whose
-timerange reaches into them is refused. A strategy that has been frozen can be scored on the
+Candles from `HOLDOUT_START` up to `HOLDOUT_END` (the day the holdout was set aside) are kept
+away from research: a backtest or hyperopt whose timerange overlaps them is refused. Later
+candles are free, so paper trades can be compared with a backtest of the same days. A strategy that has been frozen can be scored on the
 holdout by setting the environment variable `FT_HOLDOUT_UNLOCK` to the reason, which is then
 appended, with the config's strategy settings, to `user_data/holdout_ledger.jsonl`. Every look
 at the holdout is on that ledger, so it is clear how many times the data has been used.
@@ -24,15 +25,18 @@ from freqtrade.exceptions import OperationalException
 logger = logging.getLogger(__name__)
 
 HOLDOUT_START = datetime(2026, 7, 1, tzinfo=UTC)
+HOLDOUT_END = datetime(2026, 10, 17, tzinfo=UTC)
 UNLOCK_ENV = "FT_HOLDOUT_UNLOCK"
 
 
 def touches_holdout(timerange: str | None) -> bool:
-    """True if the timerange is open-ended or ends after the holdout starts."""
+    """True if the timerange overlaps the holdout (a missing start or end counts as unbounded)."""
     if not timerange:
         return True
     tr = TimeRange.parse_timerange(timerange)
-    return tr.stopts == 0 or tr.stopts > HOLDOUT_START.timestamp()
+    starts_before_end = tr.startts == 0 or tr.startts < HOLDOUT_END.timestamp()
+    ends_after_start = tr.stopts == 0 or tr.stopts > HOLDOUT_START.timestamp()
+    return starts_before_end and ends_after_start
 
 
 def check_holdout(config: dict[str, Any]) -> None:
@@ -45,8 +49,8 @@ def check_holdout(config: dict[str, Any]) -> None:
     if not reason:
         raise OperationalException(
             f"Timerange {config.get('timerange') or '(none)'} reaches into the holdout "
-            f"(candles from {HOLDOUT_START:%Y-%m-%d}). End it on or before "
-            f"{HOLDOUT_START:%Y%m%d}, or set {UNLOCK_ENV}=<reason> to score a frozen strategy."
+            f"({HOLDOUT_START:%Y-%m-%d} to {HOLDOUT_END:%Y-%m-%d}). End it on or before "
+            f"{HOLDOUT_START:%Y%m%d}, start it on or after {HOLDOUT_END:%Y%m%d}, or set {UNLOCK_ENV}=<reason> to score a frozen strategy."
         )
     settings = {
         "strategy": config.get("strategy"),

@@ -63,6 +63,9 @@ class TestHoldout:
             ("20260101-20260702", True),
             ("20260101-", True),
             (None, True),
+            ("20261017-", False),
+            ("20261017-20261101", False),
+            ("20261016-20261101", True),
         ],
     )
     def test_touches_holdout(self, timerange, expected):

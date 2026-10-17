@@ -21,7 +21,8 @@ Backtests that a live run can actually be held to. Three pieces:
    backtest at its last price.
 
 3. **A locked holdout** (`freqtrade/strategy/holdout.py`). Backtests and hyperopts whose timerange
-   reaches past **2026-07-01** are refused. To score a frozen strategy on it, set
+   overlaps **2026-07-01 to 2026-10-17** are refused; later dates are free, for comparing paper
+   trades with backtests. To score a frozen strategy on it, set
    `FT_HOLDOUT_UNLOCK="<reason>"`; every unlock is appended to `user_data/holdout_ledger.jsonl`
    with the settings used. Keep that ledger short: each look spends the holdout.
 

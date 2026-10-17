@@ -7,3 +7,5 @@ honest_bed/results
 honest_bed/*.log
 candidates/*/results
 candidates/*/*.log
+paper/*.sqlite*
+paper/reports
