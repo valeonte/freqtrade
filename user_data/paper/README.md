@@ -1,4 +1,15 @@
-# Paper trading: BTC/ETH trend filter
+# Paper trading
+
+**Running since 2026-10-17 (single bot):** `config_btc_eth_funding_voltarget_dry.json`,
+`FundingVolTrendStrategy`: BTC and ETH held while BTC is above its 100-day average or 7-day BTC
+funding is negative, sized to ~40%/yr volatility. It runs from the worktree
+`~/repos/freqtrade-paper` (branch `paper/running`, its own `.env`), started by the owner's crontab
+every 10 minutes under `flock`, with `reconcile.py` daily at 02:00. Log:
+`user_data/logs/paper-funding-voltarget.log`. Stop: remove its crontab lines, then
+`pkill -TERM -f config_btc_eth_funding_voltarget_dry`. The two earlier bots (plain trend filter,
+and vol-targeted) ran for a few hours on 2026-10-17; their databases are kept.
+
+## The original setup: BTC/ETH trend filter
 
 `TrendFilterStrategy` on BTC/USDT and ETH/USDT (daily candles): each coin is held while BTC
 closes above its 100-day average, cash otherwise. Half the wallet per coin, market orders.
