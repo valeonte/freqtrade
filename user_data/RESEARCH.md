@@ -42,6 +42,7 @@ trade small real money, while research continues.
 | Paper bot schedule | owner's `crontab`: bot restarted every 10 min under `flock` if it died; `user_data/paper/reconcile.py` daily at 02:00 |
 | Honest-bed candles | `user_data/data_bed/binance/` (gitignored): 30m for 672 pairs from 2023-11, 1d for all from 2017-08, 1h BTC/ETH from 2018, funding for 432 perps from 2023-11 and BTC/ETH from 2019-09 in `futures/` |
 | Outside data | `user_data/data_bed/external/`: Fear & Greed (alternative.me), stablecoin supply (DefiLlama) |
+| Ethereum node | The owner's Erigon archive node; address in `user_data/onchain_node.json` (gitignored: the fork is public). Port 8545, `eth` and `erigon` namespaces only (no `trace`, so no native ETH transfers). Binance token flows since 2023-11 in `user_data/data_bed/onchain/` (`candidates/onchain_flows/`) |
 | Old live bot ledgers | `user_data/live_snapshots/cryp2-2026-10-17/` (read-only copies) |
 | Normal freqtrade downloads | `user_data/data/binance/` |
 | 1-minute candles with taker volume | `user_data/data/binance/klines_1m/<SYMBOL>/<YYYY-MM>.parquet` (gitignored, 6.6 GB): every top-30 pair-month 2022-01 to 2026-06, from `candidates/high_frequency/fetch.py` |
@@ -84,6 +85,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 15 | Crypto-only trades timed by outside signals while the bot is flat: hash ribbon, Puell multiple, Coinbase premium, Nasdaq trend, stablecoin growth | Dead | Every bot-flat rule loses (Sharpe −0.17 to −0.60); hash ribbon makes money only alongside the bot (0.85 corr on shared days); Puell < 0.5 is in 4–7% of the time | `candidates/outside_signals/` |
 | 16 | ETH negative funding as a second trigger in the paper bot (`funding_symbols`) | Not adopted | Freqtrade 2018-03–2026-06: CAGR +51% vs +45%, Sharpe 1.41 vs 1.31, worst DD 29% vs 22%. All the gain is 2021–23 (Sharpe 1.57 vs 1.20); 2024–26 worse (0.84 vs 0.93, DD 29% vs 22%) | `candidates/vol_target/README.md` |
 | 17 | Higher frequency, 1-minute candles, top 30 point-in-time, 2022–Jun 2026, 7.5 bps a side: BTC leading alts (minute and hour), taker-flow bursts, flush reversals, pump continuation, 15m volume breakouts, intraday momentum, funding settlements (47 variants) | Dead | Gross edges 0–19 bp per trade vs a 15 bp round trip. BTC leads alts for real (+6.8 bp gross over 15 min, t = 5.1, every year) but nets −8 bp. Only ±8σ minutes clear fees on average (+1 to +4 bp net), carried by a few big trades (daily t < 0) and gone with a VWAP entry or 2 bp of slippage. Corr with the bot −0.2..0.3 | `candidates/high_frequency/` |
+| 18 | Binance token deposits and withdrawals from the owner's Ethereum node (every ERC-20 transfer into Binance's hot wallets and out of its payout wallets since 2023-11), stablecoin inflows for BTC timing | Dead for a long-only account | A coin's deposits ≥ 5% of daily volume in 30 min: −1.27% vs the universe over 24h (t −4.3), negative every period; withdrawals the same (−1.22%, t −3.2), so it marks small coins (<$3M/day) about to fade, a short signal. As a veto: +2%/yr on the universe, t 0.5. Top-10 net-withdrawal coins −81%/yr. Stablecoin inflows: +0.7%/24h for BTC in 2024, reversed in 2025–26 | `candidates/onchain_flows/` |
 
 All write-up paths are under `user_data/`.
 
@@ -94,6 +96,8 @@ All write-up paths are under `user_data/`.
   Long-only altcoin rules fight that drift, and every one tried so far lost to it.
 - **BTC's own trend is the best on/off switch found**, better than each coin's own trend.
 - Short-horizon crypto losers keep losing (no reversal), and crowded-short coins keep falling.
+- Heavy Binance deposit *or* withdrawal traffic in a small coin precedes ~1% underperformance over a
+  day (study 18): another way to find losers, not winners.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection

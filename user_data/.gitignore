@@ -9,3 +9,4 @@ candidates/*/results
 candidates/*/*.log
 paper/*.sqlite*
 paper/reports
+onchain_node.json
