@@ -42,6 +42,7 @@ trade small real money, while research continues.
 | Paper bot schedule | owner's `crontab`: bot restarted every 10 min under `flock` if it died; `user_data/paper/reconcile.py` daily at 02:00 |
 | Honest-bed candles | `user_data/data_bed/binance/` (gitignored): 30m for 672 pairs from 2023-11, 1d for all from 2017-08, 1h BTC/ETH from 2018, funding for 432 perps from 2023-11 and BTC/ETH from 2019-09 in `futures/` |
 | Outside data | `user_data/data_bed/external/`: Fear & Greed (alternative.me), stablecoin supply (DefiLlama) |
+| Listings data | Binance's "New Cryptocurrency Listing" announcement titles 2017-07 → 2026-10 in `data_bed/external/binance_announcements.json`; 30m candles for 385 pairs listed 2018-01 → 2023-10 in `data_bed/listings_30m/`; JUP, SYRUP and the account-restricted coins in `data_bed/listings_extra/` (study 19) |
 | Ethereum node | The owner's Erigon archive node; address in `user_data/onchain_node.json` (gitignored: the fork is public; the only copy is in the main checkout `~/repos/freqtrade`, so symlink it into a worktree before running `fetch.py` there). Port 8545, `eth` and `erigon` namespaces only (no `trace`, so no native ETH transfers). Binance token flows since 2023-11 in `user_data/data_bed/onchain/` (`candidates/onchain_flows/`) |
 | Old live bot ledgers | `user_data/live_snapshots/cryp2-2026-10-17/` (read-only copies) |
 | Normal freqtrade downloads | `user_data/data/binance/` |
@@ -86,6 +87,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 16 | ETH negative funding as a second trigger in the paper bot (`funding_symbols`) | Not adopted | Freqtrade 2018-03–2026-06: CAGR +51% vs +45%, Sharpe 1.41 vs 1.31, worst DD 29% vs 22%. All the gain is 2021–23 (Sharpe 1.57 vs 1.20); 2024–26 worse (0.84 vs 0.93, DD 29% vs 22%) | `candidates/vol_target/README.md` |
 | 17 | Higher frequency, 1-minute candles, top 30 point-in-time, 2022–Jun 2026, 7.5 bps a side: BTC leading alts (minute and hour), taker-flow bursts, flush reversals, pump continuation, 15m volume breakouts, intraday momentum, funding settlements (47 variants) | Dead | Gross edges 0–19 bp per trade vs a 15 bp round trip. BTC leads alts for real (+6.8 bp gross over 15 min, t = 5.1, every year) but nets −8 bp. Only ±8σ minutes clear fees on average (+1 to +4 bp net), carried by a few big trades (daily t < 0) and gone with a VWAP entry or 2 bp of slippage. Corr with the bot −0.2..0.3 | `candidates/high_frequency/` |
 | 18 | Binance token deposits and withdrawals from the owner's Ethereum node (every ERC-20 transfer into Binance's hot wallets and out of its payout wallets since 2023-11), stablecoin inflows for BTC timing | Dead for a long-only account | A coin's deposits ≥ 5% of daily volume in 30 min: −1.27% vs the universe over 24h (t −4.3), negative every period; withdrawals the same (−1.22%, t −3.2), so it marks small coins (<$3M/day) about to fade, a short signal. As a veto: +2%/yr on the universe, t 0.5. Top-10 net-withdrawal coins −81%/yr. Stablecoin inflows: +0.7%/24h for BTC in 2024, reversed in 2025–26 | `candidates/onchain_flows/` |
+| 19 | New Binance spot listings, 2018–Jun 2026: 428 genuine new coins (delisted included, bStocks and late USDT pairs out), tagged Launchpool / HODLer / Megadrop / Launchpad / Seed Tag / futures-first from 2,283 Binance announcements; buy 30 min to 60 days after listing, hold 4 h to 90 days, filters; futures launches for coins already on spot | Dead | Median after the first 30m close: −10% in a day, −23% in 7, −35% in 30, −49% in 90 days, negative in every listing year. First-day entries lose in every period and type (hold 7d −13.5%/trade, t −5.1). Later entries are a lottery (mean ≈ 0, median −13..−30%), losing in 2024–26. Futures launches: −0.2% over 4 h. 2 of ~400 rows met the bar (day 30 above the 24 h price, hold 1–3 d), neighbours fail, portfolio −1%/yr in 2024–26; holdout look had no qualifying trades | `candidates/new_listings/` |
 | 20 | The old FactorStrategy factors one at a time on the honest bed (daily, top-100 point-in-time universe, 2019–Jun 2026, 7.5 bps): momentum 7–90d, vol-adjusted momentum, volume-confirmed momentum, overextension, Amihud illiquidity, size, plus low volatility; both ends of each, BTC gate, top 5/10/20, daily/weekly/monthly, top-30/50 universes; 7 combinations incl. v35 | Dead as a strategy; **low vol is a real factor among alts** | Top vs bottom decile ≈ 1 Sharpe apart, consistently: low vol / vol-adj momentum / large / liquid on top. v35's small + illiquid tilt is the wrong end (v35 mix 0.56, flipped 0.88). Best: vol-adj mom 30d + low vol, BTC-gated, Sharpe 1.77 / 2.06 / 0.11 vs core 1.75 / 1.39 / 0.75; nothing beats the core in 2024–26, corr 0.7–0.9, no 50/50 mix beats the core in every period | `candidates/factors/` |
 
 All write-up paths are under `user_data/`.
@@ -97,6 +99,13 @@ All write-up paths are under `user_data/`.
   Long-only altcoin rules fight that drift, and every one tried so far lost to it.
 - **BTC's own trend is the best on/off switch found**, better than each coin's own trend.
 - Short-horizon crypto losers keep losing (no reversal), and crowded-short coins keep falling.
+- **If you hold alts, rank them by low volatility** (study 20): the low-vol and vol-adjusted
+  momentum ends beat the high-vol, small and illiquid ends by ~1 Sharpe in every period. It
+  still loses to gated BTC/ETH in 2024–26, so it is a selection rule, not a reason to hold alts.
+- **New listings fall from the first candle** (study 19): the median new coin is −35% a month after
+  listing, in every year and every listing type (Launchpool and HODLer included). The universe's
+  60-day minimum age is doing useful work; don't lower it.
+- The candidate list's blacklist drops JUP and SYRUP by accident (the live `.*UP/.*` pattern).
 - Heavy Binance deposit *or* withdrawal traffic in a small coin precedes ~1% underperformance over a
   day (study 18): another way to find losers, not winners.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
@@ -146,3 +155,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 2. BTC trend filter SMA 100: +18% vs +36% buy and hold.
 3. Negative BTC funding, alone and OR'd with the trend gate: never fired.
 4. SPY + gold sleeve, each above its 200-day average (study 14): +0.5% on SPY/GLD, −0.6% on SPYB/PAXG; paper bot replica +10.1%.
+5. New listings, day-30 entry above the 24 h price, hold 1–3 days (study 19): the first run scored tokenised stocks by a filter bug; re-run with the fix (ledger line 6), only 5 crypto listings reached day 30 and none qualified. No information.
