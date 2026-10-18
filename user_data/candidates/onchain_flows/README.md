@@ -13,7 +13,10 @@ traders send tokens to Binance to sell them and stablecoins to buy, so big flows
 | Withdrawals: Transfer logs out of Binance 14/15/16/17/18/20 | `fetch.py --withdrawals` | `withdrawals/`, same blocks, 875 MB |
 | Token names: `symbol()`/`decimals()` for contracts with ≥ 50 distinct senders, matched to Binance USDT pairs by symbol | `tokens.py` | `tokens.parquet`, 312 tokens (11 stablecoins) |
 
-The node address is in `user_data/onchain_node.json` (gitignored, since the fork is public):
+The node address is in `user_data/onchain_node.json` (gitignored, since the fork is public). The only
+copy is in the main checkout, `~/repos/freqtrade/user_data/onchain_node.json`; `fetch.py` reads it
+relative to the working directory, so in a worktree first run
+`ln -s ~/repos/freqtrade/user_data/onchain_node.json user_data/`. Its shape:
 `{"rpc_url": "http://<ip>:8545"}`. Port 8545 is reachable from this machine. The RPC refuses
 requests that name the host by its DNS name (Erigon's `--http.vhosts`), so the config
 uses its IP. Only the `eth` and `erigon` namespaces are enabled, so native ETH transfers (which need
