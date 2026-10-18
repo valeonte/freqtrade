@@ -78,6 +78,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 11 | Ideas uncorrelated with the paper bot: hourly dip buying and breakouts (also only while the bot is flat), intraday resting dip buys, new listings, stablecoin peg trading (delisted coins included), PAXG gold and EUR/USDT trend | **None deserves a second paper bot** | Long-only BTC/ETH rules correlate 0.3–0.8 with the bot on shared days, and the bot-flat versions lose. Stablecoin peg: corr ≈ 0, but UST's collapse costs ~20% and it made ~1%/yr since 2023. PAXG: corr ≈ 0.05, a 50/50 mix lifts Sharpe 1.35 → ~1.5, but that is gold's 2024–25 rally; the trend gate hurts gold on GLD 2005–26 | `candidates/uncorrelated/` |
 | 12 | Market making on spot (rest a buy h below the price, sell back at it; queue bracketed by trade-through vs touch fills on 1s candles) and BTC/ETH/ETH-BTC triangular arbitrage | Dead | Loses even at zero fees for h ≤ 0.2% (adverse selection); at 0.1% fees every h ≤ 0.5% loses 0.6–12% a pair-day; 1% dips +0.06%/trade, t = 0.8. Triangle gap > 3 taker fees ~0.5 s/day | `candidates/market_making/` |
 | 13 | Slow ideas (≤ 1 trade a day) aimed at the bot's flat periods: bear-rally trend, RSI(2) dips, 7-day washouts, ETH negative funding, turn of the month, large-cap negative funding | None deserves a second paper bot | Bot-flat variants have corr 0 but lose (long crypto in a bear). ETH funding < 0: 27 episodes, +4.2%, t = 2.0, but 0.87 corr with the bot when both on; outside the bot t = 1.6, mostly 2022, lost in 2026. Turn of month reversed in 2024–26 | `candidates/slow/` |
+| 14 | Cross-asset and events: SPY/QQQ (Binance's SPYB/QQQB stand-ins) and SPY + gold sleeves with 200-day rules, delisting-announcement rebounds, BTC filters (S&P trend, dollar, DVOL) | **SPY + gold sleeve: the only uncorrelated return found**; the rest dead | SPY + gold, each above its 200-day avg: 2018–26 Sharpe 1.02, corr 0.18 with the bot, 50/50 mix 1.51 vs 1.35; 2005–26 Sharpe 0.81, max DD −19%. Holdout: +0.5% (Binance pairs −0.6%), flat. Delisted coins keep falling (−36% to delisting, t −11.5). Filters lower the bot's Sharpe | `candidates/cross_asset/` |
 
 All write-up paths are under `user_data/`.
 
@@ -111,12 +112,11 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
-- **Something orthogonal to the paper bot.** Studies 11 and 12 tried the cheap ideas and market
-  making, and found nothing (`candidates/uncorrelated/`, `candidates/market_making/`). Long-only
-  crypto can't avoid the bot's regime. Stablecoin pegs carry a crash tail for ~1%/yr. Gold is a
-  diversifier with no timing edge. Resting-order spread capture loses to adverse selection and
-  0.1% fees. Holding PAXG with the bot's idle cash is an allocation question for the owner, not a
-  tested edge.
+- **Something orthogonal to the paper bot.** Studies 11–14: long-only crypto can't avoid the bot's
+  regime at any speed; stablecoin pegs carry a crash tail for ~1%/yr; spread capture loses to
+  adverse selection and fees; delisted coins keep falling. The one uncorrelated source is other
+  asset classes on Binance: a SPY (SPYB) + gold (PAXG) sleeve with 200-day rules (corr 0.18,
+  Sharpe ~0.8–1.0), a candidate second paper bot if the owner's account can trade tokenised ETFs.
 - **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
   gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
 - **ETH negative funding as a second trigger inside the bot** (BTC or ETH 7-day funding < 0): study 13 found ETH's signal about as strong as BTC's (t = 2.0) but mostly overlapping. A bot variant, untested in freqtrade. Large caps' funding: dead (study 13).
@@ -128,3 +128,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 1. Frozen FactorStrategy live config: −25% vs market +24%.
 2. BTC trend filter SMA 100: +18% vs +36% buy and hold.
 3. Negative BTC funding, alone and OR'd with the trend gate: never fired.
+4. SPY + gold sleeve, each above its 200-day average (study 14): +0.5% on SPY/GLD, −0.6% on SPYB/PAXG; paper bot replica +10.1%.
