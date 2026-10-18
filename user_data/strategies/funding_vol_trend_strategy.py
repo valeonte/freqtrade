@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any
 
 import ccxt
+import numpy as np
 import pandas as pd
 from vol_target_trend_strategy import VolTargetTrendStrategy
 
@@ -26,48 +27,55 @@ class FundingVolTrendStrategy(VolTargetTrendStrategy):
     strategy_settings (on top of VolTargetTrendStrategy's):
       funding_days: averaging window in days (default 7)
       funding_symbol: perpetual whose funding is used (default BTC/USDT:USDT)
+      funding_symbols: several perpetuals instead (e.g. BTC and ETH); the switch is on while any
+        of their averages is negative. Overrides funding_symbol when set.
     """
 
     def __init__(self, config: dict[str, Any]) -> None:
         super().__init__(config)
         settings = self.config.get("strategy_settings", {})
         self.funding_days = int(settings.get("funding_days", 7))
-        self.funding_symbol = settings.get("funding_symbol", "BTC/USDT:USDT")
-        self._funding: pd.Series | None = None
-        self._funding_fetched: pd.Timestamp | None = None
+        self.funding_symbols = list(
+            settings.get("funding_symbols") or [settings.get("funding_symbol", "BTC/USDT:USDT")]
+        )
+        self._funding: dict[str, pd.Series] = {}
+        self._funding_fetched: dict[str, pd.Timestamp] = {}
 
-    def _funding_history(self) -> pd.Series:
-        """Funding rate prints indexed by time (UTC)."""
+    def _funding_history(self, symbol: str) -> pd.Series:
+        """Funding rate prints of one perpetual, indexed by time (UTC)."""
         if self.config.get("runmode") in OPTIMIZE_MODES:
-            if self._funding is None:
-                base = self.funding_symbol.replace("/", "_").replace(":", "_")
+            if symbol not in self._funding:
+                base = symbol.replace("/", "_").replace(":", "_")
                 path = Path(self.config["datadir"]) / "futures" / f"{base}-1h-funding_rate.feather"
                 df = pd.read_feather(path)
-                self._funding = df.set_index("date")["funding_rate"]
-            return self._funding
+                self._funding[symbol] = df.set_index("date")["funding_rate"]
+            return self._funding[symbol]
         now = pd.Timestamp.now(tz="UTC")
-        if self._funding_fetched is None or now - self._funding_fetched > pd.Timedelta(hours=1):
+        fetched = self._funding_fetched.get(symbol)
+        if fetched is None or now - fetched > pd.Timedelta(hours=1):
             ex = ccxt.binanceusdm({"enableRateLimit": True})
             since = int((now - pd.Timedelta(days=self.funding_days + 7)).timestamp() * 1000)
-            rows = ex.fetch_funding_rate_history(self.funding_symbol, since=since, limit=200)
-            self._funding = pd.Series(
+            rows = ex.fetch_funding_rate_history(symbol, since=since, limit=200)
+            self._funding[symbol] = pd.Series(
                 [r["fundingRate"] for r in rows],
                 index=pd.to_datetime([r["timestamp"] for r in rows], unit="ms", utc=True),
             )
-            self._funding_fetched = now
-        return self._funding
+            self._funding_fetched[symbol] = now
+        return self._funding[symbol]
 
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
         dataframe = super().populate_indicators(dataframe, metadata)
-        try:
-            funding = self._funding_history()
-        except Exception as e:  # keep trading on the trend gate if the funding fetch fails
-            logger.warning("Funding history unavailable (%s); trend gate only", e)
-            dataframe["neg_funding"] = 0
-            return dataframe
-        # mean of the prints of the last `funding_days` days, as known at the end of each day;
-        # a daily candle stamped d closes at the end of day d
-        avg = funding.rolling(f"{self.funding_days}D").mean().resample("1D").last()
-        dataframe["neg_funding"] = (dataframe["date"].map(avg) < 0).astype(int)
+        dataframe["neg_funding"] = 0
+        for symbol in self.funding_symbols:
+            try:
+                funding = self._funding_history(symbol)
+            except Exception as e:  # keep trading on what is available if a fetch fails
+                logger.warning("Funding history for %s unavailable (%s); skipping it", symbol, e)
+                continue
+            # mean of the prints of the last `funding_days` days, as known at the end of each day;
+            # a daily candle stamped d closes at the end of day d
+            avg = funding.rolling(f"{self.funding_days}D").mean().resample("1D").last()
+            neg = (dataframe["date"].map(avg) < 0).astype(int)
+            dataframe["neg_funding"] = np.maximum(dataframe["neg_funding"], neg)
         dataframe["uptrend"] = dataframe[["uptrend", "neg_funding"]].max(axis=1)
         return dataframe
