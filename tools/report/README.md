@@ -30,8 +30,8 @@ tools/report/run_report.sh --out /tmp/report          # real account, files only
 tools/report/run_report.sh --send                     # real account, emailed
 ```
 
-Settings come from the environment or `~/.config/account-report/report.env`
-(`KEY=value` lines, never committed; `chmod 600` it):
+Settings come from the environment or any `*.env` file in `~/.config/account-report/`
+(`KEY=value` lines, never committed; `chmod 600` them):
 
 | Key | |
 | --- | --- |

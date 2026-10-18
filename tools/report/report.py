@@ -4,7 +4,7 @@
     run_report.sh --out /tmp/report            # real account, written to files only
     run_report.sh --send                       # real account, emailed
 
-Settings come from the environment, or from ``~/.config/account-report/report.env``
+Settings come from the environment, or from ``*.env`` files in ``~/.config/account-report/``
 (``KEY=value`` lines; the environment wins): ``FREQTRADE__EXCHANGE__KEY`` /
 ``FREQTRADE__EXCHANGE__SECRET`` (a read-only key is enough), ``SMTP_USER``,
 ``SMTP_PASSWORD``, ``SMTP_HOST`` (default smtp.gmail.com), ``SMTP_PORT`` (465),
@@ -31,13 +31,14 @@ from perf import index_from_values, period_pnl, period_returns
 from render import render
 
 
-CONFIG = Path.home() / ".config" / "account-report" / "report.env"
+CONFIG = Path.home() / ".config" / "account-report"
 STATE = Path.home() / ".local" / "state" / "account-report"
 
 
-def load_settings(path: Path = CONFIG) -> dict[str, str]:
+def load_settings(folder: Path = CONFIG) -> dict[str, str]:
+    """``KEY=value`` lines from every ``*.env`` file in ``folder``; the environment wins."""
     out: dict[str, str] = {}
-    if path.exists():
+    for path in sorted(folder.glob("*.env")):
         for line in path.read_text().splitlines():
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
@@ -204,6 +205,8 @@ def main() -> int:
         check_snapshots(api, report, closes, notes)
 
     subject, body = render(report, {k: f"cid:{k}@account-report" for k in report["charts"]})
+    if args.mock:
+        subject = "[SAMPLE] " + subject
     sender = cfg.get("SMTP_USER", "account-report@localhost")
     msg = to_message(subject, body, report["charts"], sender, cfg.get("REPORT_TO") or sender)
 
