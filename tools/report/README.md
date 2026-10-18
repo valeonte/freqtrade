@@ -41,10 +41,9 @@ Settings come from the environment or `~/.config/account-report/report.env`
 | `REPORT_TO` | recipient, default `SMTP_USER` |
 | `REPORT_ASSETS` | extra coins to look for trades in, comma-separated |
 
-Cron (07:00 London):
+Cron (07:00 London; the machine's clock is on Europe/London, Ubuntu's cron ignores `CRON_TZ`):
 
 ```
-CRON_TZ=Europe/London
 0 7 * * * /home/fistix/repos/freqtrade/tools/report/run_report.sh --send >> /home/fistix/.local/state/account-report/cron.log 2>&1
 ```
 
