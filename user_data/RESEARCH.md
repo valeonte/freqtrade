@@ -11,6 +11,7 @@ trade small real money, while research continues.
 
 ## Rules (the owner's, not negotiable)
 
+- **Trade crypto only** (owner, 2026-10-18): signals may come from anything (equities, macro, on-chain), but positions are crypto or stablecoins. The SPY + gold sleeve (study 14) is out for that reason.
 - **Spot only.** The owner is in the UK and can't trade futures or margin, so nothing
   market-neutral and no shorting. Futures *data* (funding rates) is fine as a signal.
 - **Everything runs on this machine.** The old server `cryp2` is retired: never run anything there.
@@ -79,6 +80,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 12 | Market making on spot (rest a buy h below the price, sell back at it; queue bracketed by trade-through vs touch fills on 1s candles) and BTC/ETH/ETH-BTC triangular arbitrage | Dead | Loses even at zero fees for h ≤ 0.2% (adverse selection); at 0.1% fees every h ≤ 0.5% loses 0.6–12% a pair-day; 1% dips +0.06%/trade, t = 0.8. Triangle gap > 3 taker fees ~0.5 s/day | `candidates/market_making/` |
 | 13 | Slow ideas (≤ 1 trade a day) aimed at the bot's flat periods: bear-rally trend, RSI(2) dips, 7-day washouts, ETH negative funding, turn of the month, large-cap negative funding | None deserves a second paper bot | Bot-flat variants have corr 0 but lose (long crypto in a bear). ETH funding < 0: 27 episodes, +4.2%, t = 2.0, but 0.87 corr with the bot when both on; outside the bot t = 1.6, mostly 2022, lost in 2026. Turn of month reversed in 2024–26 | `candidates/slow/` |
 | 14 | Cross-asset and events: SPY/QQQ (Binance's SPYB/QQQB stand-ins) and SPY + gold sleeves with 200-day rules, delisting-announcement rebounds, BTC filters (S&P trend, dollar, DVOL) | **SPY + gold sleeve: the only uncorrelated return found**; the rest dead | SPY + gold, each above its 200-day avg: 2018–26 Sharpe 1.02, corr 0.18 with the bot, 50/50 mix 1.51 vs 1.35; 2005–26 Sharpe 0.81, max DD −19%. Holdout: +0.5% (Binance pairs −0.6%), flat. Delisted coins keep falling (−36% to delisting, t −11.5). Filters lower the bot's Sharpe | `candidates/cross_asset/` |
+| 15 | Crypto-only trades timed by outside signals while the bot is flat: hash ribbon, Puell multiple, Coinbase premium, Nasdaq trend, stablecoin growth | Dead | Every bot-flat rule loses (Sharpe −0.17 to −0.60); hash ribbon makes money only alongside the bot (0.85 corr on shared days); Puell < 0.5 is in 4–7% of the time | `candidates/outside_signals/` |
 
 All write-up paths are under `user_data/`.
 
@@ -112,11 +114,11 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
-- **Something orthogonal to the paper bot.** Studies 11–14: long-only crypto can't avoid the bot's
-  regime at any speed; stablecoin pegs carry a crash tail for ~1%/yr; spread capture loses to
-  adverse selection and fees; delisted coins keep falling. The one uncorrelated source is other
-  asset classes on Binance: a SPY (SPYB) + gold (PAXG) sleeve with 200-day rules (corr 0.18,
-  Sharpe ~0.8–1.0), a candidate second paper bot if the owner's account can trade tokenised ETFs.
+- **Something orthogonal to the paper bot.** Studies 11–15 suggest it doesn't exist in crypto-only
+  spot. The bot is flat in BTC downtrends, and every long crypto rule tested there loses, whatever
+  its speed or signal. The uncorrelated options left are stablecoin pegs (~1%/yr, crash tail) and,
+  outside crypto, the SPY + gold sleeve (study 14), which the owner ruled out. Better use of
+  effort: improve the bot itself (e.g. ETH funding as a second trigger, study 13).
 - **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
   gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
 - **ETH negative funding as a second trigger inside the bot** (BTC or ETH 7-day funding < 0): study 13 found ETH's signal about as strong as BTC's (t = 2.0) but mostly overlapping. A bot variant, untested in freqtrade. Large caps' funding: dead (study 13).
