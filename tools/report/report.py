@@ -223,13 +223,34 @@ def main() -> int:
         if not cfg.get("SMTP_PASSWORD"):
             print(f"no SMTP_PASSWORD: put SMTP settings in {CONFIG}", file=sys.stderr)
             return 2
-        host, port = cfg.get("SMTP_HOST", "smtp.gmail.com"), int(cfg.get("SMTP_PORT", "465"))
-        with smtplib.SMTP_SSL(host, port, timeout=60) as s:
-            s.login(cfg["SMTP_USER"], cfg["SMTP_PASSWORD"])
-            s.send_message(msg)
+        _send(cfg, msg)
         print(f"sent '{subject}' to {msg['To']}", file=sys.stderr)
     return 0
 
 
+def _send(cfg: dict[str, str], msg: EmailMessage) -> None:
+    host, port = cfg.get("SMTP_HOST", "smtp.gmail.com"), int(cfg.get("SMTP_PORT", "465"))
+    with smtplib.SMTP_SSL(host, port, timeout=60) as s:
+        s.login(cfg["SMTP_USER"], cfg["SMTP_PASSWORD"])
+        s.send_message(msg)
+
+
+def main_or_alert() -> int:
+    """Run; if a --send run fails, email the error so a missing report doesn't go unnoticed."""
+    try:
+        return main()
+    except Exception as e:
+        if "--send" not in sys.argv:
+            raise
+        cfg = load_settings()
+        msg = EmailMessage()
+        msg["Subject"] = "Account report failed"
+        msg["From"] = cfg.get("SMTP_USER", "")
+        msg["To"] = cfg.get("REPORT_TO") or cfg.get("SMTP_USER", "")
+        msg.set_content(f"Today's account report could not be built:\n\n{type(e).__name__}: {e}")
+        _send(cfg, msg)
+        raise
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main_or_alert())
