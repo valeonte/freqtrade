@@ -19,6 +19,7 @@ import os
 import smtplib
 import sys
 import time
+import traceback
 from datetime import UTC, date, datetime, timedelta
 from email.message import EmailMessage
 from pathlib import Path
@@ -69,7 +70,7 @@ def build(api: Binance, account, closes: dict, days: list[int], now_ms: int, not
         missing |= set(miss)
     if missing:
         notes.append(f"No price for {', '.join(sorted(missing))}; valued at zero.")
-    neg = sorted({a for h in held for a, q in h.items() if q < -1e-6})
+    neg = sorted({a for h in held for a, q in h.items() if q < -1e-4})
     if neg:
         notes.append(f"Rebuilt history goes negative in {', '.join(neg)}: some account records are missing.")
     flows = daily_flows(events, days, closes)
@@ -119,7 +120,7 @@ def build(api: Binance, account, closes: dict, days: list[int], now_ms: int, not
             "year": _chart(dates[-366:], {k: v[-366:] for k, v in series.items()}, "Last 12 months"),
         },
         "notes": notes,
-        "values": dict(zip(dates, values, strict=False)),
+        "held": dict(zip(days, held, strict=True)),
     }
 
 
@@ -132,25 +133,28 @@ def _chart(dates: list[date], series: dict, title: str) -> bytes:
                       f"{title}, rebased to 100")  # fmt: skip
 
 
-def check_snapshots(api: Binance, report: dict, closes: dict, notes: list[str]) -> None:
-    """Compare the rebuilt daily values with Binance's own daily snapshots of the last month."""
+def check_snapshots(api: Binance, held_by_day: dict[int, dict[str, float]], notes: list[str]) -> None:
+    """Compare the rebuilt daily balances with Binance's own daily snapshots of the last month.
+
+    Quantities, not values: Binance's own BTC total leaves some coins out.
+    """
     try:
         snaps = api.snapshots()
     except Exception as e:
         notes.append(f"Couldn't read Binance's snapshots to check the history ({e}).")
         return
-    worst = 0.0
+    off: set[str] = set()
     for s in snaps:
-        d = day_start(int(s["updateTime"]))
-        btc = closes["BTC"].get(d)
-        mine = report["values"].get(_d(d))
-        if not btc or mine is None:
+        mine = held_by_day.get(day_start(int(s["updateTime"])))
+        if mine is None:
             continue
-        theirs = float(s["data"]["totalAssetOfBtc"]) * btc
-        if max(mine, theirs) > 5:
-            worst = max(worst, abs(mine - theirs) / max(mine, theirs))
-    if worst > 0.02:
-        notes.append(f"Rebuilt account values differ from Binance's daily snapshots by up to {worst:.0%}.")
+        theirs = {b["asset"]: float(b["free"]) + float(b["locked"]) for b in s["data"]["balances"]}
+        for a in set(mine) | set(theirs):
+            x, y = mine.get(a, 0.0), theirs.get(a, 0.0)
+            if abs(x - y) > 1e-6 + 1e-3 * max(abs(x), abs(y)):
+                off.add(a)
+    if off:
+        notes.append(f"Rebuilt balances differ from Binance's daily snapshots in {', '.join(sorted(off))}.")
 
 
 def to_message(subject: str, body_for_cid: str, charts: dict[str, bytes], sender: str, to: str) -> EmailMessage:
@@ -192,8 +196,7 @@ def main() -> int:
     else:
         key, secret = cfg.get("FREQTRADE__EXCHANGE__KEY"), cfg.get("FREQTRADE__EXCHANGE__SECRET")
         if not (key and secret):
-            print(f"no Binance key: set FREQTRADE__EXCHANGE__KEY/SECRET or put them in {CONFIG}", file=sys.stderr)
-            return 2
+            raise RuntimeError(f"no Binance key: set FREQTRADE__EXCHANGE__KEY/SECRET in a .env file in {CONFIG}")
         api = Binance(key, secret)
         extra = [a.strip() for a in cfg.get("REPORT_ASSETS", "").split(",") if a.strip()]
         account = AccountData(api, args.state_dir, start_ms, extra)
@@ -202,7 +205,7 @@ def main() -> int:
 
     report = build(api, account, closes, days, now_ms, notes)
     if not args.mock:
-        check_snapshots(api, report, closes, notes)
+        check_snapshots(api, report["held"], notes)
 
     subject, body = render(report, {k: f"cid:{k}@account-report" for k in report["charts"]})
     if args.mock:
@@ -247,7 +250,8 @@ def main_or_alert() -> int:
         msg["Subject"] = "Account report failed"
         msg["From"] = cfg.get("SMTP_USER", "")
         msg["To"] = cfg.get("REPORT_TO") or cfg.get("SMTP_USER", "")
-        msg.set_content(f"Today's account report could not be built:\n\n{type(e).__name__}: {e}")
+        detail = f"{type(e).__name__}: {e}\n\n{traceback.format_exc()}"
+        msg.set_content(f"Today's account report could not be built:\n\n{detail}")
         _send(cfg, msg)
         raise
 

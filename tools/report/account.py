@@ -62,6 +62,7 @@ class AccountData:
         c["dust"] = _merge(c.get("dust", []), self.api.dust(since, now_ms), lambda r: r["transId"])
         c["converts"] = _merge(c.get("converts", []), self.api.converts(since, now_ms), lambda r: r["orderId"])
         c["balances"] = self.api.balances()
+        c["balances_ms"] = int(time.time() * 1000)
         c["start_ms"] = min(c.get("start_ms", self.start_ms), self.start_ms)
         c["fetched_to"] = now_ms
 
@@ -109,13 +110,15 @@ class AccountData:
         return dict(self.cache["balances"])
 
     def events(self) -> list[Event]:
+        """Balance changes up to the moment the balances were read (later trades aren't in them)."""
         c = self.cache
+        cutoff = c.get("balances_ms", c.get("fetched_to", 0))
         ev = deposit_events(c.get("deposits", [])) + withdrawal_events(c.get("withdrawals", []))
         ev += dust_events(c.get("dust", [])) + convert_events(c.get("converts", []))
         for sym, rows in c.get("trades", {}).items():
             base, quote = c["symbol_meta"][sym]
             ev += trade_events(rows, base, quote)
-        return ev
+        return [e for e in ev if e.ts <= cutoff]
 
     def fills(self) -> list[dict]:
         return [dict(r, symbol=s) for s, rows in self.cache.get("trades", {}).items() for r in rows]

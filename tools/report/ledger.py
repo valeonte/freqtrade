@@ -63,7 +63,8 @@ def dust_events(rows: list[dict]) -> list[Event]:
         for x in d.get("userAssetDribbletDetails", []):
             ts = x.get("operateTime", d.get("operateTime"))
             out.append(Event(ts, x["fromAsset"], -float(x["amount"])))
-            out.append(Event(ts, "BNB", float(x["transferedAmount"])))
+            # small assets now convert to USDT or BNB ("targetAsset"); older records are BNB
+            out.append(Event(ts, x.get("targetAsset") or "BNB", float(x["transferedAmount"])))
     return out
 
 
