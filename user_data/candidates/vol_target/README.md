@@ -41,3 +41,24 @@ alone.
 
 The combination was chosen after seeing the signal study, so the paper run is its real test.
 This is the single paper bot from 2026-10-17: `user_data/paper/config_btc_eth_funding_voltarget_dry.json`.
+
+## Adding ETH's funding as a second trigger (2026-10-18)
+
+`funding_symbols: ["BTC/USDT:USDT", "ETH/USDT:USDT"]` holds while BTC is above its 100-day average
+**or** either coin's 7-day average funding is negative (`config_funding2_vol40.json`). The
+negative ETH funding signal is from `candidates/slow/` (27 episodes, +4.2% mean, t = 2.0), and it
+mostly overlaps the bot. The default is unchanged (BTC funding only), and the paper bot's config
+gives the same result as before (+45% / 1.31 / 22%).
+
+| Freqtrade backtest: CAGR / Sharpe (daily balance) / worst wallet drawdown / trades | BTC funding (paper bot) | + ETH funding |
+| --- | --- | --- |
+| 2018-03 → 2026-06 | +45% / 1.31 / 22% / 156 | +51% / 1.41 / 29% / 160 |
+| 2018-03 → 2020-12 | +71% / 1.75 / 22% / 48 | identical |
+| 2021 → 2023 | +38% / 1.20 / 31% / 60 | +59% / 1.57 / 25% / 64 |
+| 2024 → 2026-06 | +28% / 0.93 / 22% / 52 | +25% / 0.84 / 29% / 52 |
+
+The whole gain comes from 2021–23, mostly the 2022 bear market, when ETH funding turned negative
+without BTC's. In 2024–26 the extra trigger lowers return and Sharpe and deepens the worst drawdown
+from 22% to 29%. Before 2020 it changes nothing (ETH funding history starts in late 2019). One good
+period and one bad one is not a robust improvement, so the paper bot stays as it is and no holdout
+look was spent. The option stays in the strategy, off by default.

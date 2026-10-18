@@ -81,6 +81,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 13 | Slow ideas (≤ 1 trade a day) aimed at the bot's flat periods: bear-rally trend, RSI(2) dips, 7-day washouts, ETH negative funding, turn of the month, large-cap negative funding | None deserves a second paper bot | Bot-flat variants have corr 0 but lose (long crypto in a bear). ETH funding < 0: 27 episodes, +4.2%, t = 2.0, but 0.87 corr with the bot when both on; outside the bot t = 1.6, mostly 2022, lost in 2026. Turn of month reversed in 2024–26 | `candidates/slow/` |
 | 14 | Cross-asset and events: SPY/QQQ (Binance's SPYB/QQQB stand-ins) and SPY + gold sleeves with 200-day rules, delisting-announcement rebounds, BTC filters (S&P trend, dollar, DVOL) | **SPY + gold sleeve: the only uncorrelated return found**; the rest dead | SPY + gold, each above its 200-day avg: 2018–26 Sharpe 1.02, corr 0.18 with the bot, 50/50 mix 1.51 vs 1.35; 2005–26 Sharpe 0.81, max DD −19%. Holdout: +0.5% (Binance pairs −0.6%), flat. Delisted coins keep falling (−36% to delisting, t −11.5). Filters lower the bot's Sharpe | `candidates/cross_asset/` |
 | 15 | Crypto-only trades timed by outside signals while the bot is flat: hash ribbon, Puell multiple, Coinbase premium, Nasdaq trend, stablecoin growth | Dead | Every bot-flat rule loses (Sharpe −0.17 to −0.60); hash ribbon makes money only alongside the bot (0.85 corr on shared days); Puell < 0.5 is in 4–7% of the time | `candidates/outside_signals/` |
+| 16 | ETH negative funding as a second trigger in the paper bot (`funding_symbols`) | Not adopted | Freqtrade 2018-03–2026-06: CAGR +51% vs +45%, Sharpe 1.41 vs 1.31, worst DD 29% vs 22%. All the gain is 2021–23 (Sharpe 1.57 vs 1.20); 2024–26 worse (0.84 vs 0.93, DD 29% vs 22%) | `candidates/vol_target/README.md` |
 
 All write-up paths are under `user_data/`.
 
@@ -118,10 +119,10 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
   spot. The bot is flat in BTC downtrends, and every long crypto rule tested there loses, whatever
   its speed or signal. The uncorrelated options left are stablecoin pegs (~1%/yr, crash tail) and,
   outside crypto, the SPY + gold sleeve (study 14), which the owner ruled out. Better use of
-  effort: improve the bot itself (e.g. ETH funding as a second trigger, study 13).
+  effort: improve the bot itself (ETH funding as a second trigger was tried in study 16 and not adopted).
 - **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
   gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
-- **ETH negative funding as a second trigger inside the bot** (BTC or ETH 7-day funding < 0): study 13 found ETH's signal about as strong as BTC's (t = 2.0) but mostly overlapping. A bot variant, untested in freqtrade. Large caps' funding: dead (study 13).
+- ~~ETH negative funding as a second trigger~~: tested in freqtrade (study 16), better in 2021–23, worse in 2024–26; not adopted.
 - **Paper vs backtest**: once the paper bot has a few weeks of trades, check `reconcile.py`
   reports; any systematic gap matters more than any new idea.
 
