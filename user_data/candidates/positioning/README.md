@@ -180,3 +180,39 @@ Holdout: not used (no edge before July).
 Not adopted. The Korean premium is a bull-market thermometer: like funding and basis, high
 readings come before more rises, and a discount doesn't mark a bottom. **Lesson for later studies:
 compare any drawdown improvement with the live bot scaled to the same average exposure.**
+
+## Study 24: the macro calendar (FOMC and US CPI days)
+
+### Data
+
+- `fomc_scheduled.txt`: the 8-a-year scheduled FOMC decision days 2019–2026 (the dates of the
+  statement press releases on federalreserve.gov's calendar pages; unscheduled announcements such as
+  March 2020's emergency cuts are left out, since no bot could know them in advance). Statement at
+  14:00 New York time: 18:00 UTC in summer, 19:00 UTC in winter.
+- `cpi_release.txt`: every US CPI release day since 1997, from BLS's release archive (via the Wayback
+  Machine; BLS refuses scripted requests, FRED is unreachable from here). 08:30 New York time:
+  12:30 or 13:30 UTC. October 2025's release was cancelled in the shutdown.
+- Hourly BTC/USDT and ETH/USDT candles from the bed (2018 on).
+
+### Rules, fixed before running
+
+Let T be the hourly candle containing the release (18:00/19:00 UTC for FOMC, 12:00/13:00 UTC for
+CPI, by US daylight saving). Windows on a 50/50 BTC/ETH basket, 7.5 bps a side:
+
+- `pre24`: buy at T − 24 h, sell at T's open (before the release): the pre-FOMC drift known in
+  equities.
+- `post24`: buy at T + 2 h, sell at T + 26 h (after the first reaction).
+- `day`: hold the release's whole UTC day (daily close to close).
+
+Each window runs three ways:
+
+1. `flat`: trade only when the live bot is off that day, sized like the bot's target (vol-scaled),
+   added to the bot. The sleeve must make money in every period, and bot + sleeve must meet the bar.
+2. `alone`: trade every event regardless of the bot, as a standalone sleeve: event-level mean, t,
+   and correlation with the bot's daily returns.
+3. `avoid`: the bot steps aside instead. It sells its holdings at the window's start and buys back
+   at its end (pays both sides), only while it is on.
+
+Plus an event study: the basket's mean return in each window on event days against the same
+hours on all other days, and the absolute move (is volatility higher?).
+2 events × 3 windows × 3 modes = 18 variants, `results_24.csv`.
