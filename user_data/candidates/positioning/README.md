@@ -368,3 +368,33 @@ risk-adjusted terms (about +4 points of CAGR a year overall, worse in 3 of 8 yea
 couldn't test it. It doesn't add costs: it trades less than the live bot (122 freqtrade trades vs 144;
 turnover 11.8 vs 14.2 × the wallet a year), because it leaves weakening trends before the 100-day
 gate whipsaws.
+
+## Study 26: a walk-forward model over the signals collected so far
+
+### Design, fixed before running
+
+Low prior: studies 9, 14, 15, 22 and 23 found each of these signals useless or backwards alone.
+The question is whether a model combining them finds what single rules missed. Screened with
+scikit-learn first (FreqAI's own dependencies aren't installed, and installing them is only worth it
+if the screen passes); anything that passes goes through FreqAI before any recommendation.
+
+- **Target:** the 50/50 BTC/ETH basket's next 7 days (close d → close d + 7) up or down.
+- **Features, all known at day d's close** (missing before a source starts; the boosted model takes
+  NaN, the logistic one gets zero plus a missing flag):
+  - trend: BTC close / SMA100 − 1, close / SMA50 − 1, 20- and 60-day returns, ETH/BTC 30-day
+    change, basket 30-day realised vol
+  - funding: BTC and ETH 7-day mean (Binance perps, 2019-09 / 2019-11)
+  - Fear & Greed: level and 7-day change (alternative.me, 2018-02)
+  - stablecoin supply: 30-day growth (DefiLlama, not point-in-time)
+  - DVOL: level and DVOL minus 30-day realised vol (Deribit, 2021-03)
+  - premiums: Coinbase BTC-USD vs Binance BTC/USDT (7-day mean, to 2026-06), Korean premium (7-day mean)
+- **Models:** L2 logistic regression on standardised features (C = 0.1), and scikit-learn's
+  HistGradientBoostingClassifier (depth 3, 100 trees, learning rate 0.05, min 50 samples a leaf).
+- **Walk-forward:** expanding window from 2018-03-01; first fit on 2019-01-01, refit every 30 days
+  on rows whose 7-day label was complete by the fit date (a 7-day purge). Predictions are strictly
+  out of sample.
+- **Uses** (each with both models = 6 variants, `results_26.csv`):
+  - `alone`: the model is the switch: hold (vol-scaled, like the bot) while P(up) > 0.5
+  - `veto`: the bot, but flat while P(up) < 0.5
+  - `add`: the bot, plus holding while P(up) > 0.6 when the bot is off
+- Also out-of-sample AUC and hit rate per period, and permutation importances on the last fit.
