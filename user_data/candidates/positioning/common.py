@@ -108,7 +108,9 @@ def simulate(px: pd.DataFrame, on: pd.Series, weight: pd.Series, band: float = 0
     return pd.DataFrame({"ret": rets, "expo": expo, "turn": turn}, index=px.index)
 
 
-def run_bot(px: pd.DataFrame, sig: pd.DataFrame, mult: pd.Series | None = None, on: pd.Series | None = None) -> pd.DataFrame:
+def run_bot(
+    px: pd.DataFrame, sig: pd.DataFrame, mult: pd.Series | None = None, on: pd.Series | None = None
+) -> pd.DataFrame:
     """The live bot, optionally with a target multiplier and/or a different switch."""
     on = sig["on"] if on is None else on
     m = pd.Series(1.0, index=px.index) if mult is None else mult.reindex(px.index).fillna(1.0)

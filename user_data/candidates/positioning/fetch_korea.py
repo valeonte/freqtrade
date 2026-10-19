@@ -24,7 +24,7 @@ def get(url: str) -> bytes:
             with urllib.request.urlopen(req, timeout=30) as r:
                 return r.read()
         except Exception:
-            time.sleep(2 ** i)
+            time.sleep(2**i)
     raise RuntimeError(url)
 
 
@@ -45,7 +45,9 @@ def upbit(market: str) -> None:
 
 
 def yahoo(ticker: str) -> None:
-    b = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1=1483228800&period2=1792800000&interval=1d")
+    b = get(
+        f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1=1483228800&period2=1792800000&interval=1d"
+    )
     (OUT / f"yahoo_{ticker}.json").write_bytes(b)
     print(ticker, len(json.loads(b)["chart"]["result"][0]["timestamp"]))
 

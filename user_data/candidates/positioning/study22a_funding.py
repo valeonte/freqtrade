@@ -13,7 +13,7 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import bot_signals, closes, fmt, funding_daily, period_table, run_bot, verdict  # noqa: E402
+from common import bot_signals, closes, fmt, funding_daily, period_table, run_bot, verdict
 
 
 OUT = Path(__file__).parent
@@ -51,7 +51,13 @@ def main() -> None:
     fwd = {h: btc.shift(-h) / btc - 1 for h in (7, 14, 30)}
     on_days = sig.index[sig["on"] & (sig.index >= "2019-09-10")]
     print("BTC forward returns (mean / median / share up), all bot-on days since 2019-09:")
-    print("  " + "  ".join(f"{h}d {fwd[h][on_days].mean():+.1%}/{fwd[h][on_days].median():+.1%}/{(fwd[h][on_days] > 0).mean():.0%}" for h in fwd))
+    print(
+        "  "
+        + "  ".join(
+            f"{h}d {fwd[h][on_days].mean():+.1%}/{fwd[h][on_days].median():+.1%}/{(fwd[h][on_days] > 0).mean():.0%}"
+            for h in fwd
+        )
+    )
     ev_rows = []
     for kind in ("abs03", "abs05", "pct90", "pct95"):
         for coin in ("BTC", "ETH", "either"):

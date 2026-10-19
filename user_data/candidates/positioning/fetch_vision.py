@@ -79,14 +79,31 @@ def flush(path: Path, rows: list) -> None:
 
 
 def cm_klines() -> None:
-    listing = get(f"https://s3-ap-northeast-1.amazonaws.com/data.binance.vision?delimiter=/&prefix=data/futures/cm/monthly/klines/").decode()
+    listing = get(
+        "https://s3-ap-northeast-1.amazonaws.com/data.binance.vision?delimiter=/&prefix=data/futures/cm/monthly/klines/"
+    ).decode()
     contracts = sorted(set(re.findall(r"(BTCUSD_\d{6})/", listing))) + ["BTCUSD_PERP"]
-    cols = ["open_time", "open", "high", "low", "close", "volume", "close_time", "base_vol", "trades", "tb_vol", "tb_base", "ignore"]
+    cols = [
+        "open_time",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "close_time",
+        "base_vol",
+        "trades",
+        "tb_vol",
+        "tb_base",
+        "ignore",
+    ]
     for c in contracts:
         path = OUT / f"klines_cm_{c}.csv"
         if path.exists():
             continue
-        lst = get(f"https://s3-ap-northeast-1.amazonaws.com/data.binance.vision?delimiter=/&prefix=data/futures/cm/monthly/klines/{c}/1d/").decode()
+        lst = get(
+            f"https://s3-ap-northeast-1.amazonaws.com/data.binance.vision?delimiter=/&prefix=data/futures/cm/monthly/klines/{c}/1d/"
+        ).decode()
         files = sorted(set(re.findall(rf"({c}-1d-\d{{4}}-\d{{2}}\.zip)<", lst)))
         parts = []
         for f in files:

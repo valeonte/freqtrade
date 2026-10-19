@@ -14,8 +14,8 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import EXT, bot_signals, closes, fmt, funding_daily, period_table, run_bot, verdict  # noqa: E402
-from study22a_funding import episodes, extend  # noqa: E402
+from common import EXT, bot_signals, closes, fmt, funding_daily, period_table, run_bot, verdict
+from study22a_funding import episodes, extend
 
 
 OUT = Path(__file__).parent
@@ -36,9 +36,13 @@ def metrics(sym: str, idx: pd.DatetimeIndex) -> pd.DataFrame:
 
 def basis(idx: pd.DatetimeIndex) -> pd.Series:
     """Annualised basis of the nearest BTCUSD quarterly with > 30 days left, over the perp."""
+
     def load(c: str) -> pd.Series:
         k = pd.read_csv(VIS / f"klines_cm_{c}.csv")
-        s = pd.Series(k["close"].astype(float).to_numpy(), index=pd.to_datetime(k["open_time"].astype("int64"), unit="ms", utc=True))
+        s = pd.Series(
+            k["close"].astype(float).to_numpy(),
+            index=pd.to_datetime(k["open_time"].astype("int64"), unit="ms", utc=True),
+        )
         return s[~s.index.duplicated()]
 
     perp = load("BTCUSD_PERP").reindex(idx)
@@ -86,7 +90,10 @@ def main() -> None:
     btc = px["BTC"]
     fwd = {h: btc.shift(-h) / btc - 1 for h in (7, 14, 30)}
     on_days = sig.index[sig["on"] & (sig.index >= "2020-09-01")]
-    print("BTC forward returns, bot-on days since 2020-09:", "  ".join(f"{h}d {fwd[h][on_days].mean():+.1%}/{(fwd[h][on_days] > 0).mean():.0%}" for h in fwd))
+    print(
+        "BTC forward returns, bot-on days since 2020-09:",
+        "  ".join(f"{h}d {fwd[h][on_days].mean():+.1%}/{(fwd[h][on_days] > 0).mean():.0%}" for h in fwd),
+    )
     res = {"live bot": run_bot(px, sig)}
     ev_rows = []
     for name, s in signals.items():
