@@ -216,3 +216,60 @@ Each window runs three ways:
 Plus an event study: the basket's mean return in each window on event days against the same
 hours on all other days, and the absolute move (is volatility higher?).
 2 events × 3 windows × 3 modes = 18 variants, `results_24.csv`.
+
+### Result: a pre-FOMC drift that has faded, and nothing to step around
+
+    nice -n 19 .env/bin/python user_data/candidates/positioning/study24_macro.py   # ~10 s
+    bash user_data/candidates/positioning/run_24.sh                               # 12 freqtrade runs, ~5 min
+
+Event study (50/50 basket, gross, 59 FOMC and 89 CPI releases 2019–Jun 2026; the same clock window
+on days with no release nearby: +0.13% mean, 2.4% absolute move):
+
+| Window | Mean (t) | Up | Abs move | 2019–20 | 2021–23 | 2024–26 |
+| --- | --- | --- | --- | --- | --- | --- |
+| FOMC, 24 h before | +0.86% (2.1) | 64% | 2.3% | +2.24% | +0.61% | +0.11% |
+| FOMC, 24 h after | +0.09% (0.2) | 51% | 2.7% | +1.33% | −0.51% | −0.12% |
+| FOMC, UTC day | +1.01% (1.9) | 59% | 2.9% | +2.38% | +0.85% | +0.18% |
+| CPI, 24 h before | +0.36% (1.1) | 54% | 2.2% | −0.27% | +0.50% | +0.69% |
+| CPI, 24 h after | +0.10% (0.2) | 55% | 2.8% | −0.79% | +0.10% | +0.83% |
+| CPI, UTC day | +0.56% (1.3) | 57% | 2.9% | +0.44% | +0.13% | +1.20% |
+
+- **The pre-FOMC drift (known in equities) showed up in crypto and has faded**: +2.2% per meeting
+  in 2019–20, +0.6% in 2021–23, +0.1% in 2024–26. Release days move a bit more than other days
+  (2.9% vs 2.4%), as expected.
+- **Trading the windows while the bot is flat** (`sleeves_24.csv`, 21 FOMC and 34 CPI trades, sized
+  like the bot): FOMC 24 h before +0.67% a trade net (t 1.6) but only +1.2% of the wallet over
+  2024–26; FOMC 24 h after −1.1% a trade (t −2.1). CPI day +0.30% a trade (t 0.7), all of it in
+  2024–26.
+- **Stepping around releases** (`avoid`) costs return in every window and period: the bot sells
+  and buys back for nothing.
+
+Vectorised, three of 18 variants met the bar, each by a hair in one period (`results_24.csv`):
+FOMC 24 h before while flat (2024–26 Sharpe 1.02 vs 1.01, same drawdown), FOMC day while flat
+(1.017 vs 1.013), CPI day while flat (2019–20 Sharpe 2.33 vs 2.36, drawdown 24.6% vs 24.9%).
+The two daily ones went to freqtrade (`FundingVolMacroStrategy`, configs `config_24_*.json`;
+the 24 h-before window needs hourly candles, which the daily bot doesn't use). Sharpe (daily
+wallet) / worst wallet drawdown:
+
+| Period | Live bot | + FOMC days while flat | + CPI days while flat |
+| --- | --- | --- | --- |
+| 2019–20 | 2.42 / 23.6% | 2.45 / 25.4% | 2.40 / 23.2% |
+| 2021–23 | 1.22 / 31.0% | 1.27 / 31.2% | 1.23 / 31.3% |
+| 2024–Jun 2026 | 0.95 / 27.1% | 0.95 / 27.1% | **1.05 / 23.8%** |
+| 2019–Jun 2026 | 1.49 (CAGR +55.7%) | 1.52 (+57.4%) | 1.52 (+57.9%) |
+
+- FOMC days: no gain in 2024–26 and a deeper 2019–20 drawdown. Fails.
+- CPI days: meets the literal bar (2019–20 better drawdown by 0.4 points, 2021–23 better Sharpe by
+  0.01, 2024–26 +0.10 Sharpe and 3 points less drawdown), but before 2024 the differences are
+  noise. The whole gain is ~12 trades in 2024–26, with no reason known to us why CPI days should
+  rise, and it is 1 of 18 variants.
+
+Holdout: not used. The July–October 2026 window has 3–4 CPI days and the rule only trades those on
+which the bot is flat, so a look would say almost nothing and use up the idea's only look.
+
+### Verdict
+
+Not adopted. Nothing in the macro calendar earns a change to the live bot: the pre-FOMC drift has
+faded to ~0, stepping around releases costs money, and the CPI-day result is one regime's worth
+of a dozen trades. If the owner wants a free forward test, the CPI-day rule could be logged on paper
+from today (3–4 trades a year while the bot is flat), but at that rate it would take years to tell.

@@ -92,6 +92,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 21 | The live bot (FundingVolTrendStrategy) plus a 10% or 20% sleeve of the 5 lowest-vol (90d) alts from the point-in-time top 100, weekly, same switch and vol scale; freqtrade, 2019–Jun 2026, 7.5 bps | Not adopted; closes the factor line | Live bot / 20% sleeve, CAGR and Sharpe: 2019–20 +137% 2.42 / +132% 2.45; 2021–23 +39% 1.22 / +48% 1.46; 2024–26 **+28% 0.95** / +25% 0.87, drawdown 22% → 25%. All the gain is 2021–23 | `candidates/alt_sleeve/` |
 | 22 | Crowded longs as an exit/trim for the live bot: 7-day BTC/ETH funding above 0.03%/0.05% or its trailing 90th/95th pct; open-interest rises, top-trader and all-account long/short ratios, quarterly basis (data.binance.vision, Sep 2020 on); exit or halve, while on or +14 days; 104 variants | Not adopted | High funding and high basis precede *rises* (BTC funding > trailing 95th pct: 30d +12.6% vs +6.4% on all bot-on days, t 4.1), so exiting on them costs return; 1 of 48 funding variants meets the bar by noise. BTC long/short ratio > 90th pct, exit: Sharpe 1.48 vs 1.27 in 2021–23 (one crash, May 2021), 1.06 vs 1.01 in 2024–26 with a deeper DD; 6 episodes; untestable in 2019–20. OI exits flip sign when held 14 days | `candidates/positioning/` |
 | 23 | Korean premium (Upbit KRW-BTC vs Binance BTC/USDT × USD/KRW, 7-day mean) as a froth exit/trim (> 3%, > 5%, > trailing 90th pct) or a fear entry (< 0, < −1%), 2019–Jun 2026 | Not adopted | High premium precedes rises (> 90th pct: 30d +22%, t 2.4, 7 episodes). Froth exits all lose in 2021–23; > 5% exit +14d: Sharpe 2.43 / 1.09 / 1.38 vs 2.36 / 1.27 / 1.01 (mostly one episode, March 2024). > 3% trim +14d cuts DD in every period (21/27/22% vs 25/32/26%) but so does the bot at 87% size, with a better 2021–23 Sharpe. Discount entries lose (2019, 2022 bears) | `candidates/positioning/` |
+| 24 | Macro calendar: 59 scheduled FOMC decisions and 89 US CPI releases 2019–Jun 2026; the 24 h before, the 24 h after and the UTC day, traded while the bot is flat, alone, or stepped around by the bot (18 variants); freqtrade for the daily ones | Not adopted | Pre-FOMC drift: +0.86%/meeting (t 2.1) but +2.2% / +0.6% / +0.1% in 2019–20 / 2021–23 / 2024–26. Stepping around releases costs in every period. Freqtrade, Sharpe: FOMC days while flat 2.45 / 1.27 / 0.95 vs 2.42 / 1.22 / 0.95 (no 2024–26 gain); CPI days while flat 2.40 / 1.23 / 1.05, drawdown 23.2 / 31.3 / 23.8% vs 23.6 / 31.0 / 27.1%: meets the bar by noise before 2024, ~12 trades of gain in 2024–26 | `candidates/positioning/` |
 
 All write-up paths are under `user_data/`.
 
@@ -116,6 +117,8 @@ All write-up paths are under `user_data/`.
   behaves the same way (study 23).
 - **Judge a drawdown improvement against the bot at the same average exposure** (study 23): a
   rule that is flat more often cuts drawdowns as a plain size cut would.
+- **Macro release days** (study 24): crypto had the equity pre-FOMC drift, and it has faded to ~0 since
+  2024. Stepping out around FOMC/CPI costs return.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
