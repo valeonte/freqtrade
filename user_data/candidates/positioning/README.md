@@ -296,3 +296,73 @@ After a fast exit, while the 100-day gate is still on, the bot gets back in by o
 Negative funding still turns the bot on regardless (as in the live bot). Vol scale and rebalance
 band unchanged. 4 exits × 3 re-entries = 12 variants (`results_25.csv`), each also compared with
 the live bot scaled to the same average exposure (study 23's lesson).
+
+### Result: the 50-day exit with a 20-day-high re-entry passes, in freqtrade too
+
+    nice -n 19 .env/bin/python user_data/candidates/positioning/study25_fast_exit.py    # ~10 s
+    nice -n 19 .env/bin/python user_data/candidates/positioning/study25_neighbours.py   # post-hoc, ~30 s
+    bash user_data/candidates/positioning/run_25.sh                                     # 4 freqtrade runs
+
+All 12 pre-registered variants, CAGR / Sharpe / max DD (`results_25.csv`):
+
+| Exit / re-entry | 2019–20 | 2021–23 | 2024–Jun 2026 | Exposure |
+| --- | --- | --- | --- | --- |
+| live bot | +135% / 2.36 / 25% | +42% / 1.27 / 32% | +32% / 1.01 / 26% | 0.45 |
+| new 10-day low / new 20-day high | +99% / 2.16 / 23% | +42% / 1.43 / 25% | +34% / 1.23 / 24% | 0.31 |
+| new 10-day low / 10 days later | +84% / 1.94 / 29% | +47% / 1.52 / 24% | +36% / 1.26 / 23% | 0.34 |
+| new 10-day low / gate reset | +22% / 1.04 / 16% | +44% / 1.65 / 23% | +16% / 0.79 / 15% | 0.21 |
+| new 20-day low / new 20-day high | +132% / 2.47 / 26% | +49% / 1.52 / 31% | +22% / 0.84 / 25% | 0.36 |
+| new 20-day low / 10 days later | +138% / 2.48 / 23% | +41% / 1.32 / 31% | +22% / 0.81 / 28% | 0.39 |
+| new 20-day low / gate reset | +108% / 2.42 / 14% | +45% / 1.50 / 31% | +9% / 0.46 / 19% | 0.29 |
+| **below SMA50 / new 20-day high** | **+135% / 2.49 / 22%** | **+46% / 1.52 / 28%** | **+34% / 1.15 / 23%** | 0.36 |
+| below SMA50 / 10 days later | +124% / 2.34 / 25% | +43% / 1.44 / 28% | +20% / 0.75 / 23% | 0.35 |
+| below SMA50 / gate reset | +67% / 1.80 / 21% | +22% / 1.04 / 27% | +16% / 0.75 / 17% | 0.24 |
+| 15% off 60-day high / new 20-day high | +158% / 2.74 / 22% | +17% / 0.69 / 33% | +25% / 0.86 / 31% | 0.40 |
+| 15% off 60-day high / 10 days later | +137% / 2.46 / 22% | +18% / 0.75 / 37% | +27% / 0.90 / 32% | 0.41 |
+| 15% off 60-day high / gate reset | +160% / 2.76 / 22% | +17% / 0.78 / 35% | +15% / 0.64 / 22% | 0.35 |
+
+- One variant meets the bar: **exit when BTC closes below its 50-day average, back in on a new
+  20-day closing high**. It is better on Sharpe *and* drawdown in every period, with about the same
+  return and 47 fast exits in 7.5 years. Against the live bot scaled to its exposure (0.79×:
+  2.31 / 1.31 / 1.03, `results_25_matched.csv`) it is still 0.12–0.21 Sharpe better in every
+  period, with 35–40% more return. So it isn't just holding less.
+- Re-entering on a new 20-day high is what works. Waiting a fixed 10 days, or for the gate to reset,
+  loses in 2024–26 with every exit. The new-20-day-low exit, the owner's example, helps 2019–23 and
+  loses in 2024–26 (0.84). The drawdown-from-high exit is the worst.
+
+Freqtrade (`FundingVolFastExitStrategy`, `user_data/strategies/funding_vol_fast_exit_strategy.py`,
+config `config_25_fast.json`, settings `exit_sma` 50, `reentry_high` 20), Sharpe (daily wallet) /
+worst wallet drawdown / CAGR / trades:
+
+| Period | Live bot | Fast exit |
+| --- | --- | --- |
+| 2019–20 | 2.42 / 23.6% / +137% / 36 | **2.53 / 21.3% / +136% / 32** |
+| 2021–23 | 1.22 / 31.0% / +39% / 60 | **1.50 / 28.0% / +45% / 52** |
+| 2024–Jun 2026 | 0.95 / 27.1% / +28% / 52 | **1.08 / 22.4% / +31% / 42** |
+| 2019–Jun 2026 | 1.49 / 31.0% / +55.7% / 144 | **1.69 / 28.0% / +60.1% / 122** |
+
+**Neighbours (post-hoc, after the result):** of 25 settings (average 30/40/50/60/75 days ×
+re-entry high 10/15/20/30/40 days, `results_25_neighbours.csv`), 11 beat the live bot's Sharpe in
+all three periods. Averages of 40–60 days work with most re-entry lengths. 30 days is too twitchy
+(2021–23 1.14–1.33, 2024–26 0.79–1.08), and 75 days is too slow for 2021–23 (1.18–1.22). The
+chosen setting is in the middle of the good region, not on an edge. Year by year it is better in
+2019, 2022, 2023, 2024 and 2026 and worse in 2020, 2021 and 2025, so the gain is in risk, not in
+every year's return:
+
+| Year | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 H1 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Live bot | +71% | +222% | +134% | −19% | +52% | +71% | +20% | −3% |
+| Fast exit | +78% | +212% | +119% | −17% | +73% | +83% | +13% | +1% |
+
+**Holdout (ledger lines 7–8):** one look, freqtrade, 2026-07-01 → 10-17: fast exit and live bot are
+identical (2 trades, +10.7%, Sharpe 1.52, drawdown 7.7%; BTC/ETH +43%). The trend gate only turned
+on in mid-August and BTC never closed below its 50-day average after that, so the rule never fired.
+The look is spent and says nothing either way.
+
+### Verdict
+
+**Passes**: the first change to the live bot since study 16 that beats it in every period, on
+Sharpe and drawdown, in the vectorised replica and in freqtrade, with a stable neighbourhood.
+Deploying it is the owner's call; nothing on the live checkout was touched. Caveats: its gain is in
+risk-adjusted terms (about +4 points of CAGR a year overall, worse in 3 of 8 years), the holdout
+couldn't test it, and it adds ~6 extra round trips a year (exits and re-entries) that pay 15 bps each.
