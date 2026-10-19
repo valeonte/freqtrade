@@ -164,7 +164,7 @@ A high premium is followed by rises, like high funding. CAGR / Sharpe / max DD (
 
 - No variant meets the bar with the 0.05-Sharpe guard. Every froth exit loses in 2021–23, when
   the premium was high through most of the bull market. `P7 > 5%, exit +14d` is the best in
-  2024–26 (Sharpe 1.38): that is two episodes (March and December 2024).
+  2024–26 (Sharpe 1.38): that is mostly one episode, March–April 2024 (55 days), plus 18 days in January 2025.
 - `P7 > 3%, trim +14d` has a smaller drawdown in all three periods (21 / 27 / 22% vs 25 / 32 / 26%),
   which meets the owner's literal "and/or drawdown" bar, but it gives up 0.14 Sharpe in 2021–23 and
   holds less on average (exposure 0.39 vs 0.45). The live bot simply held at 87% size has the same
