@@ -129,3 +129,54 @@ daily candles (00:00–00:00 UTC, the same as Binance's) and Yahoo's USD/KRW car
   `kd0` P7 < 0, `kd1` P7 < −1%.
 
 3 × 4 + 2 = 14 variants, `results_23.csv`, plus the same event study.
+
+### Result: no edge; the froth exits just hold less
+
+    nice -n 19 .env/bin/python user_data/candidates/positioning/fetch_korea.py    # once, ~1 min
+    nice -n 19 .env/bin/python user_data/candidates/positioning/study23_korea.py   # ~20 s
+
+The 7-day premium averaged +4.3% in 2018 (peak +50% in January 2018), about 0 in 2019–20, +4.1% in
+2021 (peak +18% in April) and +1.6–2.8% in 2022–25, and has stayed under +3% in 2026. The ETH
+premium moves with the BTC one (correlation 1.0 to two decimals), so it adds nothing.
+
+Event study (`events_23.csv`), BTC after an episode starts, against bot-on days 2019+ (30d +7.5%):
+
+| Signal | Episodes | 7d | 14d | 30d (t) |
+| --- | --- | --- | --- | --- |
+| P7 > 3%, bot on | 10 | −0.3% | +2.3% | +7.9% (1.5) |
+| P7 > 5%, bot on | 6 | +8.4% | +2.2% | +1.5% (0.2) |
+| P7 > trailing 90th pct, bot on | 7 | +4.7% | +15.7% | +22.0% (2.4) |
+| P7 < −1%, bot off | 4 | +3.5% | −1.1% | +6.6% (0.8) |
+
+A high premium is followed by rises, like high funding. CAGR / Sharpe / max DD (`results_23.csv`):
+
+| Variant | 2019–20 | 2021–23 | 2024–Jun 2026 |
+| --- | --- | --- | --- |
+| live bot | +135% / 2.36 / 25% | +42% / 1.27 / 32% | +32% / 1.01 / 26% |
+| P7 > 3%, exit | +123% / 2.26 / 27% | +26% / 1.00 / 28% | +29% / 1.06 / 23% |
+| P7 > 3%, trim +14d | +129% / 2.39 / 21% | +30% / 1.13 / 27% | +29% / 1.07 / 22% |
+| P7 > 5%, exit +14d | +136% / 2.43 / 21% | +32% / 1.09 / 32% | +44% / 1.38 / 23% |
+| P7 > 5%, trim +14d | +136% / 2.41 / 22% | +37% / 1.19 / 32% | +37% / 1.20 / 22% |
+| P7 > 90th pct, exit | +106% / 2.10 / 24% | +22% / 0.85 / 32% | +25% / 0.91 / 23% |
+| P7 < 0, extra on-trigger | +129% / 2.16 / 44% | +34% / 1.05 / 43% | +23% / 0.78 / 33% |
+| P7 < −1%, extra on-trigger | +157% / 2.56 / 25% | +41% / 1.25 / 33% | +23% / 0.77 / 34% |
+| *live bot at 87% size (post-hoc yardstick)* | +108% / 2.29 / 22% | +37% / 1.29 / 27% | +28% / 1.03 / 24% |
+
+- No variant meets the bar with the 0.05-Sharpe guard. Every froth exit loses in 2021–23, when
+  the premium was high through most of the bull market. `P7 > 5%, exit +14d` is the best in
+  2024–26 (Sharpe 1.38): that is two episodes (March and December 2024).
+- `P7 > 3%, trim +14d` has a smaller drawdown in all three periods (21 / 27 / 22% vs 25 / 32 / 26%),
+  which meets the owner's literal "and/or drawdown" bar, but it gives up 0.14 Sharpe in 2021–23 and
+  holds less on average (exposure 0.39 vs 0.45). The live bot simply held at 87% size has the same
+  exposure and the same drawdowns (22 / 27 / 24%) with a *better* 2021–23 Sharpe. The trim is a
+  size cut, not a signal (post-hoc check, added after seeing the result).
+- The fear trigger (buying a Korean discount while the bot is off) loses: discounts came in the
+  2019 and 2022 bear markets and kept falling.
+
+Holdout: not used (no edge before July).
+
+### Verdict
+
+Not adopted. The Korean premium is a bull-market thermometer: like funding and basis, high
+readings come before more rises, and a discount doesn't mark a bottom. **Lesson for later studies:
+compare any drawdown improvement with the live bot scaled to the same average exposure.**
