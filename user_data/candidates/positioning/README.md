@@ -365,4 +365,6 @@ The look is spent and says nothing either way.
 Sharpe and drawdown, in the vectorised replica and in freqtrade, with a stable neighbourhood.
 Deploying it is the owner's call; nothing on the live checkout was touched. Caveats: its gain is in
 risk-adjusted terms (about +4 points of CAGR a year overall, worse in 3 of 8 years), the holdout
-couldn't test it, and it adds ~6 extra round trips a year (exits and re-entries) that pay 15 bps each.
+couldn't test it. It doesn't add costs: it trades less than the live bot (122 freqtrade trades vs 144;
+turnover 11.8 vs 14.2 × the wallet a year), because it leaves weakening trends before the 100-day
+gate whipsaws.
