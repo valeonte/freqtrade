@@ -398,3 +398,59 @@ if the screen passes); anything that passes goes through FreqAI before any recom
   - `veto`: the bot, but flat while P(up) < 0.5
   - `add`: the bot, plus holding while P(up) > 0.6 when the bot is off
 - Also out-of-sample AUC and hit rate per period, and permutation importances on the last fit.
+
+### Result: worse than a coin flip out of sample
+
+    OMP_NUM_THREADS=2 nice -n 19 .env/bin/python user_data/candidates/positioning/study26_model.py   # ~1 min
+
+Out-of-sample quality of the 7-day up/down call (`diagnostics_26.csv`):
+
+| Model | Period | AUC | Hit rate | Base rate up | AUC on bot-on days |
+| --- | --- | --- | --- | --- | --- |
+| logistic | 2019–20 | 0.38 | 47% | 59% | 0.38 |
+| logistic | 2021–23 | 0.50 | 48% | 51% | 0.52 |
+| logistic | 2024–Jun 2026 | 0.48 | 49% | 51% | 0.44 |
+| boosted trees | 2019–20 | 0.40 | 42% | 59% | 0.46 |
+| boosted trees | 2021–23 | 0.47 | 47% | 51% | 0.48 |
+| boosted trees | 2024–Jun 2026 | 0.50 | 51% | 51% | 0.48 |
+
+As the bot's switch, veto or extra entry (CAGR / Sharpe / max DD, `results_26.csv`):
+
+| Variant | 2019–20 | 2021–23 | 2024–Jun 2026 |
+| --- | --- | --- | --- |
+| live bot | +135% / 2.36 / 25% | +42% / 1.27 / 32% | +32% / 1.01 / 26% |
+| logistic, alone | +29% / 0.87 / 47% | +10% / 0.46 / 47% | +16% / 0.60 / 36% |
+| logistic, veto | +47% / 1.44 / 24% | +27% / 1.08 / 27% | +24% / 0.90 / 23% |
+| logistic, add | +110% / 2.01 / 35% | +28% / 0.89 / 48% | +32% / 1.01 / 26% |
+| boosted, alone | −13% / −0.27 / 61% | +2% / 0.21 / 53% | −6% / −0.01 / 51% |
+| boosted, veto | +17% / 0.76 / 25% | +13% / 0.64 / 27% | +15% / 0.63 / 26% |
+| boosted, add | +66% / 1.36 / 54% | +39% / 1.17 / 41% | +21% / 0.73 / 33% |
+
+- Neither model ranks the next week better than chance in any period. 2019–20 is *below* chance
+  (AUC 0.38–0.40): trained on the 2018 bear market, the models learned relations that flipped.
+- Every use loses to the live bot in every period, mostly by a lot. Vetoes cut drawdowns only by
+  being flat (exposure 0.26–0.29).
+- The last fits lean on ETH funding, the 100-day gap and the Korean premium (logistic), and on
+  stablecoin growth, the Korean premium and ETH/BTC (trees). These are in-sample importances of a
+  model that doesn't predict, and they change from fit to fit.
+
+Not taken to FreqAI: the screen fails by a wide margin, and FreqAI's walk-forward retraining of
+the same kind of model on the same features would not change an out-of-sample AUC below 0.5.
+Holdout: not used.
+
+### Verdict
+
+Not adopted. Combining the outside signals doesn't produce the timing that none of them had
+alone. The live bot's two hand-written rules (trend, negative funding) beat any learned
+combination of them here, which fits every earlier study: in daily BTC/ETH timing, simple and slow
+wins.
+
+## Summary of studies 22–26
+
+| Study | Idea | Verdict |
+| --- | --- | --- |
+| 22 | Crowded longs (funding, OI, long/short, basis) as an exit | Not adopted: high funding/basis precede rises |
+| 23 | Korean premium as froth exit / fear entry | Not adopted: a bull-market thermometer |
+| 24 | FOMC / CPI days | Not adopted: pre-FOMC drift faded; CPI-day gain is noise before 2024 |
+| 25 | Slow entry, faster exit | **Passes** (SMA50 out, new 20-day high in), freqtrade too; holdout uninformative |
+| 26 | Walk-forward model over all signals | Not adopted: out-of-sample AUC ≤ 0.50 |
