@@ -273,3 +273,26 @@ Not adopted. Nothing in the macro calendar earns a change to the live bot: the p
 faded to ~0, stepping around releases costs money, and the CPI-day result is one regime's worth
 of a dozen trades. If the owner wants a free forward test, the CPI-day rule could be logged on paper
 from today (3–4 trades a year while the bot is flat), but at that rate it would take years to tell.
+
+## Study 25: slow entry, faster exit
+
+### Rules, fixed before running
+
+Entries stay the live bot's (BTC above its 100-day average, or 7-day funding negative). While the
+trend gate holds the coins, a faster BTC exit can take the bot out early:
+
+- `low10` / `low20`: BTC closes at a new 10- / 20-day closing low (below the lowest of the
+  previous 10 / 20 closes)
+- `sma50`: BTC closes below its 50-day average
+- `dd15`: BTC closes 15% or more below its highest close of the last 60 days
+
+After a fast exit, while the 100-day gate is still on, the bot gets back in by one of:
+
+- `high20`: BTC closes at a new 20-day closing high
+- `wait10`: 10 days after the exit (re-arms the fast exit on re-entry)
+- `reset`: only after the 100-day gate has turned off and on again (the exit holds for the rest of
+  that trend)
+
+Negative funding still turns the bot on regardless (as in the live bot). Vol scale and rebalance
+band unchanged. 4 exits × 3 re-entries = 12 variants (`results_25.csv`), each also compared with
+the live bot scaled to the same average exposure (study 23's lesson).
