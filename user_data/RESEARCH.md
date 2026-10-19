@@ -152,6 +152,13 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
+- **Fast exit for the live bot (study 25)**: `FundingVolFastExitStrategy` (exit on a BTC close below
+  its 50-day average while the 100-day gate is on, back in on a new 20-day high) beat the live bot in
+  every period in freqtrade. Its one holdout look was uninformative (it never fired). Deploying it
+  is the owner's decision. If adopted, compare live fills with a backtest of the same days, as for
+  the current bot.
+- **BTC long/short ratio exit (study 22)**: right sign, only 6 episodes since 2020. Re-check once
+  data.binance.vision has another year or two.
 - **Something orthogonal to the paper bot.** Studies 11–15 suggest it doesn't exist in crypto-only
   spot. The bot is flat in BTC downtrends, and every long crypto rule tested there loses, whatever
   its speed or signal. The uncorrelated options left are stablecoin pegs (~1%/yr, crash tail) and,
