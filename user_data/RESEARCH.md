@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-18.
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-19.
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -41,7 +41,7 @@ trade small real money, while research continues.
 | Paper bot checkout | `~/repos/freqtrade-paper` (git worktree, branch `paper/running`, its own `.env`). Don't edit it; update it with `git merge --ff-only origin/my-strats` and restart the bot |
 | Paper bot schedule | owner's `crontab`: bot restarted every 10 min under `flock` if it died; `user_data/paper/reconcile.py` daily at 02:00 |
 | Honest-bed candles | `user_data/data_bed/binance/` (gitignored): 30m for 672 pairs from 2023-11, 1d for all from 2017-08, 1h BTC/ETH from 2018, funding for 432 perps from 2023-11 and BTC/ETH from 2019-09 in `futures/` |
-| Outside data | `user_data/data_bed/external/`: Fear & Greed (alternative.me), stablecoin supply (DefiLlama) |
+| Outside data | `user_data/data_bed/external/`: Fear & Greed (alternative.me), stablecoin supply (DefiLlama); Binance futures metrics (open interest, long/short ratios, daily from 2020-09 for BTC, 2021-12 for ETH) and coin-margined BTCUSD quarterly/perp daily candles from data.binance.vision in `binance_vision/`; Upbit KRW-BTC/ETH daily and Yahoo USD/KRW in `korea/` (study 22–23 fetchers in `candidates/positioning/`) |
 | Listings data | Binance's "New Cryptocurrency Listing" announcement titles 2017-07 → 2026-10 in `data_bed/external/binance_announcements.json`; 30m candles for 385 pairs listed 2018-01 → 2023-10 in `data_bed/listings_30m/`; JUP, SYRUP and the account-restricted coins in `data_bed/listings_extra/` (study 19) |
 | Ethereum node | The owner's Erigon archive node; address in `user_data/onchain_node.json` (gitignored: the fork is public; the only copy is in the main checkout `~/repos/freqtrade`, so symlink it into a worktree before running `fetch.py` there). Port 8545, `eth` and `erigon` namespaces only (no `trace`, so no native ETH transfers). Binance token flows since 2023-11 in `user_data/data_bed/onchain/` (`candidates/onchain_flows/`) |
 | Old live bot ledgers | `user_data/live_snapshots/cryp2-2026-10-17/` (read-only copies) |
@@ -90,6 +90,11 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 19 | New Binance spot listings, 2018–Jun 2026: 428 genuine new coins (delisted included, bStocks and late USDT pairs out), tagged Launchpool / HODLer / Megadrop / Launchpad / Seed Tag / futures-first from 2,283 Binance announcements; buy 30 min to 60 days after listing, hold 4 h to 90 days, filters; futures launches for coins already on spot | Dead | Median after the first 30m close: −10% in a day, −23% in 7, −35% in 30, −49% in 90 days, negative in every listing year. First-day entries lose in every period and type (hold 7d −13.5%/trade, t −5.1). Later entries are a lottery (mean ≈ 0, median −13..−30%), losing in 2024–26. Futures launches: −0.2% over 4 h. 2 of ~400 rows met the bar (day 30 above the 24 h price, hold 1–3 d), neighbours fail, portfolio −1%/yr in 2024–26; holdout look had no qualifying trades | `candidates/new_listings/` |
 | 20 | The old FactorStrategy factors one at a time on the honest bed (daily, top-100 point-in-time universe, 2019–Jun 2026, 7.5 bps): momentum 7–90d, vol-adjusted momentum, volume-confirmed momentum, overextension, Amihud illiquidity, size, plus low volatility; both ends of each, BTC gate, top 5/10/20, daily/weekly/monthly, top-30/50 universes; 7 combinations incl. v35 | Dead as a strategy; **low vol is a real factor among alts** | Top vs bottom decile ≈ 1 Sharpe apart, consistently: low vol / vol-adj momentum / large / liquid on top. v35's small + illiquid tilt is the wrong end (v35 mix 0.56, flipped 0.88). Best: vol-adj mom 30d + low vol, BTC-gated, Sharpe 1.77 / 2.06 / 0.11 vs core 1.75 / 1.39 / 0.75; nothing beats the core in 2024–26, corr 0.7–0.9, no 50/50 mix beats the core in every period | `candidates/factors/` |
 | 21 | The live bot (FundingVolTrendStrategy) plus a 10% or 20% sleeve of the 5 lowest-vol (90d) alts from the point-in-time top 100, weekly, same switch and vol scale; freqtrade, 2019–Jun 2026, 7.5 bps | Not adopted; closes the factor line | Live bot / 20% sleeve, CAGR and Sharpe: 2019–20 +137% 2.42 / +132% 2.45; 2021–23 +39% 1.22 / +48% 1.46; 2024–26 **+28% 0.95** / +25% 0.87, drawdown 22% → 25%. All the gain is 2021–23 | `candidates/alt_sleeve/` |
+| 22 | Crowded longs as an exit/trim for the live bot: 7-day BTC/ETH funding above 0.03%/0.05% or its trailing 90th/95th pct; open-interest rises, top-trader and all-account long/short ratios, quarterly basis (data.binance.vision, Sep 2020 on); exit or halve, while on or +14 days; 104 variants | Not adopted | High funding and high basis precede *rises* (BTC funding > trailing 95th pct: 30d +12.6% vs +6.4% on all bot-on days, t 4.1), so exiting on them costs return; 1 of 48 funding variants meets the bar by noise. BTC long/short ratio > 90th pct, exit: Sharpe 1.48 vs 1.27 in 2021–23 (one crash, May 2021), 1.06 vs 1.01 in 2024–26 with a deeper DD; 6 episodes; untestable in 2019–20. OI exits flip sign when held 14 days | `candidates/positioning/` |
+| 23 | Korean premium (Upbit KRW-BTC vs Binance BTC/USDT × USD/KRW, 7-day mean) as a froth exit/trim (> 3%, > 5%, > trailing 90th pct) or a fear entry (< 0, < −1%), 2019–Jun 2026 | Not adopted | High premium precedes rises (> 90th pct: 30d +22%, t 2.4, 7 episodes). Froth exits all lose in 2021–23; > 5% exit +14d: Sharpe 2.43 / 1.09 / 1.38 vs 2.36 / 1.27 / 1.01 (mostly one episode, March 2024). > 3% trim +14d cuts DD in every period (21/27/22% vs 25/32/26%) but so does the bot at 87% size, with a better 2021–23 Sharpe. Discount entries lose (2019, 2022 bears) | `candidates/positioning/` |
+| 24 | Macro calendar: 59 scheduled FOMC decisions and 89 US CPI releases 2019–Jun 2026; the 24 h before, the 24 h after and the UTC day, traded while the bot is flat, alone, or stepped around by the bot (18 variants); freqtrade for the daily ones | Not adopted | Pre-FOMC drift: +0.86%/meeting (t 2.1) but +2.2% / +0.6% / +0.1% in 2019–20 / 2021–23 / 2024–26. Stepping around releases costs in every period. Freqtrade, Sharpe: FOMC days while flat 2.45 / 1.27 / 0.95 vs 2.42 / 1.22 / 0.95 (no 2024–26 gain); CPI days while flat 2.40 / 1.23 / 1.05, drawdown 23.2 / 31.3 / 23.8% vs 23.6 / 31.0 / 27.1%: meets the bar by noise before 2024, ~12 trades of gain in 2024–26 | `candidates/positioning/` |
+| 25 | **Slow entry, faster exit** for the live bot: while the SMA100 gate is on, exit on a BTC new 10/20-day low, a close below SMA50, or 15% off the 60-day high; back in on a new 20-day high, after 10 days, or only after the gate resets (12 variants) | **Passes; a candidate for the live bot (owner's call)** | Below SMA50 out / new 20-day high in, freqtrade Sharpe 2.53 / 1.50 / 1.08 vs 2.42 / 1.22 / 0.95, worst DD 21 / 28 / 22% vs 24 / 31 / 27%, CAGR 2019–Jun 2026 +60% vs +56%; beats the exposure-matched bot by 0.12–0.21 Sharpe in every period; 11 of 25 neighbours (SMA 30–75 × high 10–40) beat it in every period. Fixed waits and gate-reset re-entries fail 2024–26. Holdout look: identical to the live bot (rule never fired) | `candidates/positioning/` |
+| 26 | Walk-forward classifier (logistic, boosted trees; refit every 30 days, 7-day purge) over trend, funding, Fear & Greed, stablecoin growth, DVOL, Coinbase and Korean premiums, predicting the basket's next 7 days; used as the switch, a veto or an extra entry | Dead | Out-of-sample AUC 0.38–0.50 in every period (below chance in 2019–20). Every use loses to the live bot in every period (best: logistic add, Sharpe 2.01 / 0.89 / 1.01). Not taken to FreqAI | `candidates/positioning/` |
 
 All write-up paths are under `user_data/`.
 
@@ -109,6 +114,18 @@ All write-up paths are under `user_data/`.
 - The candidate list's blacklist drops JUP and SYRUP by accident (the live `.*UP/.*` pattern).
 - Heavy Binance deposit *or* withdrawal traffic in a small coin precedes ~1% underperformance over a
   day (study 18): another way to find losers, not winners.
+- **Crowded longs keep winning at daily scale** (study 22): very high funding or futures basis marks
+  strong trends that continue over the next 7–30 days. Don't exit on them. The Korean premium
+  behaves the same way (study 23).
+- **Judge a drawdown improvement against the bot at the same average exposure** (study 23): a
+  rule that is flat more often cuts drawdowns as a plain size cut would.
+- **Macro release days** (study 24): crypto had the equity pre-FOMC drift, and it has faded to ~0 since
+  2024. Stepping out around FOMC/CPI costs return.
+- **Exit faster than you enter** (study 25): the 100-day gate is a good entry but a slow exit. Leaving
+  on a close below the 50-day average and coming back on a new 20-day high beat it in every period.
+  The re-entry rule matters more than the exit: fixed waits lose.
+- **A model over all the outside signals predicts worse than chance** (study 26): the bot's two
+  hand-written rules beat any learned combination. Don't expect ML to rescue signals that fail alone.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -135,6 +152,13 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
+- **Fast exit for the live bot (study 25)**: `FundingVolFastExitStrategy` (exit on a BTC close below
+  its 50-day average while the 100-day gate is on, back in on a new 20-day high) beat the live bot in
+  every period in freqtrade. Its one holdout look was uninformative (it never fired). Deploying it
+  is the owner's decision. If adopted, compare live fills with a backtest of the same days, as for
+  the current bot.
+- **BTC long/short ratio exit (study 22)**: right sign, only 6 episodes since 2020. Re-check once
+  data.binance.vision has another year or two.
 - **Something orthogonal to the paper bot.** Studies 11–15 suggest it doesn't exist in crypto-only
   spot. The bot is flat in BTC downtrends, and every long crypto rule tested there loses, whatever
   its speed or signal. The uncorrelated options left are stablecoin pegs (~1%/yr, crash tail) and,
@@ -157,3 +181,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 3. Negative BTC funding, alone and OR'd with the trend gate: never fired.
 4. SPY + gold sleeve, each above its 200-day average (study 14): +0.5% on SPY/GLD, −0.6% on SPYB/PAXG; paper bot replica +10.1%.
 5. New listings, day-30 entry above the 24 h price, hold 1–3 days (study 19): the first run scored tokenised stocks by a filter bug; re-run with the fix (ledger line 6), only 5 crypto listings reached day 30 and none qualified. No information.
+6. Study 25 fast exit (SMA50 out, new 20-day high in), with the live bot as baseline (ledger lines 7–8): identical, +10.7% each (BTC/ETH +43%); the gate came on in mid-August and BTC never closed below its 50-day average after, so the rule never fired. No information.
