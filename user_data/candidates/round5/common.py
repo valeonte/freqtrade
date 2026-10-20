@@ -53,7 +53,7 @@ def bot_daily() -> pd.DataFrame:
     cache = HERE / "bot_daily.csv"
     if cache.exists():
         return pd.read_csv(cache, index_col=0, parse_dates=[0])
-    z = sorted((HERE / "ft_baseline").glob("backtest-result-*.zip"))[-1]
+    z = max((HERE / "ft_baseline").glob("backtest-result-*.zip"))
     with zipfile.ZipFile(z) as zf:
         name = next(n for n in zf.namelist() if n.endswith("_wallet.feather"))
         w = pd.read_feather(io.BytesIO(zf.read(name)))

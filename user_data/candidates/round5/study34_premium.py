@@ -53,7 +53,7 @@ def rest_daily(symbol: str) -> pd.Series:
     while True:
         url = f"https://api.binance.com/api/v3/klines?symbol={symbol}&interval=1d&limit=1000&startTime={start}"
         try:
-            with urllib.request.urlopen(url, timeout=30) as r:  # noqa: S310 (fixed https host)
+            with urllib.request.urlopen(url, timeout=30) as r:
                 page = json.load(r)
         except Exception:
             page = []

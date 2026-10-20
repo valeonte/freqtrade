@@ -199,7 +199,7 @@ def trade_grid(s: pd.DataFrame, m: pd.DataFrame, t: pd.Timestamp, delays=DELAYS,
                     "exit": px,
                     "ret": ret,
                     "jump_to_entry": entry / p0 - 1,
-                    "pre_drift": p0 / p_pre - 1 if p_pre == p_pre else np.nan,
+                    "pre_drift": p0 / p_pre - 1 if not np.isnan(p_pre) else np.nan,
                 }
             )
     return out

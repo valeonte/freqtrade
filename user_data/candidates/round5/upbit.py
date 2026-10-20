@@ -38,7 +38,7 @@ def tickers(title: str) -> list[str]:
             continue
         for tok in re.findall(r"[A-Za-z0-9]+(?:/KRW|/BTC|/USDT)?", grp):
             base = tok.split("/")[0]
-            if not re.search(r"[A-Z]", base) or not base.upper() == base:
+            if not re.search(r"[A-Z]", base) or base.upper() != base:
                 continue
             if "/" not in tok and base in MARKET_WORDS and len(re.findall(r"[A-Z0-9]+", grp)) > 1 and "," in grp:
                 continue
