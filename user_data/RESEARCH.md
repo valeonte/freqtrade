@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-19.
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-20.
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -95,6 +95,12 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 24 | Macro calendar: 59 scheduled FOMC decisions and 89 US CPI releases 2019–Jun 2026; the 24 h before, the 24 h after and the UTC day, traded while the bot is flat, alone, or stepped around by the bot (18 variants); freqtrade for the daily ones | Not adopted | Pre-FOMC drift: +0.86%/meeting (t 2.1) but +2.2% / +0.6% / +0.1% in 2019–20 / 2021–23 / 2024–26. Stepping around releases costs in every period. Freqtrade, Sharpe: FOMC days while flat 2.45 / 1.27 / 0.95 vs 2.42 / 1.22 / 0.95 (no 2024–26 gain); CPI days while flat 2.40 / 1.23 / 1.05, drawdown 23.2 / 31.3 / 23.8% vs 23.6 / 31.0 / 27.1%: meets the bar by noise before 2024, ~12 trades of gain in 2024–26 | `candidates/positioning/` |
 | 25 | **Slow entry, faster exit** for the live bot: while the SMA100 gate is on, exit on a BTC new 10/20-day low, a close below SMA50, or 15% off the 60-day high; back in on a new 20-day high, after 10 days, or only after the gate resets (12 variants) | **Passes; a candidate for the live bot (owner's call)** | Below SMA50 out / new 20-day high in, freqtrade Sharpe 2.53 / 1.50 / 1.08 vs 2.42 / 1.22 / 0.95, worst DD 21 / 28 / 22% vs 24 / 31 / 27%, CAGR 2019–Jun 2026 +60% vs +56%; beats the exposure-matched bot by 0.12–0.21 Sharpe in every period; 11 of 25 neighbours (SMA 30–75 × high 10–40) beat it in every period. Fixed waits and gate-reset re-entries fail 2024–26. Holdout look: identical to the live bot (rule never fired) | `candidates/positioning/` |
 | 26 | Walk-forward classifier (logistic, boosted trees; refit every 30 days, 7-day purge) over trend, funding, Fear & Greed, stablecoin growth, DVOL, Coinbase and Korean premiums, predicting the basket's next 7 days; used as the switch, a veto or an extra entry | Dead | Out-of-sample AUC 0.38–0.50 in every period (below chance in 2019–20). Every use loses to the live bot in every period (best: logistic add, Sharpe 2.01 / 0.89 / 1.01). Not taken to FreqAI | `candidates/positioning/` |
+| 27 | **Rigour check on the live bot** (FundingVolFastExitStrategy): walk-forward re-selection of gate/exit/high (45 settings) each January from 2020; PBO (CSCV) and deflated Sharpe over 69 rebuilt trials of studies 3, 6, 7, 10, 25; 30-day block bootstrap | **The family is real, its settings are not** | Live 100/50/20 is the best of 45 in hindsight over 2020–Jun 2026 (Sharpe 1.69); grid median 1.50; walk-forward 1.27 (0.80 in 2021–23). Deflated Sharpe ≈ 1.0, PBO 0.31 over all trials but 0.63–0.66 within the parameter grids. Bootstrap: one period's Sharpe ±0.6–0.7, a paired difference between bot variants ±0.2 per period; study 25's gain had P(≤ 0) 27% / 11% / 26% | `candidates/round4/` |
+| 28 | **Rebalance timing luck**: the daily rules taken at 00/04/…/20 UTC from 1h candles, alone and as six tranches | **Passes; a candidate for the live bot (owner's call)** | Single hours: Sharpe 2.50–2.71 / 1.27–1.58 / 1.07–1.30; 00 UTC (live) is the worst hour in 2019–20. Six tranches in one wallet 2.68 / 1.53 / 1.27 vs 2.50 / 1.52 / 1.15, beats exposure-matched. Freqtrade (`FundingVolTranchesStrategy`, 1h): 2.76 / 1.59 / 1.24 vs 2.53 / 1.50 / 1.08, CAGR 2019–Jun 2026 +66% vs +60%, worst wallet DD 24.8% vs 22.4%. Post-hoc hour sets: 3 of 5 pass, 2 miss by 0.01 in 2021–23. Holdout look: +11.3% vs +10.7%, same trades | `candidates/round4/` |
+| 29 | Market breadth of the point-in-time top 100 (% above 50/100-day averages, 20-day highs minus lows) as the gate, AND/OR with the BTC gate, as a 0.5× size scaler; a top-10 volume-weighted / equal-weighted index trend instead of BTC (20 variants) | Dead | 0 of 20 pass; every breadth gate loses in 2021–23 (0.86–1.25 vs 1.52). Halving while new lows > new highs cuts drawdown in every period (−13 / −24 / −22% vs −22 / −28 / −23%) but costs 0.17 Sharpe in 2021–23. Index gates 0.77 / 0.64 in 2021–23 | `candidates/round4/` |
+| 30 | Intraday crash protection on 4h BTC bars while the bot holds: k-ATR 24h drop (k 3/4/5) or 30/60/90-bar channel low; out or half; back next day, on a 4h high, or via the daily re-entry (36 variants) | Not adopted | 5 of 36 pass by noise (bootstrap P(≤ 0) ≥ 0.28, gains ≤ 0.14 Sharpe) and their neighbours fail; ATR 5× fired 10 times in 7.5 years. Best-looking: ATR 5× / out / daily re-entry 2.55 / 1.62 / 1.21. Barely changes May 2021, Nov 2022, Aug 2024 | `candidates/round4/` |
+| 31 | Sizing by trend quality: vol target × (0.75/1/1.25 or 0.5/1/1.5) by BTC's distance above SMA100 in ATRs or its 90-day Sharpe (absolute or tercile levels); downside vol instead of total vol (9 variants) | Dead | 0 of 9 pass, none beats exposure-matched. All add exposure (×1.03–1.16) and CAGR; none lifts Sharpe in more than one period | `candidates/round4/` |
+| 32 | Idle capital and risk frontier (arithmetic): flat 3/5/8% APY on idle USDT; vol target 40/50/60/80%/uncapped | Not an edge; owner's choices | Idle 64% of the time (flat 48% of days). 5% APY: CAGR 2019–Jun 2026 +67% vs +61%, Sharpe 1.81 vs 1.70. Vol target 40 → 60 → 80% → uncapped: CAGR +61 / +82 / +90 / +99%, worst DD −28 / −36 / −37 / −40%, Sharpe flat ~1.68. UK availability of Binance Earn to be confirmed by the owner | `candidates/round4/` |
 
 All write-up paths are under `user_data/`.
 
@@ -126,6 +132,19 @@ All write-up paths are under `user_data/`.
   The re-entry rule matters more than the exit: fixed waits lose.
 - **A model over all the outside signals predicts worse than chance** (study 26): the bot's two
   hand-written rules beat any learned combination. Don't expect ML to rescue signals that fail alone.
+- **Expect less than the backtest** (study 27): the live settings are the hindsight-best of 45 neighbours;
+  an honest walk-forward re-selection earned Sharpe 1.27 against 1.69, and the grid median is ~1.5. Picking
+  parameters inside the trend family is overfitting (PBO ≈ 0.65), so don't re-tune it.
+- **What counts as an improvement** (study 27c): a per-period Sharpe gain under ~0.3 between close variants
+  of the bot is within noise (paired bootstrap sd ≈ 0.2 per period). "Better in all three periods" is a
+  useful filter, not proof.
+- **The hour of the daily decision matters about as much as most rule tweaks** (study 28): the same rules
+  at different UTC hours differ by up to 0.3 Sharpe in a period. Spreading the decision over six hours
+  removes that luck without fitting anything.
+- **BTC's own trend beats alt breadth and a top-10 index as the switch** (study 29); breadth only helps as a
+  drawdown brake, at a cost in strong years.
+- **Faster than daily exits don't help a trend bot that already exits on SMA50** (study 30), and **sizing up
+  in strong trends only adds exposure** (study 31).
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -152,6 +171,16 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
+- **Six-tranche rebalancing (study 28)**: `FundingVolTranchesStrategy` (`user_data/candidates/round4/config_28_tranches.json`,
+  1h candles) beat the live bot's Sharpe in every period in freqtrade (2.76 / 1.59 / 1.24 vs 2.53 / 1.50 / 1.08),
+  with a 2-point deeper worst drawdown in 2024–26. Its gain is the removal of 00 UTC's bad luck, not a new
+  edge. Deploying it is the owner's decision; if adopted, paper trade it first (1h candles, more orders, 2,448
+  startup candles).
+- **Idle USDT yield (study 32)**: ~+4–6 CAGR points a year at 3–5% APY with no market risk, if Binance Simple
+  Earn Flexible is available to the owner's UK account and can be automated (or done by hand while the bot
+  is flat). Owner to confirm.
+- **Vol target (study 32)**: 50–60% instead of 40% buys +12–21 CAGR points for 5–8 points more worst
+  drawdown, same Sharpe. A risk choice for the owner.
 - **Fast exit for the live bot (study 25)**: `FundingVolFastExitStrategy` (exit on a BTC close below
   its 50-day average while the 100-day gate is on, back in on a new 20-day high) beat the live bot in
   every period in freqtrade. Its one holdout look was uninformative (it never fired). Deploying it
@@ -182,3 +211,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 4. SPY + gold sleeve, each above its 200-day average (study 14): +0.5% on SPY/GLD, −0.6% on SPYB/PAXG; paper bot replica +10.1%.
 5. New listings, day-30 entry above the 24 h price, hold 1–3 days (study 19): the first run scored tokenised stocks by a filter bug; re-run with the fix (ledger line 6), only 5 crypto listings reached day 30 and none qualified. No information.
 6. Study 25 fast exit (SMA50 out, new 20-day high in), with the live bot as baseline (ledger lines 7–8): identical, +10.7% each (BTC/ETH +43%); the gate came on in mid-August and BTC never closed below its 50-day average after, so the rule never fired. No information.
+7. Study 28 six-tranche rebalancing (ledger line 9), freqtrade on 1h: +11.3% (Sharpe 1.46, wallet DD 10.1%) vs the live bot's +10.7% (1.52, 7.7%), same two trades entered at a different hour. No information.
