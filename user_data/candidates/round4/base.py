@@ -105,7 +105,7 @@ def run(px: pd.DataFrame, sig: pd.DataFrame, mult: pd.Series | float | None = No
     else:
         m = mult.reindex(px.index).fillna(1.0)
     on = sig["on"] & (m > 0)
-    return simulate(px, on, sig["scale"] / 2 * m)
+    return simulate(px, on, (sig["scale"] / 2 * m).clip(upper=0.5))
 
 
 def baseline(px: pd.DataFrame) -> pd.DataFrame:
@@ -126,7 +126,7 @@ def period_table(results: dict[str, pd.DataFrame], periods: dict | None = None) 
         for p, (a, b) in periods.items():
             s = stats(res["ret"].loc[a:b])
             row[f"{p} cagr"], row[f"{p} sh"], row[f"{p} dd"] = s["cagr"], s["sharpe"], s["maxdd"]
-        first = list(periods.values())[0][0]
+        first = next(iter(periods.values()))[0]
         row["expo"] = res["expo"].loc[first:].mean() if "expo" in res else np.nan
         row["turn/yr"] = res["turn"].loc[first:].sum() / (len(res.loc[first:]) / 365) if "turn" in res else np.nan
         rows.append(row)
@@ -174,9 +174,7 @@ def hourly(holdout: bool = False) -> pd.DataFrame:
     return pd.DataFrame(out).sort_index().ffill()
 
 
-def simulate_bars(
-    price: pd.DataFrame, target: pd.DataFrame, banded: pd.Series, band: float = 0.20
-) -> pd.DataFrame:
+def simulate_bars(price: pd.DataFrame, target: pd.DataFrame, banded: pd.Series, band: float = 0.20) -> pd.DataFrame:
     """
     Wallet on intraday bars. `price`: closes per coin indexed by bar close time. `target`: per-coin
     fraction of the wallet to hold, set at a bar's close (NaN = leave as is). On `banded` bars a
@@ -229,3 +227,28 @@ def daily_from_bars(res: pd.DataFrame, hour: int = 0) -> pd.DataFrame:
         index=at.index - pd.Timedelta(days=1) - pd.Timedelta(hours=hour),
     )
     return out.iloc[1:]
+
+
+def paired_bootstrap(variants: dict[str, pd.DataFrame], base: pd.DataFrame, reps: int = 5000, block: int = 30) -> str:
+    """Per period: Sharpe gain of each variant over `base`, its 90% interval and P(gain <= 0)
+    from a circular 30-day block bootstrap on the same resampled days (study 27c's method)."""
+    rng = np.random.default_rng(27)
+    lines = []
+    for p in JUDGED + ("all",):
+        a, b = PERIODS[p]
+        rb = base["ret"].loc[a:b].to_numpy()
+        k = -(-len(rb) // block)
+        starts = rng.integers(0, len(rb), size=(reps, k))
+        idx = ((starts[:, :, None] + np.arange(block)) % len(rb)).reshape(reps, -1)[:, : len(rb)]
+
+        def sh(x):
+            return x.mean(axis=-1) / x.std(axis=-1, ddof=1) * np.sqrt(365)
+
+        for name, res in variants.items():
+            rv = res["ret"].reindex(base.index).loc[a:b].fillna(0.0).to_numpy()
+            d = sh(rv[idx]) - sh(rb[idx])
+            lo, hi = np.quantile(d, [0.05, 0.95])
+            lines.append(
+                f"  {p:10s} {name:40s} {sh(rv) - sh(rb):+.2f} ({lo:+.2f} to {hi:+.2f}), P(<=0) {(d <= 0).mean():.2f}"
+            )
+    return "\n".join(lines)

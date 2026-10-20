@@ -22,7 +22,7 @@ from scipy.stats import kurtosis, norm, skew
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-import base as B  # noqa: E402
+import base as B
 
 
 OUT = Path(__file__).parent
@@ -84,7 +84,10 @@ def section_a(px: pd.DataFrame) -> None:
             f"live setting rank {rank}/45; walk-forward {tab.loc['walk-forward', f'{p} sh']:.2f}"
         )
     pd.DataFrame(
-        [{"year": y, "pick": "/".join(map(str, k)), "train_sharpe": s, "live_rank": rk} for y, (k, s, rk) in picks.items()]
+        [
+            {"year": y, "pick": "/".join(map(str, k)), "train_sharpe": s, "live_rank": rk}
+            for y, (k, s, rk) in picks.items()
+        ]
     ).to_csv(OUT / "results_27a_picks.csv", index=False, float_format="%.4f")
     tab.to_csv(OUT / "results_27a.csv", float_format="%.4f")
 
@@ -142,8 +145,8 @@ def pbo(m: pd.DataFrame, blocks: int = 16) -> tuple[float, np.ndarray]:
     best (by Sharpe) is below the out-of-sample median. Also returns the logits."""
     x = m.to_numpy()
     edges = np.linspace(0, len(x), blocks + 1).astype(int)
-    s1 = np.array([x[a:b].sum(axis=0) for a, b in zip(edges[:-1], edges[1:])])
-    s2 = np.array([(x[a:b] ** 2).sum(axis=0) for a, b in zip(edges[:-1], edges[1:])])
+    s1 = np.array([x[a:b].sum(axis=0) for a, b in itertools.pairwise(edges)])
+    s2 = np.array([(x[a:b] ** 2).sum(axis=0) for a, b in itertools.pairwise(edges)])
     cnt = np.diff(edges)
 
     def sh(idx):
@@ -182,8 +185,10 @@ def section_b(px: pd.DataFrame) -> None:
     base = m["s25 sma50/high20"]
     print(f"{m.shape[1]} distinct trials, {len(m)} days (2019-01-01 to 2026-06-30)")
     sh_all = m.mean() / m.std() * np.sqrt(365)
-    print(f"trial Sharpes: median {sh_all.median():.2f}, max {sh_all.max():.2f} ({sh_all.idxmax()}); "
-          f"baseline {sh_all['s25 sma50/high20']:.2f}, rank {int((sh_all > sh_all['s25 sma50/high20']).sum()) + 1}")
+    print(
+        f"trial Sharpes: median {sh_all.median():.2f}, max {sh_all.max():.2f} ({sh_all.idxmax()}); "
+        f"baseline {sh_all['s25 sma50/high20']:.2f}, rank {int((sh_all > sh_all['s25 sma50/high20']).sum()) + 1}"
+    )
     corr = m.corr().to_numpy()
     rho = corr[np.triu_indices_from(corr, 1)].mean()
     n_raw = m.shape[1]
@@ -197,7 +202,10 @@ def section_b(px: pd.DataFrame) -> None:
     p_all, lg_all = pbo(m)
     print(f"  PBO over all trials: {p_all:.2f} (median logit {np.median(lg_all):+.2f})")
     g = pd.DataFrame(
-        {f"{a}/{b}/{c}": B.run(px, B.signals(px, gate=a, exit_sma=b, high=c))["ret"] for a, b, c in itertools.product(GATES, EXITS, HIGHS)}
+        {
+            f"{a}/{b}/{c}": B.run(px, B.signals(px, gate=a, exit_sma=b, high=c))["ret"]
+            for a, b, c in itertools.product(GATES, EXITS, HIGHS)
+        }
     ).loc["2019-01-01":"2026-06-30"]
     p_grid, lg_grid = pbo(g)
     print(f"  PBO over the 45-setting grid of (a): {p_grid:.2f} (median logit {np.median(lg_grid):+.2f})")
