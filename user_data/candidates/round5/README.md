@@ -149,6 +149,12 @@ swaps and network upgrades. Notices whose title names no market are kept as a se
 notice for that ticker) vs **KRW added** (the coin already traded on Upbit's BTC/USDT market).
 Primary sample: both tags, explicit KRW. The parser's keyword lists are set from the titles alone.
 
+*Completeness check (added after the run)*: the trade category holds all 798 of Upbit's trade notices
+the API reports. Three sampled pages of the all-category feed (60 notices from 2020-07, 2021-04 and
+2022-06) had no listing notice outside it. A full crawl of all ~5,900 notices wasn't possible: Upbit's
+notice API kept answering 429 even at one request every 15 s (`fetch_upbit.py --all` is resumable if
+someone wants to finish it).
+
 Grid: 7 delays × 6 holds = 42 cells; primary 60 s / 1 h. Walk-forward picks (d ≥ 60 s, h) by trailing
 mean net return per trade (≥ 20 events of history).
 
