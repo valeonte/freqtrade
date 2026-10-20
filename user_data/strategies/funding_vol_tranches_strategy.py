@@ -36,7 +36,11 @@ class FundingVolTranchesStrategy(FundingVolTrendStrategy):
         self.hours = [int(h) for h in settings.get("decision_hours", [0, 4, 8, 12, 16, 20])]
         self.exit_sma = int(settings.get("exit_sma", 50))
         self.reentry_high = int(settings.get("reentry_high", 20))
-        self.startup_candle_count = 24 * (max(self.sma_days, self.exit_sma, self.vol_window) + 2)
+        # 200 daily points per decision hour, like the daily bot's 200 startup candles: the SMA100
+        # gate is then valid for 100 days, so the fast exit's state is built from enough history.
+        # Binance serves 1,000 1h candles a call and freqtrade allows 5 calls (4,999 candles).
+        days = max(2 * self.sma_days, self.exit_sma + self.reentry_high, self.vol_window) + 1
+        self.startup_candle_count = min(24 * days, 4998)
 
     def informative_pairs(self):
         return [(self.trend_pair, self.timeframe)]
@@ -98,6 +102,17 @@ class FundingVolTranchesStrategy(FundingVolTrendStrategy):
         dataframe["decide"] = dataframe["decide"].fillna(False).astype(int)
         dataframe["switched"] = (dataframe["n_on"] != dataframe["n_on"].shift(1)).astype(int)
         dataframe["uptrend"] = (dataframe["target_weight"] > 0).astype(int)
+        if self.dp.runmode.value in ("live", "dry_run") and len(dataframe):
+            last = dataframe.iloc[-1]
+            logger.info(
+                "%s candle %s: target %.3f of the wallet, %d/%d tranches on, decision hour %s",
+                metadata["pair"],
+                last["date"],
+                last["target_weight"],
+                last["n_on"],
+                len(self.hours),
+                bool(last["decide"]),
+            )
         return dataframe
 
     def populate_entry_trend(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
