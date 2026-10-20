@@ -328,3 +328,116 @@ so BNB's own excess is +0.34%. Bot + 20%: 2.67 / 1.64 / 1.27 (DD −18 / −22 /
 1.60 / 1.24; bootstrap P(≤ 0) 0.84 / 0.10 / 0.57 (overall 0.26); deflated Sharpe 0.00; neighbours and
 walk-forward fail too. All of the gain is 2021–23. Side finding, not usable long-only: BNB *falls* in
 the first hour after both Launchpool (−0.4%, t −2.8) and HODLer (−0.36%, t −4.3) announcements.
+
+### Study 34: coin-level Upbit premium spikes — dead
+
+`study34_premium.py` (~2 min; `fetch_upbit_candles.py` first, ~1 h for 297 markets). 186 coins traded on
+both venues with matching prices (189k coin-days, 2018-06 → Jun 2026). The excess premium x is tightly
+centred: 1st / 50th / 99th percentile −0.8% / +0.05% / +6.5%. *Data fix after the first run*: 9 tickers
+whose median x is beyond ±3% or with under 30 common days are different tokens or denominations under
+the same ticker (BTT, STRAX, DATA, BEAM, AI, AERO, BABY, PROS, RE) and were dropped; the rule was set
+from the premium distribution, and every number below is identical with and without them (they never
+fired a signal). A first-run bug counted signals wrongly (pandas 3 keeps NaN in `stack`); fixed, the
+means were unaffected.
+
+Net per signal, buying on Binance at the 00:00 UTC close where the spike is seen (t in brackets):
+
+| rule | 2019–20 | 2021–23 | 2024–Jun 2026 | all |
+|---|---|---|---|---|
+| **x crosses +10%, hold 3 d (primary)**, 82 / 54 / 46 signals | −3.0% (−2.9) | +2.8% (1.9) | +0.7% (0.4) | −0.3% (−0.4) |
+| x crosses +10%, hold 1 d | −0.5% | +0.8% | −0.5% | −0.1% |
+| x crosses +10%, hold 7 d | −4.5% (−2.8) | +5.8% (2.8) | −1.9% (−1.5) | −0.8% |
+| x crosses +5% / +20%, 1–7 d (6 rules) | −0.2% to −2.6% | −1.2% to +1.0% | −0.8% to −5.0% | −0.3% to −1.9% |
+| x crosses −5% (Korean discount), 1–7 d, 29 / 16 / 6 signals | −0.4% to +1.1% | −3.6% to +3.7% | −0.5% to −9.7% | −1.4% to +0.2% |
+
+Primary as a sleeve: alone −36% / +44% / +24% a year (Sharpe −0.57 / 0.95 / 0.75, max DD −71%); bot + 20%
+2.22 / 1.67 / 1.43 (DD −21 / −21 / −18%); bot + overlay 2.34 / 1.64 / 1.42. Correlation with the bot 0.20 /
+0.11 / −0.02 (higher on bot-on days, 0.32 in 2019–20); on the bot's worst 5% days the sleeve lost 1.6% a
+day in 2019–20. Bootstrap P(≤ 0), bot + 20%: 1.00 / 0.20 / 0.08 (all 0.65). Deflated Sharpe 0.09. 0 of 12
+variants pass; all but one lose in 2019–20 (bot + 20% between 1.96 and 2.64), and the exception, the −5%
+discount / 3 d rule (2.73), loses 0.29 Sharpe in 2021–23. A Korean premium spike is the tail of a
+Korean pump: it followed through in 2021's mania and reversed in 2019–20, so it is a regime bet on
+alts, not a separate return source.
+
+### Study 35 (b): Coinbase trading starts — dead (one-year effect)
+
+`study35_venues.py --section b` (`fetch_venues.py coinbase` first, ~40 min). 482 Coinbase USD products
+(328 since delisted); 463 started trading 2019 → Jun 2026 and 164 of those coins were already on
+Binance spot USDT (with a 60 s trade: 6 / 12 / 45 / 39 / 11 / 10 / 33 / 6 a year, 2019–2026). T is Coinbase's first trade:
+its announcement times aren't in any public API, and Coinbase announces listings ahead of trading, so
+this tests the *scheduled* start, as the README said. **No jump at T**: the median move to the 60 s
+entry is +0.1%.
+
+| entry 60 s, net per listing | 2019–20 (18) | 2021–23 (95) | 2024–Jun 2026 (49) | all (162) |
+|---|---|---|---|---|
+| hold 15 min | +0.2% | +0.5% (1.7) | +0.7% (1.6) | +0.5% (t 2.2) |
+| **hold 1 h (primary)** | +0.2% | −0.0% | +1.4% (2.3) | +0.4% (1.1) |
+| hold 24 h | −1.0% | −0.7% | −2.0% | −1.1% |
+
+By year the 1 h mean is −1.0 / +0.8 / −0.3 / −0.1 / +1.1 / +0.0 / **+2.0** / +0.4% (2019 → 2026): 2025 carries
+it. Bot + 20%: 2.66 / 1.47 / 1.46 (bootstrap P(≤ 0) 0.79 / 0.66 / **0.02**, all 0.31); bot + overlay 2.68 /
+1.50 / 1.43, with the 2021–23 drawdown at −30.5% (bot −26.7%). Neighbours: 300 s / 1 h 2.65 / 1.50 / 1.41;
+60 s / 4 h 2.57 / 1.41 / 1.44; **60 s / 15 min 2.67 / 1.56 / 1.39 (+ 20%) and 2.69 / 1.56 / 1.37 (overlay,
+overall P(≤ 0) 0.05)** — the nearest miss of the round, 0.01 Sharpe short in 2019–20, and a neighbour
+picked after seeing the grid. Walk-forward (60 s / 72 h chosen for 2022, then 60 s / 15 min from 2023):
+1.04 Sharpe and −40% drawdown in 2021–23. Deflated Sharpe 0.00 for every cell. Verdict: fails; logged as an
+open lead (re-check Coinbase starts with 2026–27 data before believing the 2025 effect).
+
+## Summary of round 5 (`summary.py`)
+
+Sharpe / max drawdown per period, primary settings; "passes" = acceptance condition 1 (higher Sharpe than
+the bot in all three periods, drawdown no more than 2 points deeper). Bot alone: 2.70 / −21%, 1.52 / −27%,
+1.28 / −24%, all 1.81 / −27%.
+
+| study | candidate | standalone (all) | bot + 20% sleeve | bot + overlay | corr. with bot | bootstrap P(≤ 0), all | DSR | verdict |
+|---|---|---|---|---|---|---|---|---|
+| 33 | Upbit KRW listings, 60 s / 1 h | −0.37 / −95% | 2.64 / 1.33 / 0.95, DD −32% | 2.67 / 1.50 / 1.13, DD −36% | −0.05 | 0.96 / 0.81 | 0.00 | dead: latency race over by T + 2 s |
+| 33 | *same, 5 s / 5 min (unreachable)* | 1.30 / 1.33 / 0.52 | 2.75 / 1.89 / 1.30, DD −32% | 2.75 / 1.78 / 1.28, DD −35% | — | — / 0.23 | — | fails DD and 2024–26 |
+| 34 | Upbit premium spike +10%, 3 d | 0.45 / −71% | 2.22 / 1.67 / 1.43, DD −21% | 2.34 / 1.64 / 1.42, DD −25% | 0.11 | 0.65 / 0.60 | 0.09 | dead |
+| 35a | Bybit listings, 60 s / 1 h (2024 → only) | 0.25 / −4% | 2.69 / 1.50 / 1.31 | 2.70 / 1.52 / 1.30 | −0.04 | 0.48 / 0.26 | 0.00 | dead: no jump, 13 events |
+| 35b | Coinbase starts, 60 s / 1 h | 0.42 / −34% | 2.66 / 1.47 / 1.46 | 2.68 / 1.50 / 1.43, DD −31% | 0.03 | 0.31 / 0.23 | 0.00 | dead (2025 only); open lead |
+| 36 | Upbit warning lifted, 60 s / 24 h | −1.05 / −66% | 2.61 / 1.43 / 1.10 | 2.63 / 1.45 / 1.13 | — | — | — | dead (8 notices) |
+| 37 | ETH/BTC reversion tilt, n 20 | overlay only | — | 2.50 / 1.51 / 1.12 | −0.03 | — / 1.00 | 0.00 | dead |
+| 38 | BNB after Launchpool, 60 s / 24 h | 0.49 / −16% | 2.67 / 1.64 / 1.27 | 2.69 / 1.60 / 1.24 | 0.07 | 0.26 / 0.33 | 0.00 | dead (2021–23 only) |
+
+**Nothing passes: 0 of 7 candidate families (196 pre-registered cells plus walk-forwards).** No freqtrade
+backtest was warranted and no holdout look was spent (no idea showed an edge before July that met the
+bar). The two things worth remembering:
+
+1. **The Upbit listing shock is the cleanest event effect in this research and it is not ours to take.**
+   +20% in two seconds, no leak, no fade within the hour. A bot that sees the notice within ~2 s and fills
+   immediately would add Sharpe in 2019–23; one that sees it in a minute buys the top. The owner's setup
+   (polling a rate-limited notice API from the UK, ~250 ms from Seoul and Tokyo) is on the wrong side of
+   that race, and its drawdowns are large even for the winner.
+2. **Capital gains only + spot only + long only leaves no diversifier that pays.** The owner's rule rules
+   out the two textbook return sources that are not crypto beta (carry and selling volatility); the
+   event-driven demand shocks either happen faster than a retail bot (Upbit) or don't exist on Binance
+   (Bybit, warning lifts, premium spikes), and relative value inside BTC/ETH has no sign that works.
+
+## Practicalities (if a candidate had passed, or for any future second strategy)
+
+- **Capital**: the live wallet is ~82 USDT and Binance's minimum order is ~5 USDT notional (7.5 USDT in
+  freqtrade with its stoploss reserve). A 20% sleeve is ~16 USDT: one coin per event, never a split
+  across several coins, and the live bot's own tranches already trade in two-tranche steps at this size
+  (`round4/LIVE_SWITCH.md`).
+- **Sharing one account doesn't work as the bot is written.** `VolTargetTrendStrategy._portfolio_value()`
+  (inherited by the tranche strategy) counts free USDT plus *its own* open trades. A second bot's coins in
+  the same account would shrink the live bot's idea of its wallet, and its next rebalance would cut BTC/ETH
+  to match; if the second bot holds the USDT the live bot wants to buy with, that order fails. An overlay
+  on idle cash would therefore need either a separate Binance account / sub-account for the second bot,
+  or a live-bot change to value the wallet from a fixed `available_capital` (plus its realised P&L) and
+  ignore other balances. Both are the owner's decision; nothing was changed.
+- **Event bots need a feed, not candles.** Freqtrade can't backtest or trade on Upbit notices natively;
+  it would need `bot_loop_start` polling plus forced entries (`/forceenter` via the API), or a small
+  stand-alone script. Not built, since nothing passed.
+
+## What would change the verdict
+
+- **Coinbase trading starts (35b)**: a second good year (2026–27) at 60 s / 15 min–1 h would make it worth
+  a paper log. It needs no trading to check: record Coinbase's new USD products and Binance's price around
+  their first trade, forward from 2026-07.
+- **Upbit listings (33)**: only if a sub-second, unthrottled source of Upbit's notices existed and orders
+  reached Binance in well under a second. Not a retail setup.
+- **The owner's tax rule**: if income-taxed returns ever became acceptable, the idle-cash ideas (Simple Earn,
+  WBETH for the ETH leg, Dual Investment) are the obvious untested diversifiers, subject to the UK
+  professional/HNW eligibility above.

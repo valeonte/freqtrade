@@ -108,6 +108,14 @@ def main() -> None:
     u, uv, b = u.reindex(idx), uv.reindex(idx), b.reindex(idx)
     x = (u[common] / b[common]).div(u["BTC"] / b["BTC"], axis=0) - 1
     x = x.where((uv[common] > 0) & b[common].notna())
+    # Data fix (decided after the first run, from the premium distribution, not from returns): a coin
+    # whose median excess premium is beyond +-3%, or that has under 30 days on both venues, is a
+    # different token or denomination under the same ticker (BTT, STRAX, DATA, AI).
+    med, days = x.median(), x.notna().sum()
+    mismatched = sorted(med[(med.abs() > 0.03) | (days < 30)].index)
+    print("dropped as mismatched tickers:", mismatched)
+    common = [c for c in common if c not in mismatched]
+    x = x[common]
     print(f"{len(common)} coins on both venues; coin-days with a premium: {x.notna().sum().sum()}")
     q = x.stack()
     print("excess premium distribution (coin-days):", q.quantile([0.01, 0.05, 0.5, 0.95, 0.99]).round(4).to_dict())
@@ -127,7 +135,7 @@ def main() -> None:
     for kind, k, n in streams:
         sig = ((x > k) & (x.shift(1) <= k)) if kind == "spike" else ((x < k) & (x.shift(1) >= k))
         fwd = (b[common].shift(-n) / b[common]) * (1 - C.FEE) / (1 + C.FEE) - 1
-        ev = fwd.where(sig).stack()
+        ev = fwd.where(sig).stack().dropna()
         ev.index = ev.index.set_names(["date", "coin"])
         for p, (a, z) in C.PERIODS.items():
             e = ev.loc[a:z]

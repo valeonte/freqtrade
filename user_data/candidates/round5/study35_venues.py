@@ -105,14 +105,18 @@ def run(name: str, ev: pd.DataFrame, delays, judged_tag: str | None, bot: pd.Dat
     judged = t if judged_tag is None else t[t["tag"] == judged_tag]
     streams = {(d, h): S.daily_stream(judged, d, h, bot.index) for d in delays for h in E.HOLDS}
     trial_sh = np.array([s.loc["2019":].mean() / s.loc["2019":].std() for s in streams.values() if s.std() > 0])
+    wf, picks = S.walk_forward(judged, bot.index, [d for d in delays if d >= 60], E.HOLDS)
+    print("walk-forward picks:", {y: (p if p is None else (p[0], E.HOLD_NAMES[p[1]])) for y, (p, _) in picks.items()})
+    streams["walk-forward"] = wf
     rows = []
-    for nm, (d, h) in [
+    for nm, key2 in [
         ("primary 60s/1h", PRIMARY),
         ("neighbour 120s/1h" if 120 in delays else "neighbour 300s/1h", (120 if 120 in delays else 300, 3600)),
         ("neighbour 60s/15m", (60, 900)),
         ("neighbour 60s/4h", (60, 14400)),
+        ("walk-forward", "walk-forward"),
     ]:
-        stream = streams[(d, h)]
+        stream = streams[key2]
         res = S.score(nm, stream, bot, S.overlay(bot, stream))
         tab = res["table"]
         dsr, sr0 = C.deflated_sharpe(stream.loc["2019":], trial_sh, N_TRIALS)
