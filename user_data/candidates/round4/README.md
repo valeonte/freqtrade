@@ -127,4 +127,72 @@ Each coin's target = 0.5 × min(1, 40% × m / vol30) with a multiplier m set at 
 
 ## Results
 
-(added after each study runs)
+The daily replica of the baseline (CAGR / Sharpe / max DD on daily closes), with the old live bot
+(no fast exit) for reference; study 25's freqtrade runs gave 2.53 / 1.50 / 1.08 Sharpe for the baseline:
+
+| | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 | exposure |
+| --- | --- | --- | --- | --- | --- |
+| baseline | +135% / 2.49 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +61% / 1.70 / −28% | 0.36 |
+| old live bot | +135% / 2.36 / −25% | +42% / 1.27 / −32% | +32% / 1.01 / −26% | +58% / 1.52 / −32% | 0.45 |
+
+### Study 27: rigour check
+
+`study27_rigour.py`, ~45 s in all.
+
+**(a) Walk-forward re-selection.** Each January's pick (gate / exit / high) by trailing Sharpe, and where
+the live 100/50/20 ranked among the 45 in that training window: 2020 150/75/40 (live 23rd), 2021
+150/75/10 (26th), 2022 75/50/40 (7th), 2023–26 150/50/20 (7th, then 2nd three times).
+
+| | 2020 | 2021–23 | 2024–Jun 2026 | 2020–Jun 2026 |
+| --- | --- | --- | --- | --- |
+| fixed live setting 100/50/20 | +211% / 3.17 / −18% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +59% / 1.69 / −28% |
+| walk-forward | +157% / 2.73 / −18% | +22% / 0.80 / −43% | +32% / 1.11 / −26% | +41% / 1.27 / −43% |
+| 45-setting grid: median Sharpe (min–max) | 3.21 (2.52–3.60) | 1.16 (0.91–1.52) | 1.06 (0.77–1.36) | 1.50 (1.34–1.69) |
+| rank of the live setting among the 45 | 27 | **1** | 9 | **1** |
+
+The live setting is the single best of the 45 over 2020–Jun 2026, and the best in 2021–23. It was
+picked with hindsight (study 25 chose it on the same data). An honest yearly re-selection earned
+Sharpe 1.27, below even the grid median (1.50): trailing Sharpe picked 150/75/x before 2021 and
+75/50/40 before 2022, both poor next years. Picking among these settings on past data has no value.
+The fair expectation for the live bot is the **grid median, about 1.5 overall (≈ 1.1 in 2021–23 and in
+2024–26), not 1.7**.
+
+**(b) Overfitting statistics.** 69 distinct trials rebuilt from studies 3 (6), 6 (12), 7 (12), 10 (3) and 25
+(12 rules + 24 neighbours); daily returns 2019-01-01 → 2026-06-30 (`results_27b_trials.csv`). Trial
+Sharpes: median 1.38, best 1.72 (SMA40/high20, a study-25 neighbour); the baseline is 3rd (1.70).
+
+| statistic | value |
+| --- | --- |
+| mean pairwise correlation of the trials | 0.80 → effective N = 14.8 |
+| expected best Sharpe under the null (raw N = 69 / effective N) | 0.66 / 0.49 |
+| deflated Sharpe ratio of the baseline (raw N / effective N) | 0.998 / 1.000 |
+| PBO, all 69 trials | 0.31 |
+| PBO, the 45-setting grid of (a) | **0.66** |
+| PBO, study 25's 36 rules and neighbours | **0.63** |
+
+The family is real: after deflating for every trial, the baseline's Sharpe is far above what the best
+of 69 random strategies would show (DSR ≈ 1), and across the whole trial set (which includes the
+weak study-6 ideas) the in-sample winner usually stays above the median out of sample (PBO 0.31).
+But *inside* the family, choosing a parameter setting is overfitting: in the gate/exit/high grid and in
+study 25's variants, the in-sample best lands below the out-of-sample median 63–66% of the time.
+
+**(c) Block bootstrap** (30-day circular blocks, 5,000 resamples; 90% intervals):
+
+| period | baseline Sharpe | baseline − old live bot | baseline − baseline at 0.8× |
+| --- | --- | --- | --- |
+| 2019–20 | 2.49 (1.33 to 3.63) | +0.13 (−0.18 to +0.45), P(≤ 0) = 27% | −0.01 (−0.06 to +0.03) |
+| 2021–23 | 1.52 (0.60 to 2.36) | +0.25 (−0.10 to +0.61), P(≤ 0) = 11% | −0.01 (−0.06 to +0.04) |
+| 2024–Jun 2026 | 1.15 (0.02 to 2.30) | +0.14 (−0.19 to +0.49), P(≤ 0) = 26% | −0.03 (−0.10 to +0.03) |
+| 2019–Jun 2026 | 1.70 (1.08 to 2.29) | +0.18 (−0.01 to +0.38), P(≤ 0) = 6% | −0.02 (−0.05 to +0.01) |
+
+A single period's Sharpe is known to about ±0.6–0.7 (one standard deviation); a paired Sharpe
+difference between two versions of the bot to about ±0.2 per period and ±0.12 over the whole
+sample. Study 25's gain (+0.13 to +0.25 per period) is under 1.2 standard deviations in each period,
+and about 1.5 overall. **Rule of thumb for the rest of this round: a per-period Sharpe gain under
+~0.3 between close variants of the bot is indistinguishable from noise**; "better in all three
+periods" is a useful filter because three independent coin flips pass 1 time in 8, but a variant that
+is mostly the same trades (correlation ~0.9) passes more often by chance than that.
+
+**Verdict.** The trend family is a real edge; its exact settings are not. Keep 100/50/20 (moving to
+the grid's in-sample best would be the same mistake), and expect a Sharpe nearer 1.1–1.5 than
+1.7. For later studies, a parameter tweak needs a per-period gain well beyond 0.3 Sharpe to count.
