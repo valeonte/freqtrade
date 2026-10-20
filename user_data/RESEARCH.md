@@ -14,6 +14,10 @@ trade small real money, while research continues.
 - **Trade crypto only** (owner, 2026-10-18): signals may come from anything (equities, macro, on-chain), but positions are crypto or stablecoins. The SPY + gold sleeve (study 14) is out for that reason.
 - **Spot only.** The owner is in the UK and can't trade futures or margin, so nothing
   market-neutral and no shorting. Futures *data* (funding rates) is fine as a signal.
+- **Capital gains only** (owner, 2026-10-20): no staking, Earn, lending, airdrop farming or other
+  income-taxed returns (Simple Earn, liquid-staking tokens such as WBETH/BNSOL, yield-bearing
+  stablecoins, Dual Investment, Launchpool / HODLer / Megadrop). Every strategy earns only from
+  ordinary spot buys and sells.
 - **Everything runs on this machine.** The old server `cryp2` is retired: never run anything there.
   If you ever need to look at it, read only (`ssh cryp2`), never write.
 - **One paper bot at a time.** A second only for a strategy that is materially different from the
