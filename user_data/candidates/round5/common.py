@@ -15,7 +15,6 @@ that is how the candidate would run, a paired 30-day block bootstrap of the comb
 the bot's, and the deflated Sharpe of the candidate. Nothing from the holdout (2026-07-01 on) is read.
 """
 
-import glob
 import io
 import math
 import zipfile
@@ -54,7 +53,7 @@ def bot_daily() -> pd.DataFrame:
     cache = HERE / "bot_daily.csv"
     if cache.exists():
         return pd.read_csv(cache, index_col=0, parse_dates=[0])
-    z = sorted(glob.glob(str(HERE / "ft_baseline" / "backtest-result-*.zip")))[-1]
+    z = sorted((HERE / "ft_baseline").glob("backtest-result-*.zip"))[-1]
     with zipfile.ZipFile(z) as zf:
         name = next(n for n in zf.namelist() if n.endswith("_wallet.feather"))
         w = pd.read_feather(io.BytesIO(zf.read(name)))
@@ -120,7 +119,7 @@ def correlations(cand: pd.Series, bot: pd.DataFrame, periods: dict = PERIODS) ->
         on = e > 0.01
         worst = r <= r.quantile(0.05)
 
-        def cr(m):
+        def cr(m, c=c, r=r):
             x, y = c[m], r[m]
             return x.corr(y) if x.std() > 0 and y.std() > 0 and m.sum() > 5 else np.nan
 
