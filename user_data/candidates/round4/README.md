@@ -196,3 +196,180 @@ is mostly the same trades (correlation ~0.9) passes more often by chance than th
 **Verdict.** The trend family is a real edge; its exact settings are not. Keep 100/50/20 (moving to
 the grid's in-sample best would be the same mistake), and expect a Sharpe nearer 1.1–1.5 than
 1.7. For later studies, a parameter tweak needs a per-period gain well beyond 0.3 Sharpe to count.
+
+### Study 28: rebalance timing luck
+
+`study28_timing.py` (~15 s), freqtrade via `run_ft.sh config_28_tranches.json tranches`. The 1h
+version at 00 UTC reproduces the daily replica (2.50 / 1.52 / 1.15). CAGR / Sharpe / max DD:
+
+| variant | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 | verdict |
+| --- | --- | --- | --- | --- | --- |
+| **00 UTC = baseline** | +136% / 2.50 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +61% / 1.70 / −28% | |
+| 04 UTC | +151% / 2.68 / −22% | +43% / 1.43 / −29% | +41% / 1.30 / −24% | +65% / 1.77 / −29% | |
+| 08 UTC | +152% / 2.60 / −23% | +42% / 1.41 / −28% | +39% / 1.22 / −23% | +65% / 1.71 / −28% | |
+| 12 UTC | +159% / 2.61 / −22% | +49% / 1.58 / −25% | +41% / 1.26 / −24% | +70% / 1.79 / −25% | pass |
+| 16 UTC | +167% / 2.71 / −21% | +46% / 1.53 / −24% | +34% / 1.07 / −28% | +67% / 1.74 / −28% | |
+| 20 UTC | +150% / 2.70 / −17% | +39% / 1.27 / −35% | +33% / 1.15 / −26% | +60% / 1.67 / −35% | |
+| 6 tranches (6 wallets) | +153% / 2.66 / −21% | +44% / 1.48 / −27% | +37% / 1.20 / −24% | +65% / 1.76 / −27% | **pass** |
+| 6 tranches, one wallet (freqtrade-like) | +156% / 2.68 / −21% | +46% / 1.53 / −27% | +40% / 1.27 / −24% | +67% / 1.80 / −27% | **pass** |
+
+- Timing luck is real but modest: across the six hours Sharpe spans 2.50–2.71, 1.27–1.58 and
+  1.07–1.30 (sd 0.08–0.11), drawdown −17% to −35%. Daily returns of different hours correlate 0.965.
+  00 UTC, the live bot's hour, is the worst hour in 2019–20 and mid-pack later.
+- Both tranche versions pass the bar and beat the exposure-matched baseline (×1.03: 2.50 / 1.52 / 1.16).
+  The one-wallet version (target = mean of the six hours' targets, re-traded exactly when a tranche
+  flips, banded otherwise) is what a single freqtrade bot can do. The paired bootstrap gain over the
+  baseline is +0.18 (P ≤ 0: 0.03) / +0.01 (0.46) / +0.12 (0.15), +0.10 overall (0.05).
+- **Freqtrade** (`FundingVolTranchesStrategy`, 1h candles), CAGR / Sharpe (daily wallet) / worst wallet
+  drawdown / trades, against study 25's freqtrade runs of the live bot:
+
+| | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 |
+| --- | --- | --- | --- | --- |
+| live bot (FundingVolFastExit, 1d) | +136% / 2.53 / 18.4% / 32 | +45% / 1.50 / 28.0% / 52 | +31% / 1.08 / 22.4% / 42 | +60% / 1.69 / 22.4% / 122 |
+| six tranches (1h) | +154% / 2.76 / 18.5% / 36 | +46% / 1.59 / 27.5% / 62 | +39% / 1.24 / 24.7% / 46 | +66% / 1.84 / 24.8% / 140 |
+
+  Better Sharpe in all three periods (+0.23 / +0.09 / +0.16), drawdown 2.3 points deeper in 2024–26.
+- *Post-hoc* neighbours (one wallet; chosen after the result): 3 tranches 00/08/16 pass (2.66 / 1.49 /
+  1.17), 4 tranches 00/06/12/18 pass (2.66 / 1.50 / 1.26), 3 tranches 04/12/20 (2.71 / 1.45 / 1.31), every
+  2h (2.69 / 1.46 / 1.22) and every hour (2.69 / 1.46 / 1.24) miss by losing 0.06–0.07 Sharpe in 2021–23
+  (with better drawdowns). The pattern is the same for every set: +0.15–0.2 Sharpe in 2019–20, +0.02–0.16 in
+  2024–26, about −0.05 to 0 in 2021–23.
+- **Holdout look** (ledger line 9, freqtrade): +11.3% (Sharpe 1.46, wallet DD 10.1%) vs the live bot's
+  +10.7% (1.52, 7.7%). Same two trades; it differs only by entering at a different hour in August.
+  No information.
+
+**Verdict: passes; a candidate for the live bot (owner's call), with the caveat that the gain is mostly
+the removal of bad luck at 00 UTC, not a new edge.** It fits nothing and only spreads the same decision
+over the day, so it is the least overfit change found so far. Expect about the average hour, not more.
+Costs: 1h candles (2,448 startup candles live, within freqtrade's 5 × 1,000 limit), ~15% more orders.
+
+### Study 29: market breadth
+
+`study29_breadth.py` (~17 s). Over 2019–Jun 2026 B50 has a median of 40% (0–100), B100 34%, NHL +2 points.
+CAGR / Sharpe / max DD; `on` = share of days the switch is on; `matched` = beats the exposure-matched baseline:
+
+| variant | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 | on | matched |
+| --- | --- | --- | --- | --- | --- | --- |
+| baseline | +135% / 2.49 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +61% / 1.70 / −28% | 0.52 | |
+| (i) gate B50 > 40 | +106% / 2.27 / −18% | +32% / 1.11 / −37% | +17% / 0.71 / −33% | +43% / 1.35 / −37% | 0.50 | no |
+| (i) gate B50 > 50 | +83% / 1.98 / −18% | +30% / 1.07 / −38% | +24% / 0.97 / −32% | +40% / 1.32 / −38% | 0.46 | no |
+| (i) gate B50 > 60 | +78% / 1.89 / −18% | +22% / 0.86 / −36% | +20% / 0.89 / −20% | +34% / 1.19 / −36% | 0.44 | no |
+| (i) gate B100 > 40 | +102% / 2.24 / −18% | +29% / 1.05 / −42% | +30% / 1.12 / −26% | +46% / 1.44 / −42% | 0.44 | no |
+| (i) gate B100 > 50 | +68% / 1.77 / −18% | +29% / 1.10 / −34% | +24% / 0.98 / −21% | +36% / 1.27 / −34% | 0.42 | no |
+| (i) gate B100 > 60 | +61% / 1.73 / −18% | +24% / 1.01 / −23% | +27% / 1.11 / −17% | +34% / 1.26 / −23% | 0.38 | no |
+| (i) gate NHL > −10 | +139% / 2.64 / −19% | +27% / 0.96 / −40% | +37% / 1.27 / −28% | +54% / 1.57 / −40% | 0.53 | no |
+| (i) gate NHL > 0 | +106% / 2.33 / −13% | +24% / 0.91 / −30% | +36% / 1.33 / −24% | +47% / 1.46 / −30% | 0.48 | no |
+| (i) gate NHL > 10 | +36% / 1.24 / −16% | +20% / 0.87 / −32% | +29% / 1.42 / −11% | +27% / 1.12 / −32% | 0.34 | no |
+| (ii) BTC AND B50 > 50 | +83% / 1.99 / −18% | +34% / 1.25 / −27% | +31% / 1.19 / −23% | +44% / 1.46 / −27% | 0.43 | no |
+| (ii) BTC OR B50 > 50 | +136% / 2.49 / −25% | +42% / 1.34 / −40% | +27% / 0.96 / −29% | +57% / 1.57 / −40% | 0.56 | no |
+| (ii) BTC AND B100 > 50 | +68% / 1.77 / −18% | +31% / 1.20 / −30% | +24% / 0.98 / −21% | +38% / 1.30 / −30% | 0.41 | no |
+| (ii) BTC OR B100 > 50 | +135% / 2.49 / −22% | +43% / 1.43 / −32% | +34% / 1.15 / −23% | +60% / 1.67 / −32% | 0.53 | no |
+| (ii) BTC AND NHL > 0 | +99% / 2.27 / −12% | +28% / 1.08 / −23% | +39% / 1.45 / −21% | +48% / 1.56 / −23% | 0.43 | no |
+| (ii) BTC OR NHL > 0 | +144% / 2.55 / −24% | +41% / 1.31 / −39% | +29% / 1.02 / −29% | +59% / 1.61 / −39% | 0.57 | no |
+| (iii) 0.5× while B50 < 40 | +102% / 2.33 / −16% | +39% / 1.41 / −24% | +29% / 1.09 / −28% | +50% / 1.59 / −28% | 0.52 | no |
+| (iii) 0.5× while B100 < 40 | +102% / 2.31 / −15% | +36% / 1.32 / −28% | +30% / 1.13 / −24% | +49% / 1.56 / −28% | 0.52 | no |
+| (iii) 0.5× while NHL < 0 | +110% / 2.45 / −13% | +37% / 1.35 / −24% | +38% / 1.34 / −22% | +54% / 1.68 / −24% | 0.52 | no |
+| index top-10 vol-weighted | +133% / 2.53 / −19% | +20% / 0.77 / −35% | +34% / 1.20 / −22% | +49% / 1.44 / −35% | 0.51 | no |
+| index top-10 equal-weighted | +93% / 2.09 / −18% | +15% / 0.64 / −28% | +33% / 1.32 / −19% | +39% / 1.30 / −28% | 0.46 | no |
+
+**Verdict: nothing passes (0 of 20).** Every breadth gate loses in 2021–23 (Sharpe 0.86–1.25 vs 1.52);
+the likely reason (not checked trade by trade) is that alt breadth recovers after BTC, so a breadth
+gate enters later and leaves on alt weakness that BTC/ETH don't share. The only consistent effect is defensive: AND with NHL, or halving while NHL < 0, cuts the
+drawdown in every period (to −12/−23/−21% and −13/−24/−22%) and lifts 2024–26 (1.45, 1.34), but costs
+0.2–0.4 Sharpe in 2021–23. A top-10 index is a worse trend signal than BTC itself, which agrees with
+study 8 (BTC's trend is the best switch).
+
+### Study 30: intraday crash protection
+
+`study30_intraday.py` (~20 s). The baseline on the 4h grid reproduces the daily replica (2.50 / 1.52 / 1.15).
+Trigger runs started while the baseline held, 2018–Jun 2026: ATR 3× 102, 4× 29, 5× 10; channel low 30 /
+60 / 90 bars 253 / 130 / 72. The 5 passing variants of 36 (full table in `results_30.csv`), against the 4h-grid baseline:
+
+| variant | 2019–20 | 2021–23 | 2024–Jun 2026 | bootstrap gain, P(≤ 0) per period |
+| --- | --- | --- | --- | --- |
+| baseline (4h grid) | +136% / 2.50 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | |
+| ATR 5× / out / daily-rules | +139% / 2.55 / −22% | +50% / 1.62 / −24% | +36% / 1.21 / −23% | 0.36 / 0.29 / 0.39 |
+| ATR 5× / half / daily-rules | +138% / 2.53 / −22% | +48% / 1.57 / −26% | +35% / 1.18 / −23% | 0.41 / 0.39 / 0.46 |
+| channel low 60 / half / day | +139% / 2.57 / −21% | +45% / 1.50 / −26% | +32% / 1.12 / −22% | 0.36 / 0.55 / 0.58 |
+| channel low 90 / out / day | +141% / 2.63 / −21% | +45% / 1.50 / −25% | +34% / 1.15 / −23% | 0.28 / 0.54 / 0.52 |
+| channel low 90 / half / day | +139% / 2.59 / −21% | +46% / 1.52 / −27% | +34% / 1.15 / −23% | 0.31 / 0.50 / 0.53 |
+
+Selected failures: ATR 4× / out / daily-rules 2.60 / **1.78** / 0.92 (great 2021–23, bad 2024–26); ATR 3× /
+out / day 2.70 / 1.42 / 0.99; channel low 30 / out / day 2.56 / 1.41 / **1.56** (drawdowns −17/−22/−19%);
+channel low 30 / half / day 2.60 / 1.47 / 1.40. Re-entering on a 4h high is the worst re-entry for
+channels (whipsaws). Returns over the target episodes (baseline / best of the 36): May–Jul 2021
++19.5% / +21.5%, Nov 2022 −6.3% / −5.1%, late Jul–Aug 2024 −10.4% / −6.0%; most variants change
+them by under a point because the daily fast exit had already acted or the drops were single candles.
+
+**Verdict: not adopted.** The passes are within noise (no bootstrap P(≤ 0) below 0.28, gains ≤ 0.14
+Sharpe), and each one's nearest neighbour fails (ATR 5× → 4× fails 2024–26; channel 90 / out / day →
+channel 60 / out / day fails 2024–26). The rule that helps most in one period hurts in another.
+No freqtrade run (the neighbour condition fails before that step).
+
+### Study 31: sizing by trend quality
+
+`study31_sizing.py` (~15 s). On bot-on days 2019+, z (distance above SMA100 in ATRs) has a median of 3.7
+(20% low / 20% mid / 60% high) and BTC's 90-day Sharpe a median of 2.0 (27 / 24 / 49%).
+
+| variant | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 | matched ×, beats it |
+| --- | --- | --- | --- | --- | --- |
+| baseline | +135% / 2.49 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +61% / 1.70 / −28% | |
+| (a) z, 0.75 / 1 / 1.25 | +141% / 2.37 / −25% | +50% / 1.52 / −27% | +39% / 1.20 / −22% | +66% / 1.68 / −27% | 1.05, no |
+| (a) z, 0.5 / 1 / 1.5 | +139% / 2.19 / −28% | +53% / 1.50 / −23% | +37% / 1.15 / −25% | +66% / 1.61 / −28% | 1.08, no |
+| (a) z, terciles | +152% / 2.43 / −24% | +45% / 1.38 / −32% | +39% / 1.23 / −22% | +66% / 1.67 / −32% | 1.07, no |
+| (b) S90, 0.75 / 1 / 1.25 | +139% / 2.40 / −25% | +50% / 1.52 / −28% | +32% / 1.07 / −23% | +63% / 1.65 / −28% | 1.03, no |
+| (b) S90, 0.5 / 1 / 1.5 | +131% / 2.22 / −28% | +53% / 1.49 / −26% | +29% / 0.98 / −24% | +61% / 1.56 / −28% | 1.03, no |
+| (b) S90, terciles | +150% / 2.44 / −25% | +49% / 1.48 / −29% | +33% / 1.11 / −22% | +65% / 1.67 / −29% | 1.06, no |
+| (c) downside vol 30d | +160% / 2.41 / −22% | +51% / 1.43 / −32% | +41% / 1.19 / −23% | +71% / 1.66 / −32% | 1.16, no |
+| (c) downside vol 60d | +152% / 2.35 / −26% | +54% / 1.56 / −25% | +33% / 1.05 / −26% | +67% / 1.65 / −26% | 1.11, no |
+| (c) downside vol 90d | +127% / 2.28 / −27% | +52% / 1.54 / −24% | +30% / 0.98 / −25% | +61% / 1.59 / −27% | 1.06, no |
+
+**Verdict: nothing passes (0 of 9).** Every variant raises exposure (×1.03–1.16) and CAGR, and none
+raises Sharpe in more than one period. Strong trends are not better per unit of risk than weak ones once
+the bot is in, and downside vol is a noisier estimate of the same risk (fewer observations). The flat 40%
+vol target stays.
+
+### Study 32: idle capital and the risk frontier
+
+`study32_idle.py` (~12 s). The bot holds cash 64% of the time on average (62 / 69 / 60% per period): fully
+flat on 48% of days, and under-invested (vol target < 1) on 48% of the rest.
+
+| idle USDT earns | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 |
+| --- | --- | --- | --- | --- |
+| 0% (baseline) | +135% / 2.49 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +61% / 1.70 / −28% |
+| 3% APY | +140% / 2.55 / −21% | +49% / 1.60 / −26% | +37% / 1.21 / −22% | +65% / 1.77 / −26% |
+| 5% APY | +143% / 2.58 / −21% | +51% / 1.65 / −25% | +38% / 1.25 / −22% | +67% / 1.81 / −25% |
+| 8% APY | +147% / 2.63 / −20% | +55% / 1.73 / −23% | +41% / 1.32 / −22% | +70% / 1.87 / −23% |
+
+Roughly +0.64 × APY a year on the wallet, with no market risk beyond the platform's. Not an edge and not in the
+backtester: Binance's Simple Earn rates float (they have been well below 3% and above 8% at times), and
+whether Simple Earn Flexible is open to a UK resident's account, and how the bot would subscribe and redeem
+automatically, are for the owner to confirm. A manual version is possible: park the cash in flexible
+savings while the bot is flat, at the cost of the bot not seeing that balance.
+
+Risk frontier (a choice of risk, not an edge):
+
+| vol target | 2019–20 | 2021–23 | 2024–Jun 2026 | 2019–Jun 2026 | exposure |
+| --- | --- | --- | --- | --- | --- |
+| 40% (live) | +135% / 2.49 / −22% | +46% / 1.52 / −28% | +34% / 1.15 / −23% | +61% / 1.70 / −28% | 0.36 |
+| 50% | +163% / 2.42 / −26% | +56% / 1.53 / −33% | +40% / 1.15 / −25% | +73% / 1.68 / −33% | 0.43 |
+| 60% | +182% / 2.32 / −31% | +65% / 1.54 / −36% | +43% / 1.17 / −25% | +82% / 1.67 / −36% | 0.47 |
+| 80% | +197% / 2.27 / −35% | +77% / 1.59 / −37% | +44% / 1.15 / −27% | +90% / 1.67 / −37% | 0.51 |
+| uncapped (fully in when on) | +227% / 2.28 / −40% | +88% / 1.62 / −39% | +44% / 1.15 / −27% | +99% / 1.69 / −40% | 0.53 |
+| 60% + idle at 5% | +189% / 2.37 / −30% | +70% / 1.62 / −33% | +47% / 1.24 / −24% | +86% / 1.74 / −33% | 0.47 |
+
+Sharpe is flat (1.67–1.70 overall); each step trades CAGR for drawdown. Above 60% the 2024–26 CAGR stops
+rising (+43–44%) while drawdowns keep growing, because the 50/50 basket's vol was mostly below 60–80% then, so full investment (the spot cap) binds.
+(Drawdowns are on daily closes; freqtrade's wallet drawdowns ran a few points different.)
+
+## Summary of round 4
+
+| # | candidate | 2019–20 | 2021–23 | 2024–Jun 2026 | verdict |
+| --- | --- | --- | --- | --- | --- |
+| — | baseline (vectorised) | 2.49 / −22% | 1.52 / −28% | 1.15 / −23% | |
+| 27 | walk-forward re-selection (2020 → ) | 2.73 / −18% (2020) | 0.80 / −43% | 1.11 / −26% | worse; settings are not selectable |
+| 28 | **six tranches, one wallet** | 2.68 / −21% | 1.53 / −27% | 1.27 / −24% | **passes**, freqtrade 2.76 / 1.59 / 1.24 vs 2.53 / 1.50 / 1.08 |
+| 29 | best breadth (AND NHL > 0) | 2.27 / −12% | 1.08 / −23% | 1.45 / −21% | fails 2019–20, 2021–23 Sharpe |
+| 30 | best intraday (ATR 5× / out / daily-rules) | 2.55 / −22% | 1.62 / −24% | 1.21 / −23% | passes alone, neighbour fails, noise |
+| 31 | best sizing (z, 0.75/1/1.25) | 2.37 / −25% | 1.52 / −27% | 1.20 / −22% | fails 2019–20 |
+| 32 | idle USDT at 5% APY | 2.58 / −21% | 1.65 / −25% | 1.25 / −22% | arithmetic; owner to confirm product |
