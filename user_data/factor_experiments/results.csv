@@ -1,0 +1,14 @@
+config,description,total_trades,win_rate_pct,profit_total_usdt,profit_total_pct,cagr_pct,profit_factor,sharpe,sortino,calmar,sqn,expectancy,avg_profit_pct,max_drawdown_pct,drawdown_duration_days,trades_per_day
+v00_baseline,Baseline: all 8 factors equal weight,360,51.67,193.423,19.34,23.74,1.217,1.0038,2.4924,5.3294,0.838,0.5373,1.4071,23.25,2025-04-07 06:45:00,1.19
+v01_momentum_focus,"Multi-TF momentum, drop liq/size/overext",400,48.0,133.957,13.4,16.35,1.146,0.5612,1.9261,2.6603,0.445,0.3349,1.0359,33.69,2025-04-19 06:45:00,1.32
+v02_quality_momentum,3x vol-adj mom (30/14/7d) + 2x overext + mom_30d,226,42.04,152.946,15.29,18.7,1.19,0.4466,1.9509,3.2742,0.47,0.6768,2.0219,30.59,2025-04-14 09:15:00,0.75
+v03_multitf_momentum,Long TF momentum 90d + vol_mom dual + vol_adj_mom,162,38.89,87.766,8.78,10.67,1.147,0.2498,1.1785,2.3745,0.31,0.5418,1.5422,23.31,2025-10-10 21:45:00,0.53
+v04_simple_clean,mom_30d + mom_7d + vol_adj_mom_30d + overext_30d  *** BEST ***,313,42.49,244.707,24.47,30.17,1.281,0.6957,3.5105,6.1199,0.623,0.7818,1.795,25.84,2025-04-15 02:30:00,1.03
+v05_longer_windows,mom_60d + mom_30d + rev_3d + vol_mom_60d_baseline + vol_adj_mom_60d + overext/liq/size 14d,164,47.56,105.609,10.56,12.86,1.168,0.39,1.2882,2.6312,0.482,0.644,1.9764,25.65,2025-10-10 23:45:00,0.54
+v06_v04_plus_volmom,V04 + vol_mom_7d added,355,45.07,183.217,18.32,22.47,1.196,0.6976,2.6115,4.0579,0.586,0.5161,1.3843,29.83,2025-04-16 21:00:00,1.17
+v07_short_overext,V04 but overext_10d + overext_5d replacing overext_30d,658,53.5,-6.763,-0.68,-0.81,0.995,-0.0544,-0.0904,-0.1468,-0.034,-0.0103,0.2391,32.38,2025-10-10 23:45:00,2.17
+v08_dual_volmom,"V04 but vol_adj_mom at 30d and 14d, no overext swap",200,38.5,133.327,13.33,16.27,1.179,0.3354,1.79,2.7552,0.375,0.6666,1.9754,31.01,2025-04-19 20:45:00,0.66
+v09_v04_no_overext,"V04 without overextension, adds mom_14d + vol_adj_mom_14d",172,39.53,92.337,9.23,11.23,1.138,0.2617,1.3474,1.8553,0.316,0.5368,1.8897,31.59,2025-04-14 04:15:00,0.57
+v10_v04_dual_overext,V04 with overext_30d + overext_60d,823,48.24,-146.397,-14.64,-17.36,0.91,-1.4255,-2.4124,-2.753,-0.788,-0.1779,-0.1914,34.88,2025-10-10 23:45:00,2.72
+v11_v04_overext20,V04 but overext_20d instead of 30d,300,43.33,84.304,8.43,10.24,1.102,0.3125,1.1939,1.9334,0.286,0.281,0.8535,28.35,2025-04-20 00:15:00,0.99
+v12_v04_volmom14,V04 but vol_adj_mom_14d instead of 30d,359,40.95,27.238,2.72,3.29,1.027,0.1371,0.4235,0.5444,0.115,0.0759,0.6142,31.96,2025-04-14 05:45:00,1.18

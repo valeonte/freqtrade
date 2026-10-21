@@ -1,0 +1,14 @@
+config,description,y2024_profit_pct,y2024_sharpe,y2024_calmar,y2024_drawdown_pct,y2024_trades,is_profit_pct,is_sharpe,is_calmar,is_drawdown_pct,is_trades,oos_profit_pct,oos_sharpe,oos_calmar,oos_drawdown_pct,oos_trades
+v00_baseline,Baseline: all 8 factors equal weight,100.56,3.087,29.4198,30.51,407,19.34,1.004,5.329,23.25,360,-14.22,-2.1188,-5.6426,32.26,219
+v01_momentum_focus,"Multi-TF momentum, drop liq/size/overext",80.2,2.6251,15.3237,44.62,441,13.4,0.561,2.66,33.69,400,-15.19,-2.394,-6.5773,29.5,171
+v02_quality_momentum,3x vol-adj mom (30/14/7d) + 2x overext + mom_30d,82.89,2.0263,19.3265,32.48,236,15.29,0.447,3.274,30.59,226,-20.39,-2.4939,-7.3773,35.21,90
+v03_multitf_momentum,Long TF momentum 90d + vol_mom dual + vol_adj_mom,19.2,0.6733,4.6149,23.87,159,8.78,0.25,2.374,23.31,162,2.12,0.1676,1.5493,17.47,45
+v04_simple_clean,mom_30d + mom_7d + vol_adj_mom_30d + overext_30d [IS BEST],71.66,2.4188,16.0486,34.93,290,24.47,0.696,6.12,25.84,313,-12.13,-1.5783,-4.5367,34.78,145
+v05_longer_windows,mom_60d + mom_30d + rev_3d + vol_mom + overext/liq/size 14d,22.47,0.7864,6.6903,23.81,163,10.56,0.39,2.631,25.65,164,-4.68,-0.4057,-2.819,21.15,84
+v06_v04_plus_volmom,V04 + vol_mom_7d,107.45,2.5399,20.3526,49.59,323,18.32,0.698,4.058,29.83,355,-15.56,-2.2139,-6.4588,30.68,139
+v07_short_overext,V04 overext_10d+5d replacing overext_30d,61.84,3.3923,12.5423,40.99,605,-0.68,-0.054,-0.147,32.38,658,-25.39,-5.5215,-8.7295,37.87,273
+v08_dual_volmom,V04 vol_adj_mom at 30d and 14d,68.71,1.9796,18.1946,29.14,207,13.33,0.335,2.755,31.01,200,-13.05,-1.5574,-5.3815,30.89,97
+v09_v04_no_overext,"V04 without overextension, adds mom_14d + vol_adj_mom_14d",84.1,1.9266,22.5041,26.1,184,9.23,0.262,1.855,31.59,172,-12.51,-1.4487,-5.7556,27.69,81
+v10_v04_dual_overext,V04 overext_30d + overext_60d,60.09,3.5353,11.0245,46.47,866,-14.64,-1.425,-2.753,34.88,823,-23.83,-5.4829,-8.6667,36.59,312
+v11_v04_overext20,V04 overext_20d instead of 30d,57.29,1.9862,11.5554,40.29,273,8.43,0.312,1.933,28.35,300,-10.52,-1.2587,-4.332,31.2,122
+v12_v04_volmom14,V04 vol_adj_mom_14d instead of 30d,71.35,2.4321,16.4266,35.71,387,2.72,0.137,0.544,31.96,359,-17.23,-2.945,-7.3278,29.95,166
