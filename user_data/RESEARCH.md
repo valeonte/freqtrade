@@ -14,6 +14,10 @@ trade small real money, while research continues.
 - **Trade crypto only** (owner, 2026-10-18): signals may come from anything (equities, macro, on-chain), but positions are crypto or stablecoins. The SPY + gold sleeve (study 14) is out for that reason.
 - **Spot only.** The owner is in the UK and can't trade futures or margin, so nothing
   market-neutral and no shorting. Futures *data* (funding rates) is fine as a signal.
+- **Capital gains only** (owner, 2026-10-20): no staking, Earn, lending, airdrop farming or other
+  income-taxed returns (Simple Earn, liquid-staking tokens such as WBETH/BNSOL, yield-bearing
+  stablecoins, Dual Investment, Launchpool / HODLer / Megadrop). Every strategy earns only from
+  ordinary spot buys and sells.
 - **Everything runs on this machine.** The old server `cryp2` is retired: never run anything there.
   If you ever need to look at it, read only (`ssh cryp2`), never write.
 - **One paper bot at a time.** A second only for a strategy that is materially different from the
@@ -46,6 +50,8 @@ trade small real money, while research continues.
 | Ethereum node | The owner's Erigon archive node; address in `user_data/onchain_node.json` (gitignored: the fork is public; the only copy is in the main checkout `~/repos/freqtrade`, so symlink it into a worktree before running `fetch.py` there). Port 8545, `eth` and `erigon` namespaces only (no `trace`, so no native ETH transfers). Binance token flows since 2023-11 in `user_data/data_bed/onchain/` (`candidates/onchain_flows/`) |
 | Old live bot ledgers | `user_data/live_snapshots/cryp2-2026-10-17/` (read-only copies) |
 | Normal freqtrade downloads | `user_data/data/binance/` |
+| Upbit and other venues (round 5) | `user_data/data_bed/external/upbit/notices.json` (Upbit's 798 trade notices since 2017-10, `candidates/round5/fetch_upbit.py`; its notice API answers 429 above about one request every 3 s), `upbit/days/KRW-*.json` (daily KRW candles for the 297 KRW markets listed today; delisted markets are not served), `venues/bybit_new_crypto.json` (Bybit listing announcements 2022 →) and `venues/coinbase_first_trade.json` (first trade of every Coinbase USD product, delisted included), from `fetch_upbit_candles.py` / `fetch_venues.py` |
+| Event windows (round 5) | `user_data/data_bed/round5/events/<SYMBOL>_<T>_{1s,1m}.parquet`: Binance 1s klines T − 1 h → T + 25 h and 1m klines to T + 73 h around each event (data.binance.vision daily files; 1s klines exist back to 2017); `round5/exists.json` caches which pairs traded on which day |
 | 1-minute candles with taker volume | `user_data/data/binance/klines_1m/<SYMBOL>/<YYYY-MM>.parquet` (gitignored, 6.6 GB): every top-30 pair-month 2022-01 to 2026-06, from `candidates/high_frequency/fetch.py` |
 
 ### The honest test bed (`user_data/honest_bed/README.md`)
@@ -101,6 +107,12 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 30 | Intraday crash protection on 4h BTC bars while the bot holds: k-ATR 24h drop (k 3/4/5) or 30/60/90-bar channel low; out or half; back next day, on a 4h high, or via the daily re-entry (36 variants) | Not adopted | 5 of 36 pass by noise (bootstrap P(≤ 0) ≥ 0.28, gains ≤ 0.14 Sharpe) and their neighbours fail; ATR 5× fired 10 times in 7.5 years. Best-looking: ATR 5× / out / daily re-entry 2.55 / 1.62 / 1.21. Barely changes May 2021, Nov 2022, Aug 2024 | `candidates/round4/` |
 | 31 | Sizing by trend quality: vol target × (0.75/1/1.25 or 0.5/1/1.5) by BTC's distance above SMA100 in ATRs or its 90-day Sharpe (absolute or tercile levels); downside vol instead of total vol (9 variants) | Dead | 0 of 9 pass, none beats exposure-matched. All add exposure (×1.03–1.16) and CAGR; none lifts Sharpe in more than one period | `candidates/round4/` |
 | 32 | Idle capital and risk frontier (arithmetic): flat 3/5/8% APY on idle USDT; vol target 40/50/60/80%/uncapped | Not an edge; owner's choices | Idle 64% of the time (flat 48% of days). 5% APY: CAGR 2019–Jun 2026 +67% vs +61%, Sharpe 1.81 vs 1.70. Vol target 40 → 60 → 80% → uncapped: CAGR +61 / +82 / +90 / +99%, worst DD −28 / −36 / −37 / −40%, Sharpe flat ~1.68. UK availability of Binance Earn to be confirmed by the owner | `candidates/round4/` |
+| 33 | **Upbit KRW listing notices** for coins already on Binance spot (109 events 2019–Jun 2026; Binance 1s klines; entry 5 s to 15 min after the notice, hold 5 min to 3 days; sleeve and overlay on the bot's idle cash) | **Dead for a retail bot** (latency) | The shock is real and instant: median +4% within the notice's second, +15% at 1 s, +18% at 3 s, ~+20% held for an hour, no leak before. Entries ≥ 60 s: −1.5% per notice at 1 h (1s high/low fills; ≈ 0 with mid fills), −7% at 24 h (t −3.0). Bot + 20% sleeve 2.64 / 1.33 / 0.95 vs the bot's 2.70 / 1.52 / 1.28, DD −32% vs −27%. Only ≤ 10 s entries earn (+5–7% per notice with mid fills, t 2.4–3.6), and even they deepen the drawdown to 32–42% and fail 2024–26's bootstrap; Upbit's notice API throttles polling to ~1 request per 3 s | `candidates/round5/` |
+| 34 | Coin-level Upbit premium spikes (excess premium over BTC's crossing +5/10/20% or −5%, hold 1–7 days; 186 coins, survivors only) | Dead | Primary (+10%, 3 d, 182 signals): −3.0% / +2.8% / +0.7% per signal; bot + 20% 2.22 / 1.67 / 1.43; 0 of 12 variants pass. A Korean pump's tail: it followed through in 2021 and reversed in 2019–20 | `candidates/round5/` |
+| 35 | Listings on other venues for coins already on Binance: Bybit announcements (13 with publish times, 2024 →) and Coinbase trading starts (164, 2019 →; no announcement times exist) | Dead; Coinbase is an open lead | No jump at T on either (+0.1% to a 60 s entry). Bybit +0.6% per notice at 1 h (t 0.7). Coinbase 60 s / 1 h: +0.2% / −0.0% / +1.4% per listing (2025: +2.0%); bot + 20% 2.66 / 1.47 / 1.46; nearest miss of the round 60 s / 15 min, overlay 2.69 / 1.56 / 1.37 (0.01 short in 2019–20, picked after seeing the grid); walk-forward fails 2021–23 (1.04) | `candidates/round5/` |
+| 36 | Upbit investment warning lifted (8 notices on Binance coins) | Dead | Every cell negative; 60 s / 24 h −12% per notice (t −3.5) | `candidates/round5/` |
+| 37 | ETH/BTC mean-reversion tilt inside the bot while it holds both (z of log ETH/BTC vs its 5–60-day mean, ±25/50%; 16 variants) | Dead | 0 of 16 pass; all lose in 2019–20 and 2024–26 (primary bot + overlay 2.50 / 1.51 / 1.12); negative before costs (gross −7.4 / +1.0 / −2.9 %/yr of the wallet); daily ETH/BTC changes autocorrelate +0.02 | `candidates/round5/` |
+| 38 | BNB around Binance Launchpool / Megadrop announcements, trading BNB only (72 events; HODLer airdrops as control) | Dead | 60 s / 24 h: +0.74% per event (t 1.2; BTC +0.40% over the same windows), −1.6 / +2.2 / +0.1% by period; bot + 20% 2.67 / 1.64 / 1.27. BNB *falls* in the first hour after Launchpool (−0.4%, t −2.8) and HODLer (−0.36%, t −4.3) announcements: short-only | `candidates/round5/` |
 
 All write-up paths are under `user_data/`.
 
@@ -145,6 +157,16 @@ All write-up paths are under `user_data/`.
   drawdown brake, at a cost in strong years.
 - **Faster than daily exits don't help a trend bot that already exits on SMA50** (study 30), and **sizing up
   in strong trends only adds exposure** (study 31).
+- **Cross-venue listing shocks are real but over in seconds** (study 33): an Upbit KRW listing lifts the coin on
+  Binance by ~20% within two seconds of the notice, with no leak beforehand; a bot that reacts within a minute buys
+  the top, and the coin drifts down over the following days. Event edges that need sub-second latency are not for
+  this account. Global venues' listings (Bybit, Coinbase trading starts) don't move Binance at all.
+- **Capital gains only leaves no carry or volatility premium** (round 5): Earn, liquid staking, yield-bearing
+  stablecoins and Dual Investment are all income for UK tax and out by the owner's rule. What remains for
+  diversification is event-driven demand, and the clean events are taken by faster traders.
+- **ETH/BTC neither trends usefully (study 6) nor reverts (study 37)** as a tilt inside the bot.
+- **BNB sells off in the hour after Binance's farming announcements** (study 38): another short-only effect,
+  like heavy exchange flows (study 18) and new listings (study 19).
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -152,7 +174,17 @@ All write-up paths are under `user_data/`.
 - Four reasonable variants of a strategy can differ by 25 points over a few months: insist on
   several periods (2018–20, 2021–23, 2024–Jun 2026) and on beating a simple baseline in each.
 
-## What the paper bot runs now
+## What runs now
+
+**Live (real money)**: `FundingVolTranchesStrategy` (study 28) since 2026-10-20 ~20:40 UTC, from
+`~/repos/freqtrade-live` (branch `live/running`), config `user_data/live/config_btc_eth_funding_voltarget.json`,
+1h candles, decisions at 00/04/…/20 UTC, a wallet of ~82 USDT (see `candidates/round4/LIVE_SWITCH.md`). It values
+its wallet as free USDT plus its own open trades, so another strategy can't share that account without a change.
+
+The section below describes the earlier paper bot (`~/repos/freqtrade-paper`, cron removed on 2026-10-18 when the
+live bot started); kept for reference.
+
+### The paper bot (until 2026-10-18)
 
 `FundingVolTrendStrategy` (`user_data/strategies/funding_vol_trend_strategy.py`), config
 `user_data/paper/config_btc_eth_funding_voltarget_dry.json`, dry run with a 1,000 USDT wallet,
@@ -171,14 +203,18 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 ## Open leads
 
-- **Six-tranche rebalancing (study 28)**: `FundingVolTranchesStrategy` (`user_data/candidates/round4/config_28_tranches.json`,
+- **Six-tranche rebalancing (study 28)**, **deployed live on 2026-10-20** (owner's decision): `FundingVolTranchesStrategy` (`user_data/candidates/round4/config_28_tranches.json`,
   1h candles) beat the live bot's Sharpe in every period in freqtrade (2.76 / 1.59 / 1.24 vs 2.53 / 1.50 / 1.08),
   with a 2-point deeper worst drawdown in 2024–26. Its gain is the removal of 00 UTC's bad luck, not a new
   edge. Deploying it is the owner's decision; if adopted, paper trade it first (1h candles, more orders, 2,448
   startup candles).
-- **Idle USDT yield (study 32)**: ~+4–6 CAGR points a year at 3–5% APY with no market risk, if Binance Simple
-  Earn Flexible is available to the owner's UK account and can be automated (or done by hand while the bot
-  is flat). Owner to confirm.
+- ~~Idle USDT yield (study 32)~~: closed by the owner's capital-gains-only rule (2026-10-20): Earn interest is
+  income for UK tax. (Since 14 Aug 2025 Binance's Earn products are open in the UK only to professional /
+  high-net-worth / exempt users anyway; see `candidates/round5/README.md`.)
+- **Coinbase trading starts (study 35)**: buying a coin already on Binance 60 s after its first Coinbase trade and
+  holding 15 min to 1 h made +0.5–1.4% per listing in 2024–26 (t ≈ 2), almost all of it in 2025, and nothing
+  before. Fails the bar; worth a free forward log (new Coinbase USD products and Binance's price around their first
+  trade from 2026-07) before anyone believes it.
 - **Vol target (study 32)**: 50–60% instead of 40% buys +12–21 CAGR points for 5–8 points more worst
   drawdown, same Sharpe. A risk choice for the owner.
 - **Fast exit for the live bot (study 25)**: `FundingVolFastExitStrategy` (exit on a BTC close below
@@ -188,8 +224,11 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
   the current bot.
 - **BTC long/short ratio exit (study 22)**: right sign, only 6 episodes since 2020. Re-check once
   data.binance.vision has another year or two.
-- **Something orthogonal to the paper bot.** Studies 11–15 suggest it doesn't exist in crypto-only
-  spot. The bot is flat in BTC downtrends, and every long crypto rule tested there loses, whatever
+- **Something orthogonal to the live bot.** Round 5 (studies 33–38) searched for a different return source
+  (cross-venue listing shocks, Korean premiums, BNB farming demand, ETH/BTC relative value) under the owner's
+  capital-gains-only rule and found nothing that improves the bot + candidate portfolio in every period: the one
+  real event (Upbit listings) is a sub-second latency race. Before that, studies 11–15 suggested it doesn't exist
+  in crypto-only spot. The bot is flat in BTC downtrends, and every long crypto rule tested there loses, whatever
   its speed or signal. The uncorrelated options left are stablecoin pegs (~1%/yr, crash tail) and,
   outside crypto, the SPY + gold sleeve (study 14), which the owner ruled out. Better use of
   effort: improve the bot itself (ETH funding as a second trigger was tried in study 16 and not adopted).
@@ -212,3 +251,5 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 5. New listings, day-30 entry above the 24 h price, hold 1–3 days (study 19): the first run scored tokenised stocks by a filter bug; re-run with the fix (ledger line 6), only 5 crypto listings reached day 30 and none qualified. No information.
 6. Study 25 fast exit (SMA50 out, new 20-day high in), with the live bot as baseline (ledger lines 7–8): identical, +10.7% each (BTC/ETH +43%); the gate came on in mid-August and BTC never closed below its 50-day average after, so the rule never fired. No information.
 7. Study 28 six-tranche rebalancing (ledger line 9), freqtrade on 1h: +11.3% (Sharpe 1.46, wallet DD 10.1%) vs the live bot's +10.7% (1.52, 7.7%), same two trades entered at a different hour. No information.
+
+Round 5 (studies 33–38) used no look: no idea showed an edge before July that met the bar.
