@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-20.
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-21.
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -18,6 +18,11 @@ trade small real money, while research continues.
   income-taxed returns (Simple Earn, liquid-staking tokens such as WBETH/BNSOL, yield-bearing
   stablecoins, Dual Investment, Launchpool / HODLer / Megadrop). Every strategy earns only from
   ordinary spot buys and sells.
+- **Taxed as capital gains, not trading income** (owner, 2026-10-21): the owner is a UK taxpayer and wants
+  the account to stay an investor's for HMRC. Score candidates **after UK CGT** (`candidates/round6/after_tax.py`,
+  same-day / 30-day / pool matching per token, USDT included) and report their activity against the badges of
+  trade (round 6's study 42 table). Prefer fewer transactions and longer holds when the after-tax cost is small.
+  Research, not tax advice.
 - **Everything runs on this machine.** The old server `cryp2` is retired: never run anything there.
   If you ever need to look at it, read only (`ssh cryp2`), never write.
 - **One paper bot at a time.** A second only for a strategy that is materially different from the
@@ -52,6 +57,7 @@ trade small real money, while research continues.
 | Normal freqtrade downloads | `user_data/data/binance/` |
 | Upbit and other venues (round 5) | `user_data/data_bed/external/upbit/notices.json` (Upbit's 798 trade notices since 2017-10, `candidates/round5/fetch_upbit.py`; its notice API answers 429 above about one request every 3 s), `upbit/days/KRW-*.json` (daily KRW candles for the 297 KRW markets listed today; delisted markets are not served), `venues/bybit_new_crypto.json` (Bybit listing announcements 2022 →) and `venues/coinbase_first_trade.json` (first trade of every Coinbase USD product, delisted included), from `fetch_upbit_candles.py` / `fetch_venues.py` |
 | Event windows (round 5) | `user_data/data_bed/round5/events/<SYMBOL>_<T>_{1s,1m}.parquet`: Binance 1s klines T − 1 h → T + 25 h and 1m klines to T + 73 h around each event (data.binance.vision daily files; 1s klines exist back to 2017); `round5/exists.json` caches which pairs traded on which day |
+| GBP/USD (round 6) | `user_data/data_bed/external/fx/gbp_per_usd.csv`: the ECB's daily reference rates, sterling per dollar, from `candidates/round6/fetch_fx.py` |
 | 1-minute candles with taker volume | `user_data/data/binance/klines_1m/<SYMBOL>/<YYYY-MM>.parquet` (gitignored, 6.6 GB): every top-30 pair-month 2022-01 to 2026-06, from `candidates/high_frequency/fetch.py` |
 
 ### The honest test bed (`user_data/honest_bed/README.md`)
@@ -113,6 +119,10 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 36 | Upbit investment warning lifted (8 notices on Binance coins) | Dead | Every cell negative; 60 s / 24 h −12% per notice (t −3.5) | `candidates/round5/` |
 | 37 | ETH/BTC mean-reversion tilt inside the bot while it holds both (z of log ETH/BTC vs its 5–60-day mean, ±25/50%; 16 variants) | Dead | 0 of 16 pass; all lose in 2019–20 and 2024–26 (primary bot + overlay 2.50 / 1.51 / 1.12); negative before costs (gross −7.4 / +1.0 / −2.9 %/yr of the wallet); daily ETH/BTC changes autocorrelate +0.02 | `candidates/round5/` |
 | 38 | BNB around Binance Launchpool / Megadrop announcements, trading BNB only (72 events; HODLer airdrops as control) | Dead | 60 s / 24 h: +0.74% per event (t 1.2; BTC +0.40% over the same windows), −1.6 / +2.2 / +0.1% by period; bot + 20% 2.67 / 1.64 / 1.27. BNB *falls* in the first hour after Launchpool (−0.4%, t −2.8) and HODLer (−0.36%, t −4.3) announcements: short-only | `candidates/round5/` |
+| 39 | **UK CGT calculator** for cryptoassets (`uk_cgt.py`): same-day, 30-day and s104 pool matching per token, token swaps as HMRC values them, fee split, tax years, loss carry-forward, allowance, 2024-25's two rates | **Built and tested** | Reproduces all seven of HMRC's pooling examples (CRYPTO22251–22257) to the pound; conservation, window-edge, UK-day and rate-change tests (21 tests with the account model's) | `candidates/round6/` |
+| 40 | **What the bots keep after UK tax**: freqtrade orders run through a sterling account (ECB GBP/USD, USDT = 1 USD), higher rate, 2026-27 rules, tax paid out of the account each 31 January | **Tax takes ~36% of every trend bot's gain** | Live six tranches: after-tax CAGR +121% / +40% / +30%, 2019–Jun 2026 +56% (pre-tax +66%), £50k → £1.41m after £421k of tax. 35–37% of the gain lost for every bot from six tranches to weekly, 29% monthly, 24% buy and hold (the only one that defers). No coin held over a year. Pool-only matching, size (£10k–£250k) and each year's own rules move CAGR ≤ 2 points. USDT's own result −£116k (fees, GBP/USD). Proceeds > £50k in 8–9 of 9 tax years | `candidates/round6/` |
+| 41 | **Low-turnover versions of the live bot** (pre-registered): no vol resizing; daily, weekly, monthly decisions (`FundingVolCadenceStrategy`); 25/50% held core; timing luck over 6 weekdays and 3 monthdays | **Dead: 0 of 11 pass** | After-tax end vs live 2019–20 / 2021–23 / 2024–26: daily −£32k / −£1k / −£12k; weekly −£29k / −£62k / −£2k; monthly −£98k / −£60k / −£45k. No-resize six tranches +£1k / +£23k / −£4k, drawdown −30% vs −23% in 2019–20. Weekly by weekday +38% to +56% after tax overall (luck); monthly on the 22nd −12%/yr in 2024–26 | `candidates/round6/` |
+| 42 | **Badges of trade** for every variant against *Salt v Chamberlain* (~47 transactions/yr), *Wannell v Rothwell* (~58, trading) and *Manzur v HMRC* (240–300, investment) | **Research reading: investment on most badges; organisation is the open one** | Live: 221 orders/yr, 45 days with an order, 46 coin disposal lines, median hold 10 days, 74% sold within 30 days. Daily 46 orders/yr (Salt's level) for −5.6 points of after-tax CAGR; weekly 31 for −13; monthly 11–19 for −19 to −27. Own money, no leverage, no customers; an automated system of the owner's own is the factor that doesn't change with cadence. Confirm with a CIOT/ATT adviser before scaling up | `candidates/round6/README.md` |
 
 All write-up paths are under `user_data/`.
 
@@ -167,6 +177,12 @@ All write-up paths are under `user_data/`.
 - **ETH/BTC neither trends usefully (study 6) nor reverts (study 37)** as a tilt inside the bot.
 - **BNB sells off in the hour after Binance's farming announcements** (study 38): another short-only effect,
   like heavy exchange flows (study 18) and new listings (study 19).
+- **After UK tax the ranking is the pre-tax ranking** (round 6): a trend bot realises nearly every gain within
+  a year or two whatever its speed, so CGT takes ~36% of the gain (24% plus the lost compounding) from every
+  bot from daily to weekly. Slowing down doesn't defer tax; only holding through downtrends does, and that is
+  buy and hold's −75% drawdown. The 30-day rule, the allowance and account size barely matter.
+- **Weekly or monthly decisions are calendar lotteries** (study 41): the same rules on different weekdays span
+  18 points of after-tax CAGR. Fewer decision days need tranches, not one day.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -211,6 +227,13 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 - ~~Idle USDT yield (study 32)~~: closed by the owner's capital-gains-only rule (2026-10-20): Earn interest is
   income for UK tax. (Since 14 Aug 2025 Binance's Earn products are open in the UK only to professional /
   high-net-worth / exempt users anyway; see `candidates/round5/README.md`.)
+- **Tax status of the live bot (study 42)**: on HMRC's cases its 221 orders a year look like investment
+  (*Manzur*: 240–300), but the automated, organised setup is the badge no cadence changes. Before scaling the
+  live wallet up, the owner should get a chartered tax adviser's view with round 6's activity table; keep full
+  trade records per pool (USDT included) and file a return every year proceeds pass £50,000.
+- **Fewer tranches** (study 43, not run): 3 tranches at 00/08/16 UTC passed study 28 pre-tax (2.66 / 1.49 / 1.17)
+  with fewer orders. After tax it should sit between the daily and six-tranche bots. Worth a freqtrade run with
+  order export only if the owner wants the order count down.
 - **Coinbase trading starts (study 35)**: buying a coin already on Binance 60 s after its first Coinbase trade and
   holding 15 min to 1 h made +0.5–1.4% per listing in 2024–26 (t ≈ 2), almost all of it in 2025, and nothing
   before. Fails the bar; worth a free forward log (new Coinbase USD products and Binance's price around their first
@@ -253,3 +276,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 7. Study 28 six-tranche rebalancing (ledger line 9), freqtrade on 1h: +11.3% (Sharpe 1.46, wallet DD 10.1%) vs the live bot's +10.7% (1.52, 7.7%), same two trades entered at a different hour. No information.
 
 Round 5 (studies 33–38) used no look: no idea showed an edge before July that met the bar.
+Round 6 (studies 39–42) used no look: no candidate passed the bar, and no order reached 2026-07-01.
