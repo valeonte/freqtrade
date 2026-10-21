@@ -52,4 +52,4 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     s = gbp_per_usd()
     s.to_csv(OUT / "gbp_per_usd.csv", index_label="date")
-    print(len(s), s.index[0].date(), s.index[-1].date(), s.loc["2019":].describe().round(4).to_dict())
+    print(len(s), s.index[0].date(), s.index[-1].date(), s[s.index >= "2019-01-01"].describe().round(4).to_dict())

@@ -13,7 +13,7 @@ for name in $names; do
     nice -n 19 .env/bin/freqtrade backtesting -c "$here/configs/$name.json" \
       --datadir user_data/data_bed/binance --timerange "$tr" --strategy-path user_data/strategies \
       --export trades --backtest-directory "$exp" --breakdown year 2>/dev/null \
-      | grep -vE '^[0-9]{4}-[0-9]{2}-[0-9]{2} ' > "$here/results_freqtrade/${name}_$tr.txt"
+      | grep -vE '^[0-9]{4}-[0-9]{2}-[0-9]{2} ' | sed 's/[[:space:]]*$//' > "$here/results_freqtrade/${name}_$tr.txt"
     nice -n 19 .env/bin/python "$here/export_orders.py" "$exp" "$here/orders/${name}_$tr.csv.gz"
   done
 done
