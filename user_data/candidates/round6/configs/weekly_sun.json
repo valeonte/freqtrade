@@ -1,0 +1,43 @@
+{
+  "strategy": "FundingVolCadenceStrategy",
+  "timeframe": "1d",
+  "max_open_trades": 2,
+  "stake_currency": "USDT",
+  "stake_amount": "unlimited",
+  "tradable_balance_ratio": 0.99,
+  "dry_run": true,
+  "dry_run_wallet": 1000,
+  "trading_mode": "spot",
+  "exchange": {
+    "name": "binance",
+    "pair_whitelist": [
+      "BTC/USDT",
+      "ETH/USDT"
+    ]
+  },
+  "pairlists": [
+    {
+      "method": "StaticPairList"
+    }
+  ],
+  "entry_pricing": {
+    "price_side": "same"
+  },
+  "exit_pricing": {
+    "price_side": "same"
+  },
+  "strategy_settings": {
+    "sma_days": 100,
+    "trend_pair": "BTC/USDT",
+    "vol_target": 0.4,
+    "vol_window": 30,
+    "rebalance_band": 0.2,
+    "funding_days": 7,
+    "funding_symbol": "BTC/USDT:USDT",
+    "exit_sma": 50,
+    "reentry_high": 20,
+    "cadence": "weekly",
+    "weekday": 6
+  },
+  "fee": 0.00075
+}
