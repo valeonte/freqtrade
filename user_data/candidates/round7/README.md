@@ -221,6 +221,31 @@ LightGBM and BLAS limited to 2 threads. The research env `~/repos/freqtrade/.env
 (`uv sync --frozen --extra plot --extra hyperopt --extra develop --extra freqai`: lightgbm, datasieve,
 xgboost, tensorboard; nothing removed).
 
+## Implementation notes (written while building, before any result)
+
+- **FreqAI does not purge in backtests.** It computes the labels on the whole history and then slices each
+  training window, so the 7-day labels of a window's last week look into the backtest window that follows; the
+  plan's "label_period_candles purges it" was wrong. `user_data/freqaimodels/PurgedLightGBM{Classifier,Regressor}`
+  drop the last `label_period_candles` rows of every training window.
+- **FreqAI trains on decision-hour rows only** (the 1h rows closing at 00, 04, …, 20 UTC, ~4,400 per 730-day
+  window). FreqAI's dissimilarity index builds an n × n distance matrix: on all 17,500 hourly rows that is several
+  GB, enough to put the live bot at risk of an OOM kill. The strategy only acts on those rows anyway. Predictions
+  are still made on every row.
+- FreqAI is run per judged period (2019–20, 2021–23, 2024–Jun 2026): the three periods together are the same
+  ~91 training windows as one full run, which would double the cost; the use variants reuse the saved
+  predictions (same identifier). A smoke run (Jan–Feb 2024) trained and traded.
+- qtpylib's `zlsma` raises with its default `min_periods` (larger than its inner window); it is called with the
+  inner window. qtpylib's `vwap` refuses to run (it raises a lookahead error itself) and is listed as dropped.
+  Madrid colours (madrid_sqz, mmar) are ordinal codes: lime 2 > maroon / aqua 1 > grey / yellow 0 > green /
+  fuchsia −1 > red −2 (mmar); aqua / lime / green +1, fuchsia / red / maroon −1, yellow 0 (madrid_sqz).
+- Study 44's IC: the forward return is ranked among all bars of the sample and use subset; each feature's
+  correlation is then taken over the bars where that feature is defined (so the return's ranks are not
+  recomputed per feature). The (d) residualisation sets a missing feature rank to its mean in the OLS fit.
+- Study 45 (b): the exposure-matched baseline is the baseline's daily return × the overlay's mean exposure ratio
+  (trims only lower exposure, so the spot cap never binds).
+- The overlay simulator (`overlay.py`) reproduces study 28's one-wallet six tranches exactly (Sharpe 2.68 / 1.53 /
+  1.27) and round 6's activity row (219 orders a year vs 221, 45.5 days with an order, median hold 10 days).
+
 ## Results
 
 (to be filled in after the runs)
