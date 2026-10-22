@@ -10,3 +10,6 @@ candidates/*/*.log
 paper/*.sqlite*
 paper/reports
 onchain_node.json
+models
+candidates/round7/cache
+candidates/round7/exports
