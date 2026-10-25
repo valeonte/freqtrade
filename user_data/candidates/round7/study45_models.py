@@ -128,6 +128,10 @@ def walk_forward(X: pd.DataFrame, M: pd.DataFrame) -> pd.DataFrame:
             )
             for name, kind in models().items():
                 col = f"p|{name}|{lab}|{sample}"
+                ck = CACHE / "study45" / f"{name.replace(' ', '_')}_{lab}_{sample}.npy"
+                if ck.exists():  # checkpoint from an earlier run
+                    preds[col] = np.load(ck)
+                    continue
                 preds[col] = np.nan
                 t0 = time.time()
                 for i, r in enumerate(refits):
@@ -137,6 +141,9 @@ def walk_forward(X: pd.DataFrame, M: pd.DataFrame) -> pd.DataFrame:
                     if test.sum() == 0:
                         continue
                     preds.loc[test, col] = fit_predict(kind, Xn[tr], y[tr], Xn[test])
+                ck.parent.mkdir(exist_ok=True)
+                np.save(ck.with_suffix(".tmp.npy"), preds[col].to_numpy())
+                ck.with_suffix(".tmp.npy").replace(ck)
                 print(f"{col}: {time.time() - t0:.0f}s", flush=True)
     return preds
 

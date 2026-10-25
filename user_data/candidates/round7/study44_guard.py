@@ -27,39 +27,63 @@ CUTS = 50
 
 
 def guard(key: str, part: int = 0, parts: int = 1) -> None:
+    """Checkpointed: the full-history features and each cut's result are saved under cache/guard_<key>/,
+    so a restart only redoes what is missing. Parts split the cuts between processes."""
+    ck = OUT / "cache" / f"guard_{key}"
+    ck.mkdir(parents=True, exist_ok=True)
     bars = D.bar_sets()[key]["BTC"]
     bpd = D.bars_per_day(key)
-    full, info = F.compute(bars, bpd)
-    kinds = {k: v["kind"] for k, v in info.items() if "kind" in v}
     rng = np.random.default_rng(44)
     cand = bars.index[(bars.index >= "2019-01-01") & (bars.index <= "2026-06-30")]
     cuts = sorted(rng.choice(cand, size=CUTS, replace=False))
-    bad: dict[str, list] = {}
-    for i, t in enumerate(cuts):
-        if i % parts != part:
-            continue
+    todo = [i for i in range(CUTS) if i % parts == part and not (ck / f"cut_{i:02d}.json").exists()]
+    if not todo:
+        return
+    if (ck / "full.parquet").exists() and (ck / "info.json").exists():
+        full = pd.read_parquet(ck / "full.parquet")
+        info = json.loads((ck / "info.json").read_text())
+    else:
+        full, info = F.compute(bars, bpd)
+        full.to_parquet(ck / f"full.{part}.tmp.parquet")
+        (ck / f"full.{part}.tmp.parquet").replace(ck / "full.parquet")
+        (ck / "info.json").write_text(json.dumps(info))
+    kinds = {k: v["kind"] for k, v in info.items() if "kind" in v}
+    for i in todo:
+        t = cuts[i]
         part_x, _ = F.compute(bars.loc[:t], bpd, kinds=kinds)
         a = part_x.iloc[-1]
         b = full.loc[t, part_x.columns]
         both_nan = a.isna() & b.isna()
         diff = (a.astype("float64") - b.astype("float64")).abs()
         ok = both_nan | (diff <= 1e-6 * (1 + b.abs().astype("float64")))
-        for n in ok.index[~ok]:
-            bad.setdefault(n, []).append(
-                (str(t), None if pd.isna(a[n]) else float(a[n]), None if pd.isna(b[n]) else float(b[n]))
-            )
-        print(f"cut {i + 1}/{CUTS} {t}: {int((~ok).sum())} differ", flush=True)
-    errors = {k: v["error"] for k, v in info.items() if "error" in v}
-    suffix = f"_part{part}" if parts > 1 else ""
-    (OUT / f"guard_{key}{suffix}.json").write_text(json.dumps({"bad": bad, "errors": errors, "info": info}, indent=0))
+        bad = {
+            n: (str(t), None if pd.isna(a[n]) else float(a[n]), None if pd.isna(b[n]) else float(b[n]))
+            for n in ok.index[~ok]
+        }
+        (ck / f"cut_{i:02d}.json").write_text(json.dumps(bad))
+        print(f"{key} cut {i + 1}/{CUTS} {t}: {len(bad)} differ", flush=True)
+
+
+def merged(key: str) -> tuple[dict, dict]:
+    """(feature -> list of differing cuts, info) for one bar series; all 50 cuts must be done."""
+    ck = OUT / "cache" / f"guard_{key}"
+    files = sorted(ck.glob("cut_*.json"))
+    if len(files) != CUTS:
+        raise RuntimeError(f"guard {key}: {len(files)}/{CUTS} cuts done")
+    bad: dict[str, list] = {}
+    for f in files:
+        for n, v in json.loads(f.read_text()).items():
+            bad.setdefault(n, []).append(v)
+    return bad, json.loads((ck / "info.json").read_text())
 
 
 def admit() -> None:  # noqa: C901
-    g = {"d00": json.loads((OUT / "guard_d00.json").read_text()), "4h": {"bad": {}}}
-    for f in sorted(OUT.glob("guard_4h_part*.json")):
-        for n, v in json.loads(f.read_text())["bad"].items():
-            g["4h"]["bad"].setdefault(n, []).extend(v)
-    info = g["d00"]["info"]
+    g = {}
+    for k in ("d00", "4h"):
+        bad, inf = merged(k)
+        g[k] = {"bad": bad}
+        if k == "d00":
+            info = inf
     rows = []
     for n, inf in info.items():
         if "error" in inf:

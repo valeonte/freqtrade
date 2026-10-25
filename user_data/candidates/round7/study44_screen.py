@@ -41,18 +41,21 @@ def admitted() -> dict:
     return json.loads((OUT / "features_admitted.json").read_text())
 
 
-def build() -> None:
+def build(only_keys: list[str] | None = None) -> None:
+    """Every feature (admitted or not; the screen reads the admitted columns) of every bar series.
+    Kinds come from the fixed tables (no output needed the 'auto' rule)."""
     CACHE.mkdir(exist_ok=True)
-    adm = admitted()
-    kinds = {k: v["kind"] for k, v in adm.items()}
     sets = D.bar_sets()
     for key, bars in sets.items():
+        if only_keys and key not in only_keys:
+            continue
         for asset, b in bars.items():
             path = CACHE / f"{key}_{asset}.parquet"
             if path.exists():
                 continue
-            X, _ = F.compute(b, D.bars_per_day(key), kinds=kinds, only=set(adm))
-            X[list(adm)].to_parquet(path)
+            X, info = F.compute(b, D.bars_per_day(key))
+            assert not any(v.get("kind") == "auto" for v in info.values())
+            X.to_parquet(path)
             print("built", path.name, X.shape, flush=True)
 
 
@@ -235,20 +238,34 @@ def family_of(info: dict) -> str:
     }[info["family"]]
 
 
-def run_sample(panels: dict, a: str, b: str, shifts: list[int] | None = None):
+def run_sample(panels: dict, a: str, b: str, shifts: list[int] | None = None, tag: str | None = None):
     """Every cell over one sample: (cells, null t-arrays per shift). Each group is prepared once and
-    the shifted-return replicates run on it straight away, so memory holds one group at a time."""
+    the shifted-return replicates run on it straight away, so memory holds one group at a time.
+    With `tag`, each group's result is checkpointed in cache/screen_<tag>/ and reused on a restart."""
     out: list = []
     null: list[list[np.ndarray]] = [[] for _ in shifts or []]
+    ck = CACHE / f"screen_{tag}" if tag else None
+    if ck:
+        ck.mkdir(parents=True, exist_ok=True)
     for (asset, bar), P in panels.items():
         for h in D.HORIZONS:
             for use in USES:
-                pr = Prepared(P, a, b, h, use)
-                ic, t, n = pr.ic(pr.returns())
+                f = ck / f"{asset}_{bar}_{h}_{use}.npz" if ck else None
+                if f is not None and f.exists():
+                    z = np.load(f)
+                    ic, t, n, nt = z["ic"], z["t"], z["n"], z["null_t"]
+                else:
+                    pr = Prepared(P, a, b, h, use)
+                    ic, t, n = pr.ic(pr.returns())
+                    nt = np.array([pr.ic(pr.returns(k))[1].astype("float32") for k in shifts or []])
+                    if f is not None:
+                        tmp = f.with_name(f.stem + ".tmp.npz")
+                        np.savez(tmp, ic=ic, t=t, n=n, null_t=nt)
+                        tmp.replace(f)
                 out.append((asset, bar, h, use, ic, t, n))
-                for r, k in enumerate(shifts or []):
-                    null[r].append(pr.ic(pr.returns(k))[1].astype("float32"))
-            print(f"  {asset} {bar} h={h} done", flush=True)
+                for r in range(len(shifts or [])):
+                    null[r].append(nt[r])
+            print(f"  {tag or ''} {asset} {bar} h={h} done", flush=True)
     return out, null
 
 
@@ -300,7 +317,7 @@ def screen() -> None:
     rng = np.random.default_rng(4444)
     n_days = int(panels[("BTC", "daily")].rows(*D.DISC, 30).sum())
     shifts = [int(rng.integers(365, n_days - 365)) for _ in range(NULL_REPS)]
-    disc_res, null_t = run_sample(panels, *D.DISC, shifts=shifts)
+    disc_res, null_t = run_sample(panels, *D.DISC, shifts=shifts, tag="disc")
     disc = to_frame(disc_res, names)
     keep = (disc["n"] >= 100).to_numpy()
     disc = disc[keep].reset_index(drop=True)
@@ -339,7 +356,7 @@ def screen() -> None:
     del null_t
 
     # confirmation and judged periods, every cell (cheap), then the rules
-    conf = to_frame(run_sample(panels, *D.CONF)[0], names)
+    conf = to_frame(run_sample(panels, *D.CONF, tag="conf")[0], names)
     cells = disc.merge(
         conf[["feature", "asset", "bar", "horizon", "use", "ic", "t", "p", "n"]],
         on=["feature", "asset", "bar", "horizon", "use"],
@@ -347,7 +364,7 @@ def screen() -> None:
         suffixes=("", "_conf"),
     )
     for per, (a, b) in D.JUDGED.items():
-        pf = to_frame(run_sample(panels, a, b)[0], names)
+        pf = to_frame(run_sample(panels, a, b, tag=per)[0], names)
         cells = cells.merge(
             pf[["feature", "asset", "bar", "horizon", "use", "ic"]].rename(columns={"ic": f"ic_{per}"}),
             on=["feature", "asset", "bar", "horizon", "use"],
@@ -425,4 +442,7 @@ def report(cells: pd.DataFrame, null: pd.DataFrame, hist: pd.DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    {"build": build, "screen": screen}[sys.argv[1]]()
+    if sys.argv[1] == "build":
+        build(sys.argv[2:] or None)
+    else:
+        screen()
