@@ -1,0 +1,116 @@
+feature,spec,reason
+technical.fibonacci_retracements.fib@x1,technical.fibonacci_retracements,"lookahead (d00, 32/50 cuts; e.g. 2019-08-29 00:00:00+00:00: truncated 0.38199999928474426 vs full 0.0)"
+technical.ichimoku.chikou_span@x0.5,technical.ichimoku,"lookahead (d00, 49/50 cuts; e.g. 2019-02-17 00:00:00+00:00: truncated None vs full -0.05120500177145004)"
+technical.ichimoku.chikou_span@x1,technical.ichimoku,"lookahead (d00, 49/50 cuts; e.g. 2019-02-17 00:00:00+00:00: truncated None vs full -0.06404294073581696)"
+technical.ichimoku.chikou_span@x2,technical.ichimoku,"lookahead (d00, 45/50 cuts; e.g. 2019-08-29 00:00:00+00:00: truncated None vs full 0.2232273519039154)"
+technical.ichimoku.chikou_span@x4,technical.ichimoku,"lookahead (d00, 33/50 cuts; e.g. 2020-11-27 00:00:00+00:00: truncated None vs full -0.687535285949707)"
+technical.tv_hma.hma@x0.5,technical.tv_hma,error: TypeError: len() of unsized object
+qtpylib.cci.cci@x0.5,qtpylib.cci,"lookahead (d00, 50/50 cuts; e.g. 2019-02-17 00:00:00+00:00: truncated -0.11096032708883286 vs full -0.008400027640163898)"
+qtpylib.cci.cci@x1,qtpylib.cci,"lookahead (d00, 50/50 cuts; e.g. 2019-02-17 00:00:00+00:00: truncated 1.771052598953247 vs full 0.12570400536060333)"
+qtpylib.cci.cci@x2,qtpylib.cci,"lookahead (d00, 50/50 cuts; e.g. 2019-02-17 00:00:00+00:00: truncated 2.7898011207580566 vs full 0.17860226333141327)"
+qtpylib.cci.cci@x4,qtpylib.cci,"lookahead (d00, 50/50 cuts; e.g. 2019-02-17 00:00:00+00:00: truncated -0.7216538190841675 vs full -0.04019654169678688)"
+qtpylib.vwap.vwap@x1,qtpylib.vwap,"error: ValueError: using `qtpylib.vwap` facilitates lookahead bias. Please use `qtpylib.rolling_vwap` instead, which calculates vwap in a rolling manner."
+talib.CDL2CROWS.integer@x1,talib.CDL2CROWS,constant in discovery
+talib.CDL3BLACKCROWS.integer@x1,talib.CDL3BLACKCROWS,constant in discovery
+talib.CDL3INSIDE.integer@x1,talib.CDL3INSIDE,pattern fires on 11 discovery days
+talib.CDL3LINESTRIKE.integer@x1,talib.CDL3LINESTRIKE,pattern fires on 3 discovery days
+talib.CDL3STARSINSOUTH.integer@x1,talib.CDL3STARSINSOUTH,constant in discovery
+talib.CDL3WHITESOLDIERS.integer@x1,talib.CDL3WHITESOLDIERS,constant in discovery
+talib.CDLABANDONEDBABY.integer@x1,talib.CDLABANDONEDBABY,constant in discovery
+talib.CDLADVANCEBLOCK.integer@x1,talib.CDLADVANCEBLOCK,pattern fires on 25 discovery days
+talib.CDLBREAKAWAY.integer@x1,talib.CDLBREAKAWAY,constant in discovery
+talib.CDLCONCEALBABYSWALL.integer@x1,talib.CDLCONCEALBABYSWALL,constant in discovery
+talib.CDLCOUNTERATTACK.integer@x1,talib.CDLCOUNTERATTACK,constant in discovery
+talib.CDLDARKCLOUDCOVER.integer@x1,talib.CDLDARKCLOUDCOVER,constant in discovery
+talib.CDLDOJISTAR.integer@x1,talib.CDLDOJISTAR,pattern fires on 19 discovery days
+talib.CDLDRAGONFLYDOJI.integer@x1,talib.CDLDRAGONFLYDOJI,pattern fires on 29 discovery days
+talib.CDLEVENINGDOJISTAR.integer@x1,talib.CDLEVENINGDOJISTAR,pattern fires on 2 discovery days
+talib.CDLEVENINGSTAR.integer@x1,talib.CDLEVENINGSTAR,pattern fires on 3 discovery days
+talib.CDLGAPSIDESIDEWHITE.integer@x1,talib.CDLGAPSIDESIDEWHITE,pattern fires on 5 discovery days
+talib.CDLGRAVESTONEDOJI.integer@x1,talib.CDLGRAVESTONEDOJI,pattern fires on 24 discovery days
+talib.CDLHANGINGMAN.integer@x1,talib.CDLHANGINGMAN,pattern fires on 19 discovery days
+talib.CDLHIKKAKEMOD.integer@x1,talib.CDLHIKKAKEMOD,pattern fires on 5 discovery days
+talib.CDLHOMINGPIGEON.integer@x1,talib.CDLHOMINGPIGEON,constant in discovery
+talib.CDLIDENTICAL3CROWS.integer@x1,talib.CDLIDENTICAL3CROWS,constant in discovery
+talib.CDLINNECK.integer@x1,talib.CDLINNECK,constant in discovery
+talib.CDLINVERTEDHAMMER.integer@x1,talib.CDLINVERTEDHAMMER,pattern fires on 3 discovery days
+talib.CDLKICKING.integer@x1,talib.CDLKICKING,constant in discovery
+talib.CDLKICKINGBYLENGTH.integer@x1,talib.CDLKICKINGBYLENGTH,constant in discovery
+talib.CDLLADDERBOTTOM.integer@x1,talib.CDLLADDERBOTTOM,constant in discovery
+talib.CDLMATHOLD.integer@x1,talib.CDLMATHOLD,constant in discovery
+talib.CDLMORNINGDOJISTAR.integer@x1,talib.CDLMORNINGDOJISTAR,constant in discovery
+talib.CDLMORNINGSTAR.integer@x1,talib.CDLMORNINGSTAR,pattern fires on 2 discovery days
+talib.CDLONNECK.integer@x1,talib.CDLONNECK,constant in discovery
+talib.CDLPIERCING.integer@x1,talib.CDLPIERCING,constant in discovery
+talib.CDLRISEFALL3METHODS.integer@x1,talib.CDLRISEFALL3METHODS,pattern fires on 2 discovery days
+talib.CDLSEPARATINGLINES.integer@x1,talib.CDLSEPARATINGLINES,pattern fires on 6 discovery days
+talib.CDLSHOOTINGSTAR.integer@x1,talib.CDLSHOOTINGSTAR,pattern fires on 1 discovery days
+talib.CDLSTALLEDPATTERN.integer@x1,talib.CDLSTALLEDPATTERN,pattern fires on 2 discovery days
+talib.CDLSTICKSANDWICH.integer@x1,talib.CDLSTICKSANDWICH,constant in discovery
+talib.CDLTAKURI.integer@x1,talib.CDLTAKURI,pattern fires on 27 discovery days
+talib.CDLTASUKIGAP.integer@x1,talib.CDLTASUKIGAP,constant in discovery
+talib.CDLTHRUSTING.integer@x1,talib.CDLTHRUSTING,constant in discovery
+talib.CDLTRISTAR.integer@x1,talib.CDLTRISTAR,pattern fires on 1 discovery days
+talib.CDLUNIQUE3RIVER.integer@x1,talib.CDLUNIQUE3RIVER,constant in discovery
+talib.CDLUPSIDEGAP2CROWS.integer@x1,talib.CDLUPSIDEGAP2CROWS,constant in discovery
+talib.CDLXSIDEGAP3METHODS.integer@x1,talib.CDLXSIDEGAP3METHODS,pattern fires on 14 discovery days
+technical.stc.stc@x4,technical.stc,only 8 valid discovery days
+technical.tv_trama.trama@x2,technical.tv_trama,only 26 valid discovery days
+technical.tv_trama.trama@x4,technical.tv_trama,only 0 valid discovery days
+technical.vfi.vfi@x4,technical.vfi,only 68 valid discovery days
+technical.vfi.vfima@x4,technical.vfi,only 68 valid discovery days
+technical.vfi.hist@x4,technical.vfi,only 68 valid discovery days
+qtpylib.rolling_vwap.rvwap@x4,qtpylib.rolling_vwap,only 0 valid discovery days
+talib.SAREXT.real@x1,talib.SAREXT,identical to talib.SAR.real@x1
+talib.SMA.real@x0.5,talib.SMA,identical to talib.MA.real@x0.5
+talib.SMA.real@x1,talib.SMA,identical to talib.MA.real@x1
+talib.SMA.real@x2,talib.SMA,identical to talib.MA.real@x2
+talib.SMA.real@x4,talib.SMA,identical to talib.MA.real@x4
+talib.ROCP.real@x0.5,talib.ROCP,identical to talib.ROC.real@x0.5
+talib.ROCP.real@x1,talib.ROCP,identical to talib.ROC.real@x1
+talib.ROCP.real@x2,talib.ROCP,identical to talib.ROC.real@x2
+talib.ROCP.real@x4,talib.ROCP,identical to talib.ROC.real@x4
+talib.ROCR.real@x0.5,talib.ROCR,identical to talib.ROC.real@x0.5
+talib.ROCR.real@x1,talib.ROCR,identical to talib.ROC.real@x1
+talib.ROCR.real@x2,talib.ROCR,identical to talib.ROC.real@x2
+talib.ROCR.real@x4,talib.ROCR,identical to talib.ROC.real@x4
+talib.ROCR100.real@x0.5,talib.ROCR100,identical to talib.ROC.real@x0.5
+talib.ROCR100.real@x1,talib.ROCR100,identical to talib.ROC.real@x1
+talib.ROCR100.real@x2,talib.ROCR100,identical to talib.ROC.real@x2
+talib.ROCR100.real@x4,talib.ROCR100,identical to talib.ROC.real@x4
+talib.RSI.real@x0.5,talib.RSI,identical to talib.CMO.real@x0.5
+talib.RSI.real@x1,talib.RSI,identical to talib.CMO.real@x1
+talib.RSI.real@x2,talib.RSI,identical to talib.CMO.real@x2
+talib.RSI.real@x4,talib.RSI,identical to talib.CMO.real@x4
+talib.STOCHF.fastd@x0.5,talib.STOCHF,identical to talib.STOCH.slowk@x0.5
+talib.STOCHF.fastd@x1,talib.STOCHF,identical to talib.STOCH.slowk@x1
+talib.VAR.real@x0.5,talib.VAR,identical to talib.STDDEV.real@x0.5
+talib.VAR.real@x1,talib.VAR,identical to talib.STDDEV.real@x1
+talib.VAR.real@x2,talib.VAR,identical to talib.STDDEV.real@x2
+talib.VAR.real@x4,talib.VAR,identical to talib.STDDEV.real@x4
+talib.CDLLONGLEGGEDDOJI.integer@x1,talib.CDLLONGLEGGEDDOJI,identical to talib.CDLDOJI.integer@x1
+technical.bollinger_bands.bb_middle@x0.5,technical.bollinger_bands,identical to talib.BBANDS.middleband@x2
+technical.ema.ema@x0.5,technical.ema,identical to talib.EMA.real@x0.5
+technical.zema.zema@x0.5,technical.zema,identical to technical.dema.dema@x0.5
+technical.zema.zema@x1,technical.zema,identical to technical.dema.dema@x1
+technical.zema.zema@x2,technical.zema,identical to technical.dema.dema@x2
+technical.zema.zema@x4,technical.zema,identical to technical.dema.dema@x4
+technical.ichimoku.cloud_red@x2,technical.ichimoku,identical to technical.ichimoku.cloud_green@x2
+technical.ichimoku.cloud_red@x4,technical.ichimoku,identical to technical.ichimoku.cloud_green@x4
+technical.williams_percent.wr@x0.5,technical.williams_percent,identical to talib.WILLR.real@x0.5
+technical.williams_percent.wr@x1,technical.williams_percent,identical to talib.WILLR.real@x1
+qtpylib.bollinger_bands.upper@x0.5,qtpylib.bollinger_bands,identical to technical.bollinger_bands.bb_upper@x0.5
+qtpylib.bollinger_bands.mid@x0.5,qtpylib.bollinger_bands,identical to talib.BBANDS.middleband@x2
+qtpylib.bollinger_bands.lower@x0.5,qtpylib.bollinger_bands,identical to technical.bollinger_bands.bb_lower@x0.5
+qtpylib.chopiness.chop@x0.5,qtpylib.chopiness,identical to technical.chopiness.chop@x0.5
+qtpylib.chopiness.chop@x1,qtpylib.chopiness,identical to technical.chopiness.chop@x1
+qtpylib.chopiness.chop@x2,qtpylib.chopiness,identical to technical.chopiness.chop@x2
+qtpylib.chopiness.chop@x4,qtpylib.chopiness,identical to technical.chopiness.chop@x4
+qtpylib.hull_moving_average.hma@x0.5,qtpylib.hull_moving_average,identical to technical.hull_moving_average.hma@x0.5
+qtpylib.hull_moving_average.hma@x1,qtpylib.hull_moving_average,identical to technical.hull_moving_average.hma@x1
+qtpylib.hull_moving_average.hma@x2,qtpylib.hull_moving_average,identical to technical.hull_moving_average.hma@x2
+qtpylib.hull_moving_average.hma@x4,qtpylib.hull_moving_average,identical to technical.hull_moving_average.hma@x4
+qtpylib.zlma.zlma@x0.5,qtpylib.zlma,identical to qtpylib.zlema.zlema@x0.5
+qtpylib.zlma.zlma@x1,qtpylib.zlma,identical to qtpylib.zlema.zlema@x1
+qtpylib.zlma.zlma@x2,qtpylib.zlma,identical to qtpylib.zlema.zlema@x2
+qtpylib.zlma.zlma@x4,qtpylib.zlma,identical to qtpylib.zlema.zlema@x4
