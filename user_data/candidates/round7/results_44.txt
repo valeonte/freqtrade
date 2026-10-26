@@ -171,7 +171,7 @@ use d: BH 10% within the use: real 47, null mean 245.8, 95th pct 1144
 
 by use:
      cells  bh  confirmed  survivors  med_abs_t
-use                                            
+use
 a    17460   0          0          0   1.257908
 b    17460   0          0          0   0.573172
 c    17460   0          0          0   0.564294
@@ -179,7 +179,7 @@ d    17460   0          0          0   0.806638
 
 by family:
                            cells  bh  confirmed  survivors  med_abs_t  max_abs_t
-family                                                                          
+family
 candlestick patterns        1920   0          0          0   0.739182   3.662179
 cycle/Hilbert                840   0          0          0   0.706676   4.474955
 momentum                   16680   0          0          0   0.738744   4.201738
