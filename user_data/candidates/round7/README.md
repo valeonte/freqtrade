@@ -246,6 +246,160 @@ xgboost, tensorboard; nothing removed).
 - The overlay simulator (`overlay.py`) reproduces study 28's one-wallet six tranches exactly (Sharpe 2.68 / 1.53 /
   1.27) and round 6's activity row (219 orders a year vs 221, 45.5 days with an order, median hold 10 days).
 
-## Results
+## Results (run 2026-10-25/26 on the owner's machine; the null rerun after a fix on 2026-10-26)
 
-(to be filled in after the runs)
+`run_round7.sh` ran everything end to end (guard ~50 min on 6 processes, screen + null ~3 h, models ~3 h beside
+it, FreqAI ~25 min). Every step checkpoints under `cache/` (gitignored), so a reboot only loses the step in progress.
+
+**Verdict in one line: no indicator, combination, overlay or FreqAI model carries information about BTC/ETH's next
+1–30 days that the live bot doesn't already trade. Nothing passes; nothing to feed FreqAI.**
+
+### Study 44: the screen
+
+- **Feature library**: 697 features per series (TA-Lib's seven groups, 33 `technical` helpers and 24 qtpylib
+  functions, each output at ×0.5 / ×1 / ×2 / ×4). **582 admitted** (`features_admitted.json`); dropped
+  (`results_44_dropped.csv`): **9 for lookahead** (the guard): ichimoku's chikou span at every multiplier (`shift(−25)`),
+  qtpylib's `cci` at every multiplier (it divides by the standard deviation of the *whole* series) and
+  `fibonacci_retracements` (scaled by the whole series' min and max); qtpylib's `vwap` refuses to run (its own lookahead
+  guard) and `tv_hma` ×0.5 errors; 53 identical to another output (EMA wrappers, aliases, `chopiness` in both packages,
+  …), 24 constant, 20 rare candlestick patterns (< 30 discovery days), 7 with too little history (long `vfi`,
+  `tv_trama`, `stc`, `rolling_vwap`).
+- **Family**: 582 features × 3 assets × 2 bar types × 5 horizons × 4 uses = **69,840 cells**.
+- **Benjamini–Hochberg at 10% in discovery: 0 discoveries.** The largest |t| is 4.48; a single BH discovery needs
+  |t| ≈ 4.8. Holm in confirmation and the three-period sign rule therefore have nothing to act on: **0 survivors.**
+- **The null** (200 circular shifts of the returns, ≥ 365 days from both ends of each sample): BH discoveries mean 465,
+  median 24, 95th percentile 2,021; 33% of replicates have none. Real: 0. The null's largest |t| has a median of 4.85,
+  above the real 4.48 (76% of replicates beat it); the real count of |t| > 3 (420) sits at the null's 23rd percentile.
+  Newey–West t-stats overstate significance for persistent features (moving-average distances, 365-day percentile
+  ranks) against overlapping returns, so the screen's raw t is not to be read at face value; the null is the
+  calibration, and the real data sit inside it, if anything on the quiet side.
+
+| \|t\| | real cells | null mean |
+| --- | --- | --- |
+| 0–1 | 43,618 | 41,471 |
+| 1–2 | 21,546 | 21,293 |
+| 2–3 | 4,256 | 6,111 |
+| 3–4 | 399 | 899 |
+| 4–5 | 21 | 64 |
+| > 5 | 0 | 2 |
+
+  *Fixed after the first run (before any conclusion was drawn):* for use (d), whose sample starts in Sep 2019, a
+  shift longer than the sample wrapped round to a few days, putting returns the features already contain into the
+  "forward" window (null |t| up to 40). Effective shifts are now kept ≥ 365 days from both ends of each sample; uses
+  (a)–(c) were unaffected and their null replicates are the original ones.
+- **By use** (median |t| over cells; BH run *within* each use, for information): (a) unconditional 1.26, 2 discoveries
+  vs a null mean of 313; (b) bot-on 0.57, 0 vs 228; (c) bot-off 0.56, 0 vs 318; (d) partial 0.81, 47 vs 246. The
+  bot-on and bot-off cells are the quietest: once you know whether the bot is in, the indicators say nothing more.
+- **Top 30 by discovery |t|** (`results_44_top.csv`): two patterns, both gone in confirmation (2023–Jun 2026). (1) Use (d),
+  30 days, ETH or the basket: price above its long moving averages / bands / regression line *after removing the bot's
+  own trend state* precedes weaker returns (IC ≈ −0.4 in 2019–20 and 2021–23, ≈ 0 to +0.1 in 2024–26). (2) Use (a), 4h,
+  1 day: high recent volatility (STDDEV, TRANGE, OBV percentile) precedes higher next-day returns in 2021–23 (IC ≈ +0.08),
+  ≈ 0 since. 17 of the 30 keep their sign in confirmation, 1 is significant there (MFI ×2, BTC, 7 days, partial: IC
+  +0.11, t 2.5 against +0.21 in discovery), about what chance gives. Their 30-day block-bootstrap p-values are all
+  ≈ 0, which says the block bootstrap understates the uncertainty for features this persistent, as the null shows.
+- **By family**, cells / BH discoveries / median |t| / max |t|: trend/overlap 6,720 / 0 / 0.77 / 4.20; momentum
+  16,680 / 0 / 0.74 / 4.20; volume 720 / 0 / 0.74 / 3.94; volatility 1,080 / 0 / 1.24 / 3.94; cycle/Hilbert 840 / 0 /
+  0.71 / 4.47; statistics 3,840 / 0 / 0.79 / 4.46; candlestick patterns 1,920 / 0 / 0.74 / 3.66; technical/qtpylib
+  helpers 38,040 / 0 / 0.75 / 4.33.
+
+### Study 45 (a): walk-forward models over all 1,746 features (582 × BTC, ETH, basket)
+
+Out-of-sample AUC of the basket's forward-return sign, 2019–Jun 2026 (90% block-bootstrap interval), `results_45a.csv`:
+
+| model | 7d all | 7d bot-on | 7d bot-off | 14d all | 14d bot-on | 14d bot-off |
+| --- | --- | --- | --- | --- | --- | --- |
+| L1 logistic | 0.474 (0.44–0.51) | 0.441 (0.40–0.48) | 0.492 | 0.450 | 0.420 | 0.493 |
+| L2 logistic | 0.470 | 0.436 (0.40–0.48) | 0.497 | 0.447 | 0.412 (0.36–0.47) | 0.487 |
+| LightGBM | 0.476 | 0.461 | **0.519** (0.48–0.56) | 0.462 | 0.426 | 0.498 |
+| PCA 5 + logistic | 0.470 | 0.473 | 0.481 | 0.440 | 0.427 | 0.460 |
+| PCA 10 + logistic | 0.490 | 0.474 | 0.497 | 0.467 | 0.424 | 0.490 |
+
+No model's interval is above 0.5 in all three periods (the plan's bar for study 46); four cells clear 0.5 in a single period (LightGBM 7d / 14d on all rows in 2024–26, 0.55 / 0.58, which were 0.42 / 0.39 in 2019–20; PCA 10 on bot-off rows in 2019–20 only). The bot-on models are significantly *worse* than chance
+(the IC of every bot-on model is −0.08 to −0.17), as in study 26: whatever the indicators learn in the past is reversed
+next. By period the best (LightGBM, 7d, bot-off) is 0.547 / 0.502 / 0.560.
+
+### Study 45 (b): pairwise rules
+
+The top 20 discovery cells on the basket (14 of them use (d), 30 days; `results_45b.txt`) × median / tercile, singles
+and all 760 AND / OR pairs, as the trim overlay; exposure-matched excess return (`results_45b_spa.csv`):
+
+| window | family | SPA p | Reality Check p | best |
+| --- | --- | --- | --- | --- |
+| discovery 2019–22 | all 800 | 0.005 | 0.235 | MADR stdcenter ×1 OR tdi rsi_bb_upper ×4, median |
+| discovery 2019–22 | 40 singles | 0.411 | 0.444 | HT_DCPERIOD ×1, tercile |
+| confirmation 2023–Jun 2026 | all 800 | **0.776** | **0.807** | TRIX ×1 AND AROON down ×4, median |
+| confirmation 2023–Jun 2026 | 40 singles | 0.807 | 0.600 | zlsma ×4, tercile |
+
+In discovery (where the rules were picked) the combinations look better than the singles (SPA 0.005, though the Reality
+Check, which doesn't studentise, says 0.24); out of sample nothing is left: median excess t across the 800 drops from
++0.83 to −0.62, and the discovery-best combination (tdi OR ichimoku senkou A) goes from t +3.45 to −0.88, the best single
+(HT_DCPERIOD) from +2.12 to −0.28. **Combinations add nothing the singles lack, and neither survives.**
+
+### Study 46: overlays (post-hoc: nothing survived 44/45, so the plan's fallback ran)
+
+Candidates: the top 5 daily cells on BTC or the basket (HT_DCPERIOD ×1, MFI ×2, ROC ×4, Bollinger upper ×4, MADR
+stdcenter ×1, all use (d)) and the best study-45 model by overall AUC (LightGBM, 7 days, trained on bot-off rows).
+Four uses each = 24 primaries, plus neighbours (`results_46.csv`). **0 of 24 pass the full bar.** Baseline (vectorised
+six tranches): Sharpe 2.68 / 1.53 / 1.27, drawdown −21 / −27 / −24%, 219 orders a year.
+
+| nearest misses (post-hoc) | 2019–20 | 2021–23 | 2024–Jun 2026 | expo | orders/yr | fails on |
+| --- | --- | --- | --- | --- | --- | --- |
+| MADR stdcenter ×1, trim | 2.69 / −13% | 1.58 / −21% | 1.35 / −20% | 0.27 | 260 | neighbours (median 1.06 in 2024–26, ×2 1.31 in 2021–23), P(≤ 0) 0.50 / 0.37 / 0.30 |
+| MADR stdcenter ×1, dial | 2.67 / −14% | 1.67 / −21% | 1.30 / −21% | 0.28 | 287 | neighbours, orders (+31%) |
+| LightGBM 7d bot-off model, trim | 2.67 / −12% | 1.63 / −12% | 1.46 / −12% | 0.21 | 318 | orders (+45%); 14-day neighbour 1.12 in 2024–26; P(≤ 0) 0.54 / 0.22 / 0.09 |
+| LightGBM 7d bot-off model, dial | 2.63 / −13% | 1.68 / −11% | 1.49 / −12% | 0.21 | 342 | Sharpe −0.05 in 2019–20, orders |
+
+The LightGBM trim is the one result worth a sentence: it trims about half the bot's time in coins (exposure 0.37 → 0.21),
+halves every period's drawdown and beats the exposure-matched bot, but it is the best of 30 models picked after seeing
+their AUC (whose interval includes 0.5), its 14-day twin fails 2024–26, and it trades 45% more. Every "extra entry" use
+loses (Sharpe 0.55–1.09 in 2021–23 / 2024–26: long crypto while the bot is out loses, as in studies 11–15). No freqtrade
+or after-tax run follows (the bar fails before that step).
+
+### Study 47: FreqAI (classifier and regressor on the basket's forward 7 days; standard ~40 indicators × 3 periods × 1h/1d × BTC/ETH)
+
+Freqtrade, £50k after UK tax via round 6 (`results_47.csv`). **Caveat**: FreqAI needs 730 days of 1h training data
+before the first prediction and the 1h data start in 2018-01, so freqtrade started the 2019–20 runs on 2020-07-23. The
+like-for-like baseline is therefore the `none` variant (the live rules inside the same FreqAI run), which reproduces the
+live bot's orders exactly in 2021–23 and 2024–26.
+
+Pre-tax Sharpe / max DD / after-tax CAGR / orders a year:
+
+| variant | 2019–20 (from 2020-07-23) | 2021–23 | 2024–Jun 2026 |
+| --- | --- | --- | --- |
+| **live rules (`none`)** | **1.75 / −14% / +38% / 34** | **1.57 / −23% / +40% / 218** | **1.20 / −24% / +30% / 233** |
+| classifier, trim when P(up) < 0.45 | 1.66 / −10% / +29% / 180 | 1.54 / −19% / +30% / 514 | 1.16 / −21% / +22% / 672 |
+| classifier, veto | 1.39 / −10% / +22% / 172 | 1.29 / −16% / +21% / 446 | 0.98 / −20% / +16% / 593 |
+| classifier, standalone | 1.33 / −10% / +21% / 231 | 0.31 / −40% / +4% / 653 | 0.15 / −54% / −4% / 826 |
+| regressor, trim when predicted return < 0 | 1.86 / −10% / +35% / 99 | 1.31 / −19% / +25% / 506 | 0.91 / −22% / +17% / 629 |
+| regressor, veto | 1.77 / −10% / +31% / 75 | 0.76 / −19% / +12% / 392 | 0.40 / −26% / +4% / 542 |
+| regressor, standalone | 1.81 / −10% / +32% / 100 | 0.24 / −38% / +3% / 582 | 0.21 / −50% / −3% / 760 |
+
+FreqAI's own predictions at the decision hours have AUC 0.48 against the basket's forward 7 days (0.41 / 0.50 / 0.53
+by period; `results_47_predictions.csv`), the same as study 45. Every use loses after-tax CAGR to the live rules in
+2021–23 and 2024–26 (by 10–36 points), and every use roughly triples the order count, which also moves the account away
+from the investor's side of the badges of trade (round 6). The standalone models are long crypto ~40% of the time
+chosen at random, with −40 to −54% drawdowns. **A learner finds nothing the screen missed.**
+
+### By indicator family, in plain English
+
+- **Trend / overlap** (moving averages, bands, SAR, KAMA, MAMA, …): they *are* the bot's signal. Unconditionally their
+  price-distance versions lean the right way (trend), but on bot-on and bot-off days, and after removing the bot's own
+  SMA100 / SMA50 / 20-day-high state, nothing is left; the "price stretched above its bands" mean reversion seen in
+  2019–23 vanished in 2024–26.
+- **Momentum oscillators** (RSI, MFI, Stoch, CCI, Williams %R, ADX, Aroon, MACD, PPO, ROC, TRIX, CMO, ULTOSC, …): no
+  cell survives; overbought / oversold readings don't predict BTC or ETH 1–30 days out once the trend is known.
+- **Volume** (OBV, AD, ADOSC, MFI's volume part, vfi, vpci, vwma): nothing; the OBV / volatility link to next-day returns
+  in 2021–23 did not last.
+- **Volatility** (ATR, NATR, TRANGE): the highest median |t| (1.24) because volatility is persistent and regime-like,
+  but no discovery and no out-of-sample sign. The bot's vol target already uses volatility the way it can be used.
+- **Cycle / Hilbert** (HT_DCPERIOD, HT_SINE, HT_PHASOR, HT_TRENDMODE): HT_DCPERIOD was the single best discovery cell
+  (t −4.5) and is null in confirmation (t −0.4).
+- **Statistics** (linear regression, STDDEV, VAR, BETA, CORREL, TSF): as trend and volatility; nothing.
+- **Candlestick patterns** (16 of 61 fire often enough on BTC to be tested): nothing on daily or 4h bars; max |t| 3.7 of 1,920 cells.
+- **technical / qtpylib helpers** (ichimoku, Madrid, SSL, PMAX, VIDYA, TKE, laguerre, stc, td_sequential, keltner, tdi,
+  Heikin-Ashi, zero-lag MAs, …): 38,040 cells, nothing; three of them (`ichimoku`'s chikou, qtpylib `cci`,
+  `fibonacci_retracements`) look into the future and would make any backtest that uses them look better than it is.
+
+**What to feed FreqAI: nothing from this library.** None of the bundled indicators carries information beyond the live
+bot's own state, and a regularised learner over all of them predicts at or below chance out of sample, in 2019–2026 and in
+FreqAI itself. The live bot stays as it is. No holdout look was used.

@@ -164,6 +164,12 @@ class Prepared:
 
     def returns(self, shift: int | None = None) -> list[np.ndarray]:
         ys = []
+        if shift is not None:
+            # keep the effective shift >= 365 days from both ends of *this* sample: use (d) starts in
+            # Sep 2019, and a shift longer than the sample would wrap round to a few days, putting
+            # returns the features already contain in the "forward" window (found in the first run)
+            n_days = len(self.rows) // self.P.lag_per_day
+            shift = 365 + (shift - 365) % max(1, n_days - 730)
         for i in range(self.P.X.shape[0]):
             y = self.P.Y[i, self.rows, self.hi]
             if shift is not None:
@@ -334,6 +340,8 @@ def screen() -> None:
         p = 2 * st.norm.sf(np.abs(t))
         nb = bh(p)
         null_hist += np.histogram(np.abs(t[~np.isnan(t)]), bins=hist_bins)[0]
+        uses = disc["use"].to_numpy()
+        per_use = {f"disc_{u}": int(bh(p[uses == u]).sum()) for u in USES}
         null_rows.append(
             {
                 "rep": r,
@@ -341,6 +349,7 @@ def screen() -> None:
                 "discoveries": int(nb.sum()),
                 "max_abs_t": float(np.nanmax(np.abs(t))),
                 "n_abs_t_gt3": int((np.abs(t) > 3).sum()),
+                **per_use,
             }
         )
     null = pd.DataFrame(null_rows)
@@ -403,6 +412,8 @@ def screen() -> None:
 
 
 def report(cells: pd.DataFrame, null: pd.DataFrame, hist: pd.DataFrame) -> None:
+    pd.set_option("display.width", 250)
+    pd.set_option("display.max_columns", 20)
     print(
         f"\nfamily size: {len(cells):,} cells ({cells['feature'].nunique()} features x 3 assets x 2 bar types x "
         f"5 horizons x 4 uses, cells with < 100 rows dropped)"
@@ -418,6 +429,12 @@ def report(cells: pd.DataFrame, null: pd.DataFrame, hist: pd.DataFrame) -> None:
         f"{int(cells['survivor'].sum())}"
     )
     print("\n|t| histogram, real vs null mean:\n" + hist.to_string(index=False))
+    for u in USES:
+        sub = cells[cells["use"] == u]
+        print(
+            f"use {u}: BH 10% within the use: real {int(bh(sub['p'].to_numpy()).sum())}, null mean "
+            f"{null[f'disc_{u}'].mean():.1f}, 95th pct {null[f'disc_{u}'].quantile(0.95):.0f}"
+        )
     print("\nby use:")
     print(
         cells.groupby("use").agg(

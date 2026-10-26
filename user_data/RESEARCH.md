@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-21.
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-26.
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -46,7 +46,7 @@ trade small real money, while research continues.
 | What | Where |
 | --- | --- |
 | Research checkout | `~/repos/freqtrade` (fork `valeonte/freqtrade`, remotes `origin` and `upstream`) |
-| Python env | `.env/` built with `UV_PROJECT_ENVIRONMENT=.env pixi exec uv sync --frozen --extra plot --extra hyperopt --extra develop` (no system `uv` or `ensurepip`) |
+| Python env | `.env/` built with `UV_PROJECT_ENVIRONMENT=.env pixi exec uv sync --frozen --extra plot --extra hyperopt --extra develop --extra freqai` (freqai added in round 7) (no system `uv` or `ensurepip`) |
 | Paper bot checkout | `~/repos/freqtrade-paper` (git worktree, branch `paper/running`, its own `.env`). Don't edit it; update it with `git merge --ff-only origin/my-strats` and restart the bot |
 | Paper bot schedule | owner's `crontab`: bot restarted every 10 min under `flock` if it died; `user_data/paper/reconcile.py` daily at 02:00 |
 | Honest-bed candles | `user_data/data_bed/binance/` (gitignored): 30m for 672 pairs from 2023-11, 1d for all from 2017-08, 1h BTC/ETH from 2018, funding for 432 perps from 2023-11 and BTC/ETH from 2019-09 in `futures/` |
@@ -123,6 +123,10 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | 40 | **What the bots keep after UK tax**: freqtrade orders run through a sterling account (ECB GBP/USD, USDT = 1 USD), higher rate, 2026-27 rules, tax paid out of the account each 31 January | **Tax takes ~36% of every trend bot's gain** | Live six tranches: after-tax CAGR +121% / +40% / +30%, 2019–Jun 2026 +56% (pre-tax +66%), £50k → £1.41m after £421k of tax. 35–37% of the gain lost for every bot from six tranches to weekly, 29% monthly, 24% buy and hold (the only one that defers). No coin held over a year. Pool-only matching, size (£10k–£250k) and each year's own rules move CAGR ≤ 2 points. USDT's own result −£116k (fees, GBP/USD). Proceeds > £50k in 8–9 of 9 tax years | `candidates/round6/` |
 | 41 | **Low-turnover versions of the live bot** (pre-registered): no vol resizing; daily, weekly, monthly decisions (`FundingVolCadenceStrategy`); 25/50% held core; timing luck over 6 weekdays and 3 monthdays | **Dead: 0 of 11 pass** | After-tax end vs live 2019–20 / 2021–23 / 2024–26: daily −£32k / −£1k / −£12k; weekly −£29k / −£62k / −£2k; monthly −£98k / −£60k / −£45k. No-resize six tranches +£1k / +£23k / −£4k, drawdown −30% vs −23% in 2019–20. Weekly by weekday +38% to +56% after tax overall (luck); monthly on the 22nd −12%/yr in 2024–26 | `candidates/round6/` |
 | 42 | **Badges of trade** for every variant against *Salt v Chamberlain* (~47 transactions/yr), *Wannell v Rothwell* (~58, trading) and *Manzur v HMRC* (240–300, investment) | **Research reading: investment on most badges; organisation is the open one** | Live: 221 orders/yr, 45 days with an order, 46 coin disposal lines, median hold 10 days, 74% sold within 30 days. Daily 46 orders/yr (Salt's level) for −5.6 points of after-tax CAGR; weekly 31 for −13; monthly 11–19 for −19 to −27. Own money, no leverage, no customers; an automated system of the owner's own is the factor that doesn't change with cadence. Confirm with a CIOT/ATT adviser before scaling up | `candidates/round6/README.md` |
+| 44 | **Every bundled indicator, one at a time** (round 7): 697 TA-Lib / `technical` / qtpylib outputs at ×0.5–×4 periods, stationary; lookahead guard (50 truncation cuts); Spearman IC vs BTC / ETH / basket forward 1–30 days, daily (six tranche hours) and 4h bars; unconditional, bot-on, bot-off and partial on the bot's state; BH 10% over 69,840 cells, Holm confirmation 2023–Jun 2026, 200-replicate shifted-return null | **Dead: 0 discoveries** | 582 admitted; the guard dropped ichimoku's chikou, qtpylib `cci` (whole-series std) and fibonacci retracements as lookahead. Max \|t\| 4.48 vs the null's median max 4.85; null BH discoveries median 24, mean 465, real 0. Bot-on / bot-off cells quietest (median \|t\| 0.57). Top cells (price stretched above long bands after removing the bot's state; 4h volatility → next day) were 2019–23 only, gone in confirmation | `candidates/round7/` |
+| 45 | Combinations of the indicators: walk-forward L1 / L2 logistic, LightGBM, PCA over all 1,746 features (refit every 90 days, purged), 7- and 14-day basket sign, all / bot-on / bot-off; 760 AND / OR pairs of the top 20 single rules as a trim overlay with Hansen's SPA | Dead | AUC 0.41–0.52 overall, bot-on models below chance (0.41–0.47), as study 26. Pairs: SPA p 0.005 in discovery (where they were picked) → **0.78 in confirmation**; median excess t +0.83 → −0.62; best discovery pair t +3.45 → −0.88 | `candidates/round7/` |
+| 46 | Overlays (veto / trim / extra entry / size dial) on the six-tranche bot, post-hoc (nothing survived 44–45): top 5 features and the best model | Dead: 0 of 24 | Nearest misses: MADR ×1 trim 2.69 / 1.58 / 1.35 (neighbours fail); LightGBM bot-off model trim 2.67 / 1.63 / 1.46, DD −12% each period, exposure 0.21, beats exposure-matched, but best of 30 models picked by AUC, 14-day twin fails 2024–26, 318 orders/yr (+45%). Extra entries lose (as studies 11–15) | `candidates/round7/` |
+| 47 | **FreqAI** on the live tranche rules (`FundingVolTranchesFreqaiStrategy`, purged LightGBM classifier / regressor, ~40 indicators × 3 periods × 1h / 1d × BTC / ETH, basket forward 7 days, 730-day training, monthly refits); trim, veto, standalone | Dead | Predictions' AUC 0.48. vs the live rules in the same runs, Sharpe 2021–23 / 2024–26: classifier trim 1.54 / 1.16 vs 1.57 / 1.20, regressor trim 1.31 / 0.91; standalone 0.15–0.31 with −40 to −54% DD; after-tax CAGR 10–36 points lower; orders ×2–4 (500–800/yr). FreqAI doesn't purge labels in backtests (fixed with `user_data/freqaimodels/Purged*`) | `candidates/round7/` |
 
 All write-up paths are under `user_data/`.
 
@@ -183,6 +187,19 @@ All write-up paths are under `user_data/`.
   buy and hold's −75% drawdown. The 30-day rule, the allowance and account size barely matter.
 - **Weekly or monthly decisions are calendar lotteries** (study 41): the same rules on different weekdays span
   18 points of after-tax CAGR. Fewer decision days need tranches, not one day.
+- **The bundled indicators carry nothing beyond the bot's own trend state** (round 7): 582 TA-Lib / `technical` / qtpylib
+  outputs, 69,840 tests, 0 discoveries, the real data inside a shifted-return null. Once you know whether the bot is in,
+  oscillators, volume, volatility, cycle and candlestick features say nothing about the next 1–30 days. Learners over all of
+  them (logistic, LightGBM, PCA, FreqAI) predict at or below chance out of sample, and worse than chance on bot-on days.
+- **Some bundled helpers look into the future**: `technical.ichimoku`'s `chikou_span` (`shift(−displacement)`),
+  `technical.fibonacci_retracements` (whole-series min / max) and qtpylib's `cci` (divides by the whole series' std) give
+  backtests information a live bot never has. Don't use them in a strategy; qtpylib's `vwap` refuses to run for that reason.
+- **FreqAI backtests leak labels unless purged**: it computes the labels on the full history and then slices each training
+  window, so a window's last `label_period_candles` labels look into the test period. Use
+  `user_data/freqaimodels/PurgedLightGBM*` (or drop those rows) for any FreqAI backtest with forward labels. Its dissimilarity
+  index builds an n × n matrix: train on few rows (or turn `DI_threshold` off) on this 16–23 GB machine.
+- **Newey–West t-stats overstate significance for persistent features** against overlapping returns (study 44): a shifted-
+  return null routinely produced |t| ≈ 5 and hundreds of BH "discoveries". Calibrate any screen with a null before believing a t.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -247,6 +264,10 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
   the current bot.
 - **BTC long/short ratio exit (study 22)**: right sign, only 6 episodes since 2020. Re-check once
   data.binance.vision has another year or two.
+- ~~Technical indicators / FreqAI~~ (round 7, studies 44–47): closed. Nothing in TA-Lib, `technical` or qtpylib adds to the
+  bot, alone, combined or learned; not worth feeding to FreqAI. The only near miss (a LightGBM bot-off model used as a trim,
+  study 46) was picked post-hoc from 30 models and trades 45% more; re-check only if a future study finds a model with an AUC
+  interval above 0.5 in every period.
 - **Something orthogonal to the live bot.** Round 5 (studies 33–38) searched for a different return source
   (cross-venue listing shocks, Korean premiums, BNB farming demand, ETH/BTC relative value) under the owner's
   capital-gains-only rule and found nothing that improves the bot + candidate portfolio in every period: the one
@@ -277,3 +298,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 
 Round 5 (studies 33–38) used no look: no idea showed an edge before July that met the bar.
 Round 6 (studies 39–42) used no look: no candidate passed the bar, and no order reached 2026-07-01.
+Round 7 (studies 44–47) used no look: nothing passed before July.
