@@ -18,11 +18,11 @@ from scipy import stats as st
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-import r8data as R  # noqa: E402
+import r8data as R
 
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "round7"))
-import study44_screen as S  # noqa: E402
+import study44_screen as S
 
 
 D = R.D
@@ -148,7 +148,8 @@ def report(fam: str, cells: pd.DataFrame, null: pd.DataFrame) -> None:
     mx = cells["t"].abs().max()
     print(
         f"max |t| real {mx:.2f}; null max |t| median {null['max_abs_t'].median():.2f}, 95th pct "
-        f"{null['max_abs_t'].quantile(0.95):.2f}; share of null reps with max >= real {(null['max_abs_t'] >= mx).mean():.3f}"
+        f"{null['max_abs_t'].quantile(0.95):.2f}; "
+        f"share of null reps with max >= real {(null['max_abs_t'] >= mx).mean():.3f}"
     )
     print(
         f"|t| > 3: real {int((cells['t'].abs() > 3).sum())}, null mean {null['n_abs_t_gt3'].mean():.1f}, "
@@ -167,13 +168,19 @@ def report(fam: str, cells: pd.DataFrame, null: pd.DataFrame) -> None:
     print("\nby use:\n", cells.groupby("use").agg(**agg))
     cols = ["feature", "asset", "bar", "horizon", "use", "ic", "t", "bh", "ic_conf", "t_conf", "survivor", "boot_p"]
     cols += [c for c in cells.columns if c.startswith("ic_") and c != "ic_conf"]
-    print("\ntop 30 cells by discovery |t|:\n", cells.sort_values("abs_t", ascending=False).head(30)[cols].to_string(
-        index=False, float_format=lambda v: f"{v:.3f}"))
+    print(
+        "\ntop 30 cells by discovery |t|:\n",
+        cells.sort_values("abs_t", ascending=False)
+        .head(30)[cols]
+        .to_string(index=False, float_format=lambda v: f"{v:.3f}"),
+    )
     print("\ntop cell per group, bot-on (b) / bot-off (c) / partial (d) uses:")
     for g, sub in cells[cells["use"] != "a"].groupby("group"):
         r = sub.loc[sub["abs_t"].idxmax()]
-        print(f"  {g}: {r['feature']} {r['asset']} {r['bar']} h{r['horizon']} use {r['use']}: IC {r['ic']:+.3f} "
-              f"t {r['t']:+.2f}, conf IC {r['ic_conf']:+.3f} t {r['t_conf']:+.2f}")
+        print(
+            f"  {g}: {r['feature']} {r['asset']} {r['bar']} h{r['horizon']} use {r['use']}: IC {r['ic']:+.3f} "
+            f"t {r['t']:+.2f}, conf IC {r['ic_conf']:+.3f} t {r['t_conf']:+.2f}"
+        )
 
 
 if __name__ == "__main__":

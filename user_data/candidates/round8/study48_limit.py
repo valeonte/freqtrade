@@ -13,17 +13,20 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-import r8data as R  # noqa: E402
-import study50_calendar as C  # noqa: E402
+import r8data as R
+import study50_calendar as C
 
 
-O = C.O
+O = C.O  # noqa: E741 (overlay module alias, as round 7's `import overlay as O`)
 K1M = R.ROOT / "user_data/data/binance/klines_1m"
 WALLET = 82.0
 
 
 def minutes(sym: str) -> pd.DataFrame:
-    parts = [pd.read_parquet(f, columns=["date", "open", "high", "low", "close"]) for f in sorted((K1M / sym).glob("*.parquet"))]
+    parts = [
+        pd.read_parquet(f, columns=["date", "open", "high", "low", "close"])
+        for f in sorted((K1M / sym).glob("*.parquet"))
+    ]
     d = pd.concat(parts).set_index("date").sort_index().astype("float64")
     d.index = d.index.astype("datetime64[ns, UTC]")
     return d[(d.index >= "2022-01-01") & (d.index < R.D.HOLDOUT_START)]
@@ -33,7 +36,9 @@ def main() -> None:
     price = O.closes_1h()
     bases = O.bases(price)
     daily, od = O.run(price, bases)
-    od = od[(od["time"] >= pd.Timestamp("2022-01-01", tz="UTC")) & (od["time"] < R.D.HOLDOUT_START - pd.Timedelta(hours=2))]
+    od = od[
+        (od["time"] >= pd.Timestamp("2022-01-01", tz="UTC")) & (od["time"] < R.D.HOLDOUT_START - pd.Timedelta(hours=2))
+    ]
     eq = (1 + daily["ret"]).cumprod()  # the wallet in the simulation's units, to express orders as a share of it
     eq.index = eq.index + pd.Timedelta(days=1)
     rows = []
@@ -56,14 +61,21 @@ def main() -> None:
             rows.append(row)
     df = pd.DataFrame(rows)
     years = (df["time"].max() - df["time"].min()).days / 365.25
-    print(f"{len(df)} orders 2022-01 -> 2026-06 ({len(df) / years:.0f}/yr), mean order size {df['size'].mean():.3f} of the wallet "
-          "(a market order is assumed to fill at the next 1m open: no spread, which for BTC/ETH-USDT is ~0.01-0.1 bp)")
+    print(
+        f"{len(df)} orders 2022-01 -> 2026-06 ({len(df) / years:.0f}/yr), "
+        f"mean order size {df['size'].mean():.3f} of the wallet "
+        "(a market order is assumed to fill at the next 1m open: no spread, which for BTC/ETH-USDT is ~0.01-0.1 bp)"
+    )
     for n in (5, 15, 60):
         s = df[f"save {n}m bp"]
         usd = (s / 1e4 * df["size"] * WALLET).sum() / years
-        print(f"limit at the decision close, market after {n:2d} min if unfilled: fill rate {df[f'fill {n}m'].mean():.0%}, "
-              f"saving per order mean {s.mean():+.2f} bp (median {s.median():+.2f}, t {s.mean() / s.std() * np.sqrt(len(s)):+.1f}); "
-              f"{usd:+.3f} USDT a year on an {WALLET:.0f} USDT wallet")
+        print(
+            f"limit at the decision close, market after {n:2d} min if unfilled: "
+            f"fill rate {df[f'fill {n}m'].mean():.0%}, "
+            f"saving per order mean {s.mean():+.2f} bp (median {s.median():+.2f}, "
+            f"t {s.mean() / s.std() * np.sqrt(len(s)):+.1f}); "
+            f"{usd:+.3f} USDT a year on an {WALLET:.0f} USDT wallet"
+        )
     print("\nby side (15 min):\n", df.groupby("side")["save 15m bp"].agg(["count", "mean", "median"]).round(2))
     df.to_csv(Path(__file__).parent / "results_48_limit.csv.gz", index=False, float_format="%.4f")
 

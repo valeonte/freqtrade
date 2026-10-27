@@ -13,11 +13,11 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-import r8data as R  # noqa: E402
-import study50_calendar as C  # noqa: E402
+import r8data as R
+import study50_calendar as C
 
 
-D, B, O = R.D, R.B, C.O
+D, B, O = R.D, R.B, C.O  # noqa: E741 (module aliases, as round 7)
 OUT = Path(__file__).parent
 JUDGE = ("2021-23", "2024-26H1")
 rng = np.random.default_rng(49)
@@ -29,7 +29,9 @@ def five_min(coin: str) -> pd.DataFrame:
     m = m.set_index(m["date"].astype("datetime64[ns, UTC]")).sort_index()
     m = m[~m.index.duplicated()]
     m = m[m.index < D.HOLDOUT_START]
-    out = pd.DataFrame({"oi": m["sum_open_interest_value"], "px": m["sum_open_interest_value"] / m["sum_open_interest"]})
+    out = pd.DataFrame(
+        {"oi": m["sum_open_interest_value"], "px": m["sum_open_interest_value"] / m["sum_open_interest"]}
+    )
     out = out[(out["oi"] > 0) & np.isfinite(out["px"])]
     return out.resample("5min").last()  # gaps stay NaN
 
@@ -79,16 +81,30 @@ def event_study(name: str, ev: pd.DatetimeIndex, closes: dict[str, pd.Series], o
             allr = v[i_lo + 24 * d : i_hi + 24 * d] - v[i_lo:i_hi]
             npos = i_lo + (pos[None, :] - i_lo + offs[:, None]) % width
             null = np.nanmean(v[npos + 24 * d] - v[npos], axis=1)
-            rows.append({"events": name, "asset": asset, "days": d, "n": int(np.sum(~np.isnan(r))),
-                         "mean": np.nanmean(r), "median": np.nanmedian(r), "up share": np.nanmean(r > 0),
-                         "all hours mean": np.nanmean(allr), "null p (>= real)": float(np.mean(null >= np.nanmean(r)))})
+            rows.append(
+                {
+                    "events": name,
+                    "asset": asset,
+                    "days": d,
+                    "n": int(np.sum(~np.isnan(r))),
+                    "mean": np.nanmean(r),
+                    "median": np.nanmedian(r),
+                    "up share": np.nanmean(r > 0),
+                    "all hours mean": np.nanmean(allr),
+                    "null p (>= real)": float(np.mean(null >= np.nanmean(r))),
+                }
+            )
     yrs = pd.Series(fwd(closes["basket"], t, 3), index=t)
     on = on_at.reindex(t, method="ffill").fillna(False).to_numpy(dtype=bool)
     by = yrs.groupby(yrs.index.year).agg(["count", "mean"])
-    print(f"\n{name}: {len(ev)} events; basket 3-day mean by year:\n"
-          + "  " + "  ".join(f"{y}: {r['mean']:+.3f} (n {int(r['count'])})" for y, r in by.iterrows())
-          + f"\n  bot on at the event: n {int(on.sum())}, mean {np.nanmean(yrs[on]):+.4f}; "
-          f"bot off: n {int((~on).sum())}, mean {np.nanmean(yrs[~on]):+.4f}", flush=True)
+    print(
+        f"\n{name}: {len(ev)} events; basket 3-day mean by year:\n"
+        + "  "
+        + "  ".join(f"{y}: {r['mean']:+.3f} (n {int(r['count'])})" for y, r in by.iterrows())
+        + f"\n  bot on at the event: n {int(on.sum())}, mean {np.nanmean(yrs[on]):+.4f}; "
+        f"bot off: n {int((~on).sum())}, mean {np.nanmean(yrs[~on]):+.4f}",
+        flush=True,
+    )
     return rows
 
 
@@ -168,20 +184,36 @@ def main() -> None:
         mrow = B.period_table({"m": mt}).iloc[0]
         print(f"\n49 flush extra entry {ctx}")
         print(B.fmt(tab))
-        print(f"  exposure-matched x{kx:.3f}: primary beats it (2021-23, 2024-26H1) {B.passes(tab.loc['H3 5/5'], mrow, JUDGE)}")
+        print(
+            f"  exposure-matched x{kx:.3f}: primary beats it (2021-23, 2024-26H1) "
+            f"{B.passes(tab.loc['H3 5/5'], mrow, JUDGE)}"
+        )
         print(B.paired_bootstrap({"H3 5/5": res["H3 5/5"]}, base))
         sub = []
         for v in res:
             if v == "baseline":
                 continue
             row = tab.loc[v]
-            sub.append({"context": ctx, "setting": v, "primary": v == "H3 5/5", "neighbour": v in variants,
-                        **{f"{p} {m}": row[f"{p} {m}"] for p in B.PERIODS for m in ("cagr", "sh", "dd")},
-                        "expo": row["expo"], "passes": B.passes(row, bl, JUDGE),
-                        "beats_matched": B.passes(row, mrow, JUDGE) if v == "H3 5/5" else np.nan, **acts[v]})
+            sub.append(
+                {
+                    "context": ctx,
+                    "setting": v,
+                    "primary": v == "H3 5/5",
+                    "neighbour": v in variants,
+                    **{f"{p} {m}": row[f"{p} {m}"] for p in B.PERIODS for m in ("cagr", "sh", "dd")},
+                    "expo": row["expo"],
+                    "passes": B.passes(row, bl, JUDGE),
+                    "beats_matched": B.passes(row, mrow, JUDGE) if v == "H3 5/5" else np.nan,
+                    **acts[v],
+                }
+            )
         p0 = sub[0]
-        ok = (p0["passes"] and p0["beats_matched"] and all(r["passes"] for r in sub if r["neighbour"])
-              and p0["orders/yr"] <= 1.25 * base_act["orders/yr"])
+        ok = (
+            p0["passes"]
+            and p0["beats_matched"]
+            and all(r["passes"] for r in sub if r["neighbour"])
+            and p0["orders/yr"] <= 1.25 * base_act["orders/yr"]
+        )
         for r in sub:
             r["verdict"] = "PASS" if ok and r["primary"] else ""
         out += sub

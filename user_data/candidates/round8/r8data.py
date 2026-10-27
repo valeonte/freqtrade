@@ -120,8 +120,10 @@ def hourly_features(coin: str, groups=("flow", "whale", "share")) -> pd.DataFram
             out[f"retail1k_{d}d"] = (_sum(rb, h) - _sum(rs, h)) / (_sum(rb, h) + _sum(rs, h))
             out[f"whaleshare_{d}d"] = (_sum(wb, h) + _sum(ws, h)) / _sum(tot, h)
     if "share" in groups:
-        s1 = {d: _sum(sp["quote_volume"], d * 24) / (_sum(sp["quote_volume"], d * 24) + _sum(um["quote_volume"], d * 24))
-              for d in (1, 7, 30)}
+        s1 = {
+            d: _sum(sp["quote_volume"], d * 24) / (_sum(sp["quote_volume"], d * 24) + _sum(um["quote_volume"], d * 24))
+            for d in (1, 7, 30)
+        }
         out["spotshare_1d"], out["spotshare_7d"] = s1[1], s1[7]
         out["spotshare_chg"] = s1[1] - s1[30]
     if "depth" in groups:

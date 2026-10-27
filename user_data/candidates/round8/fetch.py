@@ -3,10 +3,11 @@ Round 8 data from data.binance.vision (public, read-only), everything cut at 202
 2026-07-01), into user_data/data_bed/external/binance_vision/round8/. Resumable: each file is skipped if its
 output exists. One request at a time for the big files.
 
-    nice -n 19 .env/bin/python user_data/candidates/round8/fetch.py klines    # spot 1h 2017-08 ->, UM perp 1h 2020-01 ->
-    nice -n 19 .env/bin/python user_data/candidates/round8/fetch.py metrics   # UM 5-minute metrics (OI) 2020-09 ->
-    nice -n 19 .env/bin/python user_data/candidates/round8/fetch.py depth     # UM bookDepth 2023-01 -> (hourly means)
-    nice -n 19 .env/bin/python user_data/candidates/round8/fetch.py aggtrades # spot aggTrades 2019-01 -> (hourly histograms)
+    (from the repo root, with .env/bin/python and the path user_data/candidates/round8/fetch.py)
+    nice -n 19 python fetch.py klines     # spot 1h 2017-08 ->, UM perp 1h 2020-01 ->
+    nice -n 19 python fetch.py metrics    # UM 5-minute metrics (OI) 2020-09 ->
+    nice -n 19 python fetch.py depth      # UM bookDepth 2023-01 -> (hourly means)
+    nice -n 19 python fetch.py aggtrades  # spot aggTrades 2019-01 -> (hourly histograms)
 
 Outputs (parquet):
 - klines_{spot,um}_<SYM>_1h.parquet: open time, OHLC, volume, quote volume, trades, taker buy base/quote volume.
@@ -33,8 +34,20 @@ BASE = "https://data.binance.vision/data"
 OUT = Path("user_data/data_bed/external/binance_vision/round8")
 LAST = pd.Timestamp("2026-06-30", tz="UTC")
 SYMS = ("BTCUSDT", "ETHUSDT")
-KCOLS = ["open_time", "open", "high", "low", "close", "volume", "close_time", "quote_volume", "trades",
-         "taker_buy_base", "taker_buy_quote", "ignore"]
+KCOLS = [
+    "open_time",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "close_time",
+    "quote_volume",
+    "trades",
+    "taker_buy_base",
+    "taker_buy_quote",
+    "ignore",
+]
 BINS = np.arange(2.0, 7.51, 0.25)  # log10 USD edges; below 100 USD and above ~31.6M in the end bins
 
 
@@ -42,11 +55,11 @@ def get(url: str, path: Path | None = None) -> bytes | None:
     """GET with retries; 404 -> None. With `path`, stream to that file and return b''."""
     for i in range(6):
         try:
-            with urllib.request.urlopen(url, timeout=120) as r:
+            with urllib.request.urlopen(url, timeout=120) as r:  # noqa: S310 (fixed https URLs)
                 if path is None:
                     return r.read()
                 tmp = path.with_suffix(".part")
-                with open(tmp, "wb") as f:
+                with tmp.open("wb") as f:
                     while chunk := r.read(1 << 22):
                         f.write(chunk)
                 tmp.replace(path)
@@ -214,8 +227,10 @@ def agg_month(sym: str, month: str) -> None:
     wide.index.name = "hour"
     wide.reset_index().to_parquet(path)
     z.unlink()
-    print(f"aggtrades {sym} {month}: {int(t['count'].sum()):,} trades, download {dl:.0f}s, "
-          f"total {time.time() - t0:.0f}s", flush=True)
+    print(
+        f"aggtrades {sym} {month}: {int(t['count'].sum()):,} trades, download {dl:.0f}s, total {time.time() - t0:.0f}s",
+        flush=True,
+    )
 
 
 def aggtrades() -> None:

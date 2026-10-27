@@ -14,15 +14,26 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-import r8data as R  # noqa: E402
-import study50_calendar as C  # noqa: E402
+import r8data as R
+import study50_calendar as C
 
 
-D, B, O = R.D, R.B, C.O
+D, B, O = R.D, R.B, C.O  # noqa: E741 (module aliases, as round 7)
 OUT = Path(__file__).parent
-WINDOWS = {"tbr_spot": (1, 3, 7), "tbr_perp": (1, 3, 7), "cvd_spot": (1, 3, 7), "div_spot": (3, 7, 14),
-           "whale100k": (1, 7), "whale1m": (1, 7), "retail1k": (1, 7), "whaleshare": (1, 7), "spotshare": (1, 7),
-           "imb1": (1, 7), "imb2": (1, 7), "imb5": (1, 7)}
+WINDOWS = {
+    "tbr_spot": (1, 3, 7),
+    "tbr_perp": (1, 3, 7),
+    "cvd_spot": (1, 3, 7),
+    "div_spot": (3, 7, 14),
+    "whale100k": (1, 7),
+    "whale1m": (1, 7),
+    "retail1k": (1, 7),
+    "whaleshare": (1, 7),
+    "spotshare": (1, 7),
+    "imb1": (1, 7),
+    "imb2": (1, 7),
+    "imb5": (1, 7),
+}
 JUDGE = {"main": ("2019-20", "2021-23", "2024-26H1"), "depth": ("2023", "2024-26H1")}
 B.PERIODS.setdefault("2023", ("2023-01-01", "2023-12-31"))
 
@@ -56,14 +67,26 @@ def candidates(fam: str) -> list[dict]:
         surv = sub[sub["survivor"]]
         posthoc = surv.empty
         if posthoc:
-            c = sub[sub["asset"].isin(["BTC", "basket"]) & (sub["bar"] == "daily")].sort_values("abs_t", ascending=False).head(1)
+            c = (
+                sub[sub["asset"].isin(["BTC", "basket"]) & (sub["bar"] == "daily")]
+                .sort_values("abs_t", ascending=False)
+                .head(1)
+            )
         else:
             c = surv.sort_values("abs_t", ascending=False).drop_duplicates(["asset", "feature"]).head(3)
         for r in c.itertuples():
-            out.append({"fam": fam, "group": g, "posthoc": posthoc, "asset": r.asset, "feature": r.feature,
-                        "sign": float(np.sign(r.ic)),
-                        "cell": f"{r.asset} {r.bar} h{r.horizon} use {r.use}: IC {r.ic:+.3f} t {r.t:+.2f}, "
-                                f"conf IC {r.ic_conf:+.3f} t {r.t_conf:+.2f}"})
+            out.append(
+                {
+                    "fam": fam,
+                    "group": g,
+                    "posthoc": posthoc,
+                    "asset": r.asset,
+                    "feature": r.feature,
+                    "sign": float(np.sign(r.ic)),
+                    "cell": f"{r.asset} {r.bar} h{r.horizon} use {r.use}: IC {r.ic:+.3f} t {r.t:+.2f}, "
+                    f"conf IC {r.ic_conf:+.3f} t {r.t_conf:+.2f}",
+                }
+            )
     return out
 
 
@@ -92,8 +115,10 @@ def main() -> None:
     rows = []
     for c in cands:
         judge = JUDGE[c["fam"]]
-        vs = {"tercile": signal(c["fam"], c["asset"], c["feature"], c["sign"], "tercile"),
-              "median": signal(c["fam"], c["asset"], c["feature"], c["sign"], "median")}
+        vs = {
+            "tercile": signal(c["fam"], c["asset"], c["feature"], c["sign"], "tercile"),
+            "median": signal(c["fam"], c["asset"], c["feature"], c["sign"], "median"),
+        }
         for nb in neighbours(c["feature"]):
             vs[f"tercile {nb}"] = signal(c["fam"], c["asset"], nb, c["sign"], "tercile")
         for use in O.USES:
@@ -110,24 +135,47 @@ def main() -> None:
             sub = []
             for v in vs:
                 row = tab.loc[v]
-                sub.append({"fam": c["fam"], "group": c["group"], "posthoc": c["posthoc"], "feature": c["feature"],
-                            "asset": c["asset"], "cell": c["cell"], "use": use, "setting": v, "primary": v == "tercile",
-                            **{f"{p} {m}": row[f"{p} {m}"] for p in periods for m in ("cagr", "sh", "dd")},
-                            "expo": row["expo"], "passes": B.passes(row, bl, judge),
-                            "beats_matched": B.passes(row, mrow, judge) if v == "tercile" else np.nan, **acts[v]})
+                sub.append(
+                    {
+                        "fam": c["fam"],
+                        "group": c["group"],
+                        "posthoc": c["posthoc"],
+                        "feature": c["feature"],
+                        "asset": c["asset"],
+                        "cell": c["cell"],
+                        "use": use,
+                        "setting": v,
+                        "primary": v == "tercile",
+                        **{f"{p} {m}": row[f"{p} {m}"] for p in periods for m in ("cagr", "sh", "dd")},
+                        "expo": row["expo"],
+                        "passes": B.passes(row, bl, judge),
+                        "beats_matched": B.passes(row, mrow, judge) if v == "tercile" else np.nan,
+                        **acts[v],
+                    }
+                )
             p0 = sub[0]
-            ok = (p0["passes"] and p0["beats_matched"] and all(r["passes"] for r in sub[1:])
-                  and p0["orders/yr"] <= 1.25 * base_act["orders/yr"])
+            ok = (
+                p0["passes"]
+                and p0["beats_matched"]
+                and all(r["passes"] for r in sub[1:])
+                and p0["orders/yr"] <= 1.25 * base_act["orders/yr"]
+            )
             for r in sub:
                 r["verdict"] = "PASS" if ok and r["primary"] else ""
             if ok:
                 gain = np.mean([tab.loc["tercile", f"{p} sh"] - bl[f"{p} sh"] for p in B.JUDGED])
                 p0["shift_null_p"] = shifted_null(price, bases, vs["tercile"], use, gain)
             rows += sub
-            print(f"\n{c['fam']} {c['group']} {c['feature']} ({c['asset']}) / {use}" + (" [post-hoc]" if c["posthoc"] else ""))
+            print(
+                f"\n{c['fam']} {c['group']} {c['feature']} ({c['asset']}) / {use}"
+                + (" [post-hoc]" if c["posthoc"] else "")
+            )
             print(B.fmt(tab, periods))
-            print(f"  judged on {judge}; exposure-matched x{k:.2f}: beats it {p0['beats_matched']}; activity "
-                  f"{ {kk: round(vv, 1) for kk, vv in acts['tercile'].items()} }" + (f"; shift-null p {p0['shift_null_p']:.3f}" if ok else ""))
+            print(
+                f"  judged on {judge}; exposure-matched x{k:.2f}: beats it {p0['beats_matched']}; activity "
+                f"{ {kk: round(vv, 1) for kk, vv in acts['tercile'].items()} }"
+                + (f"; shift-null p {p0['shift_null_p']:.3f}" if ok else "")
+            )
             print(boot)
     out = pd.DataFrame(rows)
     out.to_csv(OUT / "results_48_overlays.csv", index=False, float_format="%.4f")
