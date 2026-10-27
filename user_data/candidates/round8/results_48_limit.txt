@@ -5,6 +5,6 @@ limit at the decision close, market after 60 min if unfilled: fill rate 99%, sav
 
 by side (15 min):
        count  mean  median
-side                     
+side
 buy     524 -0.50     0.0
 sell    519 -0.42    -0.0

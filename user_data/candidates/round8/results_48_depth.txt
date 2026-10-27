@@ -128,12 +128,12 @@ confirmed (Holm 5%, same sign): 0; survivors: 0
 
 by group:
           cells  bh  confirmed  survivors  med_abs_t  max_abs_t
-group                                                         
+group
 b depth   2160   0          0          0   0.834817   3.603516
 
 by use:
       cells  bh  confirmed  survivors  med_abs_t  max_abs_t
-use                                                       
+use
 a      540   0          0          0   0.854146   2.931952
 b      540   0          0          0   0.643571   2.595748
 c      540   0          0          0   0.983010   3.603516

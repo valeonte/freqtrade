@@ -106,13 +106,13 @@ def hourly_features(coin: str, groups=("flow", "whale", "share")) -> pd.DataFram
         sell = a[[f"s{i}" for i in range(nb)]].to_numpy()
         missing = a.isna().all(axis=1).to_numpy()
 
-        def ser(v):
+        def as_series(v):
             return pd.Series(np.where(missing, np.nan, v), index=a.index)
 
-        wb, ws = ser(buy[:, WHALE100K:].sum(1)), ser(sell[:, WHALE100K:].sum(1))
-        mb, ms = ser(buy[:, WHALE1M:].sum(1)), ser(sell[:, WHALE1M:].sum(1))
-        rb, rs = ser(buy[:, : RETAIL1K + 1].sum(1)), ser(sell[:, : RETAIL1K + 1].sum(1))
-        tot = ser(buy.sum(1) + sell.sum(1))
+        wb, ws = as_series(buy[:, WHALE100K:].sum(1)), as_series(sell[:, WHALE100K:].sum(1))
+        mb, ms = as_series(buy[:, WHALE1M:].sum(1)), as_series(sell[:, WHALE1M:].sum(1))
+        rb, rs = as_series(buy[:, : RETAIL1K + 1].sum(1)), as_series(sell[:, : RETAIL1K + 1].sum(1))
+        tot = as_series(buy.sum(1) + sell.sum(1))
         for d in (1, 7):
             h = d * 24
             out[f"whale100k_{d}d"] = (_sum(wb, h) - _sum(ws, h)) / (_sum(wb, h) + _sum(ws, h))

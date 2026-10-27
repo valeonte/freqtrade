@@ -158,14 +158,14 @@ confirmed (Holm 5%, same sign): 5; survivors: 5
 
 by group:
                  cells  bh  confirmed  survivors  med_abs_t  max_abs_t
-group                                                                
+group
 a flow           2880  19          0          0   0.991181   4.853509
 c large trades   1920  19          5          5   0.933848   4.161346
 d spot/perp       720   0          0          0   0.794651   2.748175
 
 by use:
       cells  bh  confirmed  survivors  med_abs_t  max_abs_t
-use                                                       
+use
 a     1380   6          0          0   0.969663   4.161346
 b     1380  19          0          0   0.995984   4.853509
 c     1380   9          5          5   0.864990   4.105314
