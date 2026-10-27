@@ -78,6 +78,24 @@ Quick studies are vectorised pandas scripts under `user_data/candidates/<idea>/r
 (daily target weights from closes up to day d, earning day d + 1, 0.15% per unit of turnover).
 Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 
+### Reusable research tools (start from these, don't rebuild them)
+
+| Tool | What it does | Checked against |
+| --- | --- | --- |
+| `candidates/positioning/common.py` | Daily replica of the old live bot: `simulate` (two-coin wallet, 20% band, 7.5 bps), `stats`, `PERIODS`, BTC funding loaders | studies 22–26 |
+| `candidates/round4/base.py` | The live rules with any gate / exit / re-entry (`signals`, `run`), exposure-matched yardstick (`matched`), the owner's bar (`passes`, `verdict`), 1h bars (`hourly`, `simulate_bars`, `daily_from_bars`), paired 30-day block bootstrap (`paired_bootstrap`) | reproduces study 25's freqtrade runs |
+| `candidates/round7/overlay.py` | **The live bot (six tranches, one wallet) on 1h bars with any per-tranche signal** used as `veto` / `trim` / `extra` / `dial`, exposure scaling, orders/yr, days with an order and FIFO median hold (`activity`) | reproduces study 28 exactly (2.68 / 1.53 / 1.27) and round 6's activity row (219 orders/yr, 45 days, 10-day hold) |
+| `candidates/round6/after_tax.py`, `uk_cgt.py` | Freqtrade orders → sterling account → UK CGT (same-day / 30-day / pool, USDT as a token, tax paid each 31 January); `stats` gives pre- and after-tax CAGR / Sharpe / DD and the badges-of-trade activity. Export orders with `round6/export_orders.py` or `round7/run_ft.sh` | HMRC's seven pooling examples (`test_uk_cgt.py`) |
+| `candidates/round7/r7data.py` | Daily bars at any UTC hour and 4h bars from the 1h candles, the geometric BTC/ETH basket, forward log returns, the bot's on/off and state per bar | 00 UTC bars = Binance's daily candles exactly |
+| `candidates/round7/features.py` | Every TA-Lib (7 groups), `technical` and qtpylib output at period multipliers, made stationary (`compute`, `pct_rank`) | lookahead-guarded (`study44_guard.py`: recompute on truncated data); `features_admitted.json` lists the 582 clean outputs |
+| `candidates/round7/study44_screen.py` | Information screen for any feature panel: Spearman IC, Newey–West t, BH / Holm, **a circular-shift null** (use one: NW t is inflated for persistent features) | the null calibrates it |
+| `candidates/round7/study45_combos.py` (`spa_rc`) | Hansen's SPA and White's Reality Check over many overlay variants | — |
+| `user_data/freqaimodels/PurgedLightGBM{Classifier,Regressor}.py`, `strategies/funding_vol_tranches_freqai_strategy.py`, `candidates/round7/configs/freqai_*.json` | FreqAI on the live rules, with the label purge FreqAI lacks and decision-hour training rows (keeps the DI matrix small) | `freqai_use: none` reproduces the live bot's orders |
+| `candidates/round7/run_round7.sh` | Pattern for long jobs: one resumable driver, each step skips finished outputs, checkpoints in a gitignored `cache/`, run under `setsid nohup nice -n 19` | survived several reboots |
+
+Candidate write-ups: each `user_data/candidates/<round or idea>/README.md` states its plan (written before running), every
+variant and its verdict; the table below links them.
+
 ## What has been tested
 
 **Quick index: idea families already tested** (check here before proposing anything; study numbers point to the table
