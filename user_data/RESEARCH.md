@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-27.
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-27 (round 8).
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -59,6 +59,7 @@ trade small real money, while research continues.
 | Event windows (round 5) | `user_data/data_bed/round5/events/<SYMBOL>_<T>_{1s,1m}.parquet`: Binance 1s klines T − 1 h → T + 25 h and 1m klines to T + 73 h around each event (data.binance.vision daily files; 1s klines exist back to 2017); `round5/exists.json` caches which pairs traded on which day |
 | GBP/USD (round 6) | `user_data/data_bed/external/fx/gbp_per_usd.csv`: the ECB's daily reference rates, sterling per dollar, from `candidates/round6/fetch_fx.py` |
 | 1-minute candles with taker volume | `user_data/data/binance/klines_1m/<SYMBOL>/<YYYY-MM>.parquet` (gitignored, 6.6 GB): every top-30 pair-month 2022-01 to 2026-06, from `candidates/high_frequency/fetch.py` |
+| Order flow and derivatives data (round 8) | `user_data/data_bed/external/binance_vision/round8/` from `candidates/round8/fetch.py` (data.binance.vision, cut at 2026-06-30): spot 1h klines BTC/ETH with taker-buy volume and trade counts (2017-08 →), USD-M perp 1h klines (2020-01 →), USD-M 5-minute metrics with open interest (BTC 2020-09 →, ETH 2021-12 →), USD-M `bookDepth` as hourly mean notional within ±1…5% of mid (2023-01 →; earlier days don't exist; from 2026-01-15 the files add ±0.2% levels), spot aggTrades as hourly taker buy / sell notional histograms by log10(USD) bin (2019-01 →; the raw files are 0.4–0.8 GB a month, ~90 GB in all, streamed and deleted). Loaders and features in `candidates/round8/r8data.py` |
 | Machine and long runs (2026-10-25) | The machine was upgraded to 8 cores / 23 GB and reboots now and then. Run anything longer than a few minutes detached (`setsid nohup nice -n 19 …`), checkpoint each step so a rerun skips finished work (pattern: `candidates/round7/run_round7.sh` with a gitignored `cache/`), keep it under ~4 GB and LightGBM at ≤ 2 threads so the live bot can't be OOM-killed. The live bot comes back by itself within 10 minutes (cron `*/10` + `flock`). Don't edit the crontab: suggest an `@reboot` line to the owner instead. The upgrade removed `~/.local/bin`, so there is no `claude` CLI on PATH (only the desktop app's bundled copy) |
 
 ### The honest test bed (`user_data/honest_bed/README.md`)
@@ -91,6 +92,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | `candidates/round7/study44_screen.py` | Information screen for any feature panel: Spearman IC, Newey–West t, BH / Holm, **a circular-shift null** (use one: NW t is inflated for persistent features) | the null calibrates it |
 | `candidates/round7/study45_combos.py` (`spa_rc`) | Hansen's SPA and White's Reality Check over many overlay variants | — |
 | `user_data/freqaimodels/PurgedLightGBM{Classifier,Regressor}.py`, `strategies/funding_vol_tranches_freqai_strategy.py`, `candidates/round7/configs/freqai_*.json` | FreqAI on the live rules, with the label purge FreqAI lacks and decision-hour training rows (keeps the DI matrix small) | `freqai_use: none` reproduces the live bot's orders |
+| `candidates/round8/study48_screen.py` | Runs study 44's screen (with its shift null) on **any** feature panel: write `cache/<family>/<bar key>_<asset>.parquet` aligned with `r7data.bar_sets()`, pick discovery / confirmation samples; the null's minimum shift drops to a quarter of the sample for short families | study 44's outputs |
 | `candidates/round7/run_round7.sh` | Pattern for long jobs: one resumable driver, each step skips finished outputs, checkpoints in a gitignored `cache/`, run under `setsid nohup nice -n 19` | survived several reboots |
 
 Candidate write-ups: each `user_data/candidates/<round or idea>/README.md` states its plan (written before running), every
@@ -116,6 +118,12 @@ below). Everything not marked otherwise is dead.
 - **Other assets / income**: SPY + gold (14, ruled out: crypto only), PAXG / EUR (11), stablecoin pegs (11), ETH/BTC tilt (6, 37),
   BNB around Launchpool (38), idle USDT yield (32, ruled out: income).
 - **Tax**: UK CGT calculator and after-tax scoring (39, 40), badges of trade (42). Score every new candidate after tax.
+- **Order flow and microstructure at the decision scale** (round 8): spot / perp taker-buy share, CVD and CVD–price divergence,
+  large-trade (aggTrades ≥ $100k / $1M) and retail imbalance, whale share of volume, spot vs perp volume share, USD-M book
+  depth imbalance (48); passive limit entries instead of market orders (48, note); liquidation flushes from 5-minute open
+  interest (49). Market making itself: study 12.
+- **Derivatives calendar** (round 8): CME weekend gaps, Deribit / CME monthly and quarterly expiries (50).
+- **US spot ETF flows**: not run (51): Farside blocks scripted access, SoSoValue needs a key.
 - **Not yet run**: study 43 (three tranches instead of six, see Open leads).
 
 
@@ -167,6 +175,10 @@ below). Everything not marked otherwise is dead.
 | 45 | Combinations of the indicators: walk-forward L1 / L2 logistic, LightGBM, PCA over all 1,746 features (refit every 90 days, purged), 7- and 14-day basket sign, all / bot-on / bot-off; 760 AND / OR pairs of the top 20 single rules as a trim overlay with Hansen's SPA | Dead | AUC 0.41–0.52 overall, bot-on models below chance (0.41–0.47), as study 26. Pairs: SPA p 0.005 in discovery (where they were picked) → **0.78 in confirmation**; median excess t +0.83 → −0.62; best discovery pair t +3.45 → −0.88 | `candidates/round7/` |
 | 46 | Overlays (veto / trim / extra entry / size dial) on the six-tranche bot, post-hoc (nothing survived 44–45): top 5 features and the best model | Dead: 0 of 24 | Nearest misses: MADR ×1 trim 2.69 / 1.58 / 1.35 (neighbours fail); LightGBM bot-off model trim 2.67 / 1.63 / 1.46, DD −12% each period, exposure 0.21, beats exposure-matched, but best of 30 models picked by AUC, 14-day twin fails 2024–26, 318 orders/yr (+45%). Extra entries lose (as studies 11–15) | `candidates/round7/` |
 | 47 | **FreqAI** on the live tranche rules (`FundingVolTranchesFreqaiStrategy`, purged LightGBM classifier / regressor, ~40 indicators × 3 periods × 1h / 1d × BTC / ETH, basket forward 7 days, 730-day training, monthly refits); trim, veto, standalone | Dead | Predictions' AUC 0.48. vs the live rules in the same runs, Sharpe 2021–23 / 2024–26: classifier trim 1.54 / 1.16 vs 1.57 / 1.20, regressor trim 1.31 / 0.91; standalone 0.15–0.31 with −40 to −54% DD; after-tax CAGR 10–36 points lower; orders ×2–4 (500–800/yr). FreqAI doesn't purge labels in backtests (fixed with `user_data/freqaimodels/Purged*`) | `candidates/round7/` |
+| 48 | **Order flow and book shape at 4h / daily** (round 8): spot / perp taker-buy share, CVD and CVD–price divergence, aggTrades ≥ $100k / $1M and < $1k imbalance, whale share, spot vs perp volume share (46 features, 2018 →), USD-M book depth imbalance ±1/2/5% (18 features, 2023 →); study 44's screen with the shift null; veto / trim / extra / dial on the six-tranche bot; passive limit entries | **Dead: 0 of 20 overlays** | Main family 38 BH discoveries vs null median 93 (95th pct 481); 5 survivors, all raw whale share on bot-off days (IC −0.47, conf t −3.4), a slow level drift (its z-scores fail); as a veto it sits out 2024–26 (Sharpe −0.00 vs 1.27). Perp taker share → 30d IC +0.52 in 2019–22, +0.11 after. Depth: 0 discoveries, max \|t\| 3.60 vs null median 3.52, signs flip after 2024. Limit orders at the decision close: −0.5 bp/order, −0.06 USDT/yr on 82 USDT | `candidates/round8/` |
+| 49 | Liquidation flushes: BTC open interest −5% and price −5% in 4h (5-minute metrics, 2020-09 →), 100 events; extra entry while off, or early re-entry while the 100-day gate is on; holds 1–7 days; OI 3/3, 8/8, 1h, ETH; price-only control | Dead: 0 of 2 | +1.15% BTC over 3 days after an event (null p 0.03), but the price-only drop does +1.52% (p 0.007): OI adds nothing. While off: 2021–23 drawdown 27% → 49%. Gate-on re-entry 2.58 / 1.61 / 1.30 vs 2.68 / 1.53 / 1.27, bootstrap P(≤ 0) 0.19 / 0.06, 3 of 4 neighbours fail; the price-only control does better (1.66 / 1.31) | `candidates/round8/` |
+| 50 | Derivatives calendar: CME weekend gap (444 weekends, Fri 16:00 → Sun 17:00 Chicago from 1h candles) as veto / trim / extra / dial until Wednesday, G 2/3/5%; Deribit (Fri 08:00 UTC) and CME (Fri 16:00 London) monthly / quarterly expiry windows vs other Fridays | Dead: 0 of 4; no expiry overlay qualified | Gaps "fill" no more than pseudo-gaps on weekdays once the following week's volatility is allowed for; the return after the reopen *continues* the gap (slope +0.07, t 0.6). Overlays −0.17 to +0.02 Sharpe. Expiry returns: no window significant in 2018–22 with the same sign after. Pinning since 2024: the week before a Deribit monthly expiry moves 0.47 of normal vol vs 0.86 (p 0.002), a volatility fact, not a direction | `candidates/round8/` |
+| 51 | US spot bitcoin ETF daily net flows (2024 →) | Not run | Farside answers 403 to scripts (bot check), SoSoValue's API needs a key, other copies are unverified scrapes | `candidates/round8/README.md` |
 
 All write-up paths are under `user_data/`.
 
@@ -240,6 +252,18 @@ All write-up paths are under `user_data/`.
   index builds an n × n matrix: train on few rows (or turn `DI_threshold` off) on this 16–23 GB machine.
 - **Newey–West t-stats overstate significance for persistent features** against overlapping returns (study 44): a shifted-
   return null routinely produced |t| ≈ 5 and hundreds of BH "discoveries". Calibrate any screen with a null before believing a t.
+- **Order flow summed to days says nothing the bot's state doesn't** (round 8): taker-buy share, CVD, whale and retail
+  trade imbalance, spot vs perp volume share and perp book depth, 64 features, all inside a shifted-return null. Aggressive
+  buying while the bot is on preceded more gains in 2019–21 (study 22's crowded longs again) and has faded since. The
+  free data's whale share of volume drifts with market structure; as a level it looks predictive on bot-off days and
+  fails as a rule.
+- **Liquidations are just big drops** (study 49): a 5% BTC fall in 4 hours bounces ~1.5% over 3 days whether or not open
+  interest collapsed with it, and buying it while the bot is flat catches 2022's falling knives.
+- **The derivatives calendar has no direction** (study 50): CME weekend gaps don't fill more than weekday moves of the same
+  size, and the move after the reopen continues the gap if anything; expiry weeks have smaller moves since 2024 (pinning),
+  not drift.
+- **Limit orders save nothing at this size** (round 8): Binance spot maker = taker fee at VIP 0, the BTC/ETH half-spread
+  is ~0.01–0.05 bp, and resting at the decision price misses the orders that run away (−0.5 bp a trade).
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -323,6 +347,11 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 - **Stablecoin supply growth** as an extra filter: small gain (Sharpe 1.14 vs 1.02 on the trend
   gate), mostly 2018–20; DefiLlama can revise history, so it needs point-in-time data first.
 - ~~ETH negative funding as a second trigger~~: tested in freqtrade (study 16), better in 2021–23, worse in 2024–26; not adopted.
+- **Re-entry after a sharp drop inside an up-trend** (study 49, not a pass): while the bot is out on the fast exit but BTC's
+  100-day gate is still on, buying for 3 days after a 5% 4-hour BTC drop met the bar in 2021–23 and 2024–26 (2.58 / 1.61 / 1.30
+  vs 2.68 / 1.53 / 1.27) but its neighbours failed and 2019–20 lost 0.10; the price-only version (no OI data) did slightly
+  better. If the fast exit (study 25) is ever revisited, test it there as a re-entry rule, pre-registered.
+- **ETF flows (study 51)**: ready to run if the owner has a SoSoValue key or a CSV export of daily US spot BTC ETF flows.
 - **Paper vs backtest**: once the paper bot has a few weeks of trades, check `reconcile.py`
   reports; any systematic gap matters more than any new idea.
 
@@ -339,3 +368,4 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
 Round 5 (studies 33–38) used no look: no idea showed an edge before July that met the bar.
 Round 6 (studies 39–42) used no look: no candidate passed the bar, and no order reached 2026-07-01.
 Round 7 (studies 44–47) used no look: nothing passed before July.
+Round 8 (studies 48–51) used no look: nothing passed before July, and every download stops at 2026-06-30.

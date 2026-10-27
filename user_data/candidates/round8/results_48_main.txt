@@ -1,0 +1,210 @@
+main panels loaded 46 features
+  disc BTC daily h=1 done
+  disc BTC daily h=3 done
+  disc BTC daily h=7 done
+  disc BTC daily h=14 done
+  disc BTC daily h=30 done
+  disc BTC 4h h=1 done
+  disc BTC 4h h=3 done
+  disc BTC 4h h=7 done
+  disc BTC 4h h=14 done
+  disc BTC 4h h=30 done
+  disc ETH daily h=1 done
+  disc ETH daily h=3 done
+  disc ETH daily h=7 done
+  disc ETH daily h=14 done
+  disc ETH daily h=30 done
+  disc ETH 4h h=1 done
+  disc ETH 4h h=3 done
+  disc ETH 4h h=7 done
+  disc ETH 4h h=14 done
+  disc ETH 4h h=30 done
+  disc basket daily h=1 done
+  disc basket daily h=3 done
+  disc basket daily h=7 done
+  disc basket daily h=14 done
+  disc basket daily h=30 done
+  disc basket 4h h=1 done
+  disc basket 4h h=3 done
+  disc basket 4h h=7 done
+  disc basket 4h h=14 done
+  disc basket 4h h=30 done
+  conf BTC daily h=1 done
+  conf BTC daily h=3 done
+  conf BTC daily h=7 done
+  conf BTC daily h=14 done
+  conf BTC daily h=30 done
+  conf BTC 4h h=1 done
+  conf BTC 4h h=3 done
+  conf BTC 4h h=7 done
+  conf BTC 4h h=14 done
+  conf BTC 4h h=30 done
+  conf ETH daily h=1 done
+  conf ETH daily h=3 done
+  conf ETH daily h=7 done
+  conf ETH daily h=14 done
+  conf ETH daily h=30 done
+  conf ETH 4h h=1 done
+  conf ETH 4h h=3 done
+  conf ETH 4h h=7 done
+  conf ETH 4h h=14 done
+  conf ETH 4h h=30 done
+  conf basket daily h=1 done
+  conf basket daily h=3 done
+  conf basket daily h=7 done
+  conf basket daily h=14 done
+  conf basket daily h=30 done
+  conf basket 4h h=1 done
+  conf basket 4h h=3 done
+  conf basket 4h h=7 done
+  conf basket 4h h=14 done
+  conf basket 4h h=30 done
+  2019-20 BTC daily h=1 done
+  2019-20 BTC daily h=3 done
+  2019-20 BTC daily h=7 done
+  2019-20 BTC daily h=14 done
+  2019-20 BTC daily h=30 done
+  2019-20 BTC 4h h=1 done
+  2019-20 BTC 4h h=3 done
+  2019-20 BTC 4h h=7 done
+  2019-20 BTC 4h h=14 done
+  2019-20 BTC 4h h=30 done
+  2019-20 ETH daily h=1 done
+  2019-20 ETH daily h=3 done
+  2019-20 ETH daily h=7 done
+  2019-20 ETH daily h=14 done
+  2019-20 ETH daily h=30 done
+  2019-20 ETH 4h h=1 done
+  2019-20 ETH 4h h=3 done
+  2019-20 ETH 4h h=7 done
+  2019-20 ETH 4h h=14 done
+  2019-20 ETH 4h h=30 done
+  2019-20 basket daily h=1 done
+  2019-20 basket daily h=3 done
+  2019-20 basket daily h=7 done
+  2019-20 basket daily h=14 done
+  2019-20 basket daily h=30 done
+  2019-20 basket 4h h=1 done
+  2019-20 basket 4h h=3 done
+  2019-20 basket 4h h=7 done
+  2019-20 basket 4h h=14 done
+  2019-20 basket 4h h=30 done
+  2021-23 BTC daily h=1 done
+  2021-23 BTC daily h=3 done
+  2021-23 BTC daily h=7 done
+  2021-23 BTC daily h=14 done
+  2021-23 BTC daily h=30 done
+  2021-23 BTC 4h h=1 done
+  2021-23 BTC 4h h=3 done
+  2021-23 BTC 4h h=7 done
+  2021-23 BTC 4h h=14 done
+  2021-23 BTC 4h h=30 done
+  2021-23 ETH daily h=1 done
+  2021-23 ETH daily h=3 done
+  2021-23 ETH daily h=7 done
+  2021-23 ETH daily h=14 done
+  2021-23 ETH daily h=30 done
+  2021-23 ETH 4h h=1 done
+  2021-23 ETH 4h h=3 done
+  2021-23 ETH 4h h=7 done
+  2021-23 ETH 4h h=14 done
+  2021-23 ETH 4h h=30 done
+  2021-23 basket daily h=1 done
+  2021-23 basket daily h=3 done
+  2021-23 basket daily h=7 done
+  2021-23 basket daily h=14 done
+  2021-23 basket daily h=30 done
+  2021-23 basket 4h h=1 done
+  2021-23 basket 4h h=3 done
+  2021-23 basket 4h h=7 done
+  2021-23 basket 4h h=14 done
+  2021-23 basket 4h h=30 done
+  2024-26H1 BTC daily h=1 done
+  2024-26H1 BTC daily h=3 done
+  2024-26H1 BTC daily h=7 done
+  2024-26H1 BTC daily h=14 done
+  2024-26H1 BTC daily h=30 done
+  2024-26H1 BTC 4h h=1 done
+  2024-26H1 BTC 4h h=3 done
+  2024-26H1 BTC 4h h=7 done
+  2024-26H1 BTC 4h h=14 done
+  2024-26H1 BTC 4h h=30 done
+  2024-26H1 ETH daily h=1 done
+  2024-26H1 ETH daily h=3 done
+  2024-26H1 ETH daily h=7 done
+  2024-26H1 ETH daily h=14 done
+  2024-26H1 ETH daily h=30 done
+  2024-26H1 ETH 4h h=1 done
+  2024-26H1 ETH 4h h=3 done
+  2024-26H1 ETH 4h h=7 done
+  2024-26H1 ETH 4h h=14 done
+  2024-26H1 ETH 4h h=30 done
+  2024-26H1 basket daily h=1 done
+  2024-26H1 basket daily h=3 done
+  2024-26H1 basket daily h=7 done
+  2024-26H1 basket daily h=14 done
+  2024-26H1 basket daily h=30 done
+  2024-26H1 basket 4h h=1 done
+  2024-26H1 basket 4h h=3 done
+  2024-26H1 basket 4h h=7 done
+  2024-26H1 basket 4h h=14 done
+  2024-26H1 basket 4h h=30 done
+
+main: 5,520 cells (46 features), discovery ('2018-03-01', '2022-12-31')
+BH 10% discoveries: real 38; null mean 158.8, median 93, 95th pct 481, max 906; share of null reps >= real 0.675
+max |t| real 4.85; null max |t| median 4.52, 95th pct 5.22; share of null reps with max >= real 0.200
+|t| > 3: real 87, null mean 145.7, 95th pct 271
+confirmed (Holm 5%, same sign): 5; survivors: 5
+
+by group:
+                 cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+group                                                                
+a flow           2880  19          0          0   0.991181   4.853509
+c large trades   1920  19          5          5   0.933848   4.161346
+d spot/perp       720   0          0          0   0.794651   2.748175
+
+by use:
+      cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+use                                                       
+a     1380   6          0          0   0.969663   4.161346
+b     1380  19          0          0   0.995984   4.853509
+c     1380   9          5          5   0.864990   4.105314
+d     1380   4          0          0   1.014643   3.700651
+
+top 30 cells by discovery |t|:
+       feature  asset   bar  horizon use     ic      t   bh  ic_conf  t_conf  survivor  boot_p  ic_2019-20  ic_2021-23  ic_2024-26H1
+tbr_perp_7d_z    BTC    4h       30   b  0.515  4.854 True    0.108   1.428     False   0.000       0.564       0.386         0.120
+tbr_perp_7d_z    BTC daily       30   b  0.516  4.844 True    0.110   1.426     False   0.000       0.560       0.394         0.120
+tbr_perp_1d_z    BTC    4h       30   b  0.318  4.437 True    0.034   0.952     False   0.000       0.397       0.220         0.033
+tbr_perp_3d_z    BTC    4h       30   b  0.417  4.435 True    0.065   1.146     False   0.000       0.500       0.313         0.058
+tbr_perp_7d_z    BTC    4h       14   b  0.383  4.413 True    0.011   0.146     False   0.000       0.471       0.208         0.025
+tbr_perp_7d_z    BTC daily       14   b  0.387  4.316 True    0.016   0.203     False   0.000       0.478       0.215         0.027
+tbr_perp_3d_z    BTC daily       30   b  0.408  4.301 True    0.066   1.127     False   0.000       0.492       0.315         0.054
+   whale1m_1d basket    4h       30   a  0.158  4.161 True    0.009   0.207     False   0.000       0.694       0.122         0.031
+ whale1m_7d_z basket daily       30   c  0.368  4.105 True   -0.121  -1.347     False   0.000         NaN       0.163        -0.072
+tbr_perp_1d_z    BTC daily       30   b  0.302  4.053 True    0.033   0.871     False   0.000       0.406       0.211         0.028
+tbr_perp_7d_z basket    4h       14   b  0.336  4.021 True   -0.004  -0.046     False   0.000       0.509       0.150         0.028
+   whale1m_1d basket daily       30   a  0.171  3.982 True   -0.006  -0.133     False   0.002       0.701       0.117         0.015
+tbr_perp_7d_z basket daily       14   b  0.339  3.912 True    0.003   0.035     False   0.000       0.507       0.156         0.034
+whaleshare_1d    BTC    4h       30   c -0.474 -3.802 True   -0.496  -3.435      True   0.000      -0.501      -0.276        -0.399
+   whale1m_7d basket daily       30   a  0.310  3.800 True   -0.052  -0.755     False   0.000       0.544       0.123         0.002
+   whale1m_7d basket    4h       30   a  0.306  3.778 True   -0.047  -0.683     False   0.000       0.513       0.128         0.005
+tbr_perp_3d_z    BTC    4h       14   b  0.279  3.757 True   -0.021  -0.331     False   0.000       0.386       0.164        -0.034
+whaleshare_1d    BTC daily       30   c -0.458 -3.734 True   -0.479  -3.437      True   0.000      -0.492      -0.270        -0.385
+whaleshare_1d    BTC    4h        1   c -0.109 -3.716 True   -0.078  -2.275     False   0.000      -0.097      -0.104        -0.050
+ whale100k_7d    BTC    4h       30   d  0.290  3.701 True    0.014   0.191     False   0.000       0.208       0.116         0.045
+whaleshare_7d    BTC    4h       30   c -0.492 -3.683 True   -0.518  -3.418      True   0.000      -0.574      -0.278        -0.439
+ whale100k_7d    BTC daily       30   d  0.289  3.680 True    0.016   0.217     False   0.001       0.203       0.107         0.049
+tbr_perp_7d_z basket    4h       30   b  0.408  3.668 True    0.133   1.558     False   0.000       0.569       0.312         0.163
+tbr_perp_3d_z basket    4h       30   b  0.346  3.619 True    0.071   1.170     False   0.000       0.521       0.260         0.082
+whaleshare_7d    BTC    4h       14   a -0.264 -3.602 True   -0.249  -3.064     False   0.000      -0.190      -0.218        -0.200
+tbr_perp_1d_z basket    4h       30   b  0.266  3.588 True    0.036   0.962     False   0.000       0.411       0.189         0.044
+whaleshare_7d    BTC daily       30   c -0.477 -3.584 True   -0.496  -3.380      True   0.002      -0.579      -0.270        -0.416
+ whale1m_7d_z basket    4h       30   c  0.337  3.569 True   -0.113  -1.155     False   0.000         NaN       0.135        -0.061
+tbr_perp_7d_z basket daily       30   b  0.404  3.562 True    0.135   1.549     False   0.000       0.559       0.317         0.165
+whaleshare_7d    BTC    4h       14   c -0.336 -3.561 True   -0.400  -3.275      True   0.000      -0.314      -0.295        -0.371
+
+top cell per group, bot-on (b) / bot-off (c) / partial (d) uses:
+  a flow: tbr_perp_7d_z BTC 4h h30 use b: IC +0.515 t +4.85, conf IC +0.108 t +1.43
+  c large trades: whale1m_7d_z basket daily h30 use c: IC +0.368 t +4.11, conf IC -0.121 t -1.35
+  d spot/perp: spotshare_1d_z basket 4h h14 use b: IC -0.287 t -2.75, conf IC +0.039 t +0.45

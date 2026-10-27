@@ -240,3 +240,51 @@ and BTC/ETH-USDT's half-spread is ~0.01–0.05 bp, so there is nothing to save. 
 
 Farside's tables answer HTTP 403 to scripted requests (a Cloudflare bot check, which this research doesn't circumvent),
 SoSoValue's API needs a key, and the remaining copies are unverified third-party scrapes. Not fetched cleanly, so not run.
+
+## Study 48 (a, c, d): taker flow, large trades, spot vs perp — dead (0 of 20 overlay primaries)
+
+`results_48_main.txt`, `results_48_main_cells.csv.gz`, `results_48_main_null.csv`, `results_48_overlays.txt` / `.csv`.
+46 features (23 raw + 90-day z), 5,520 cells, discovery 2018-03 → 2022-12 (perp from 2020, aggTrades from 2019),
+confirmation 2023 → Jun 2026. aggTrades: 180 BTC/ETH spot months 2019-01 → 2026-06, ~90 GB streamed and reduced to hourly
+size histograms (two download workers by date range after the first ~50 months; `cache/agg_range.py`).
+
+- **The family is inside the null.** BH 10% discoveries: real **38**, null median 93, mean 159, 95th pct 481 (68% of
+  shifted replicates find more); max |t| 4.85 vs null median 4.52 (20% exceed it); |t| > 3 in 87 cells vs a null mean of
+  146. By group: flow 19 BH, 0 confirmed; large trades 19 BH, 5 confirmed; spot/perp 0.
+- **Taker flow** (top cells, bot-on use): perp taker-buy share (7-day z) → BTC 30 days, IC +0.52 (t 4.9) in discovery,
+  +0.11 (t 1.4) in confirmation; 0.56 / 0.39 / 0.12 by period. Buyers aggressive while the bot is on preceded further
+  gains in 2019–21 and barely since: study 22's "crowded longs keep winning", fading. Spot CVD and CVD–price divergence:
+  nothing (|t| < 3).
+- **Large trades**: the 5 survivors are all **raw** whale share (notional in aggTrades ≥ $100k / all notional, 1 and 7
+  days) → BTC 14–30 days on **bot-off** rows, IC −0.34 to −0.49, confirmation t −3.3 to −3.4, the same sign in every period.
+  Their 90-day z-scores don't survive, so it is the *level* that matters: the whale share has drifted with market
+  structure (bigger trades, zero-fee periods), and in bear markets the slower, higher-share stretches came before more
+  falling. A level that trends slowly, against 30-day returns, on the bot's flat days: the kind of persistent feature
+  study 44 warned inflates t, and the family as a whole doesn't beat its null. Net whale buying (≥ $100k, ≥ $1M) and
+  retail (< $1k) imbalance: nothing confirmed (whale1m 7d → basket 30d IC +0.31 in discovery, −0.05 after).
+- **Spot vs perp share**: max |t| 2.7, nothing.
+
+Overlays (survivors: whale share 1d and 7d; post-hoc: the top flow, spot/perp and depth cells), tercile primary, median and
+adjacent-window neighbours, veto / trim / extra / dial: **0 of 20 primaries pass**; 3 of 56 rows pass the bar alone
+(each with failing siblings).
+
+| primary (tercile) | 2019–20 | 2021–23 | 2024–26H1 | orders/yr |
+| --- | --- | --- | --- | --- |
+| baseline | +156% / 2.68 / −21% | +46% / 1.53 / −27% | +40% / 1.27 / −24% | 219 |
+| whale share 7d, veto (survivor) | +148% / 2.65 / −21% | +43% / 1.54 / −23% | **−2% / −0.00** / −19% | 146 |
+| whale share 1d, veto (survivor) | 2.78 / −19% | 1.60 / −22% | **0.96** / −23% | 156 |
+| whale share 1d / 7d, trim | 2.61 / 2.49 | 1.44 / 1.50 | 1.11 / 1.13 (DD −14%) | 450 / 282 |
+| taker share perp 7d z, dial (post-hoc) | 2.75 / −21% | 1.59 / −23% | 1.02 / −23% | 560 |
+| spot share 1d z, veto (post-hoc) | 2.72 / −21% | 1.62 / −21% | 1.22 / −23% | 197 |
+
+Depth (post-hoc, judged on 2023 and 2024–26 only): the best use, extra, has Sharpe 2.24 vs 1.98 in 2023 but 1.16 vs
+1.27 in 2024–26, with 541 orders/yr. The whale-share veto keeps the bot out of most of 2024–26's rally (a high-share regime since 2024), the opposite of what
+a timing signal should do. The nearest miss, the spot-share veto (post-hoc), loses 0.05 Sharpe in 2024–26, and its
+7-day neighbour loses in 2021–23. Nothing reached a freqtrade run, the after-tax scorer or the holdout.
+
+## Verdict
+
+Nothing in round 8 passed before July: **no freqtrade backtest, no after-tax scoring, no holdout look.** Order flow,
+large-trade flow, spot/perp share and futures book depth summed to 4h / daily carry nothing beyond the bot's state that
+survives a shifted-return null; liquidation flushes are just big drops, which bounce but catch knives in bears; the CME
+gap and expiry calendar gives no direction; ETF flows couldn't be fetched cleanly; passive entries save nothing.
