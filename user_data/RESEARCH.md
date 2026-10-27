@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-26.
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-27.
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -59,6 +59,7 @@ trade small real money, while research continues.
 | Event windows (round 5) | `user_data/data_bed/round5/events/<SYMBOL>_<T>_{1s,1m}.parquet`: Binance 1s klines T − 1 h → T + 25 h and 1m klines to T + 73 h around each event (data.binance.vision daily files; 1s klines exist back to 2017); `round5/exists.json` caches which pairs traded on which day |
 | GBP/USD (round 6) | `user_data/data_bed/external/fx/gbp_per_usd.csv`: the ECB's daily reference rates, sterling per dollar, from `candidates/round6/fetch_fx.py` |
 | 1-minute candles with taker volume | `user_data/data/binance/klines_1m/<SYMBOL>/<YYYY-MM>.parquet` (gitignored, 6.6 GB): every top-30 pair-month 2022-01 to 2026-06, from `candidates/high_frequency/fetch.py` |
+| Machine and long runs (2026-10-25) | The machine was upgraded to 8 cores / 23 GB and reboots now and then. Run anything longer than a few minutes detached (`setsid nohup nice -n 19 …`), checkpoint each step so a rerun skips finished work (pattern: `candidates/round7/run_round7.sh` with a gitignored `cache/`), keep it under ~4 GB and LightGBM at ≤ 2 threads so the live bot can't be OOM-killed. The live bot comes back by itself within 10 minutes (cron `*/10` + `flock`). Don't edit the crontab: suggest an `@reboot` line to the owner instead. The upgrade removed `~/.local/bin`, so there is no `claude` CLI on PATH (only the desktop app's bundled copy) |
 
 ### The honest test bed (`user_data/honest_bed/README.md`)
 
@@ -78,6 +79,27 @@ Quick studies are vectorised pandas scripts under `user_data/candidates/<idea>/r
 Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 
 ## What has been tested
+
+**Quick index: idea families already tested** (check here before proposing anything; study numbers point to the table
+below). Everything not marked otherwise is dead.
+
+- **Trend timing on BTC/ETH (the live bot's family)**: SMA gates and ensembles (3, 6; the SMA100 gate is in the bot), vol targeting (7, adopted), negative
+  funding (9, 10, adopted; ETH funding 16), fast exit (25, in the bot), six tranches (28, live), walk-forward/PBO rigour (27), breadth gates
+  (29), intraday crash exits (30), trend-quality sizing (31), cadence / low turnover (41), vol-target frontier (32).
+- **Alts and cross-section**: momentum factors (1, 20; low vol is real among alts but loses to BTC/ETH), alt baskets and sleeves (8, 21), reversal (4), funding cross-section (5),
+  new listings (19), delistings (14), on-chain exchange flows (18), Upbit / Bybit / Coinbase listing events (33–36).
+- **Outside signals**: Fear & Greed, stablecoin supply, hash ribbon, Puell, Coinbase / Korean premiums, Nasdaq / S&P, dollar,
+  DVOL (9, 14, 15, 23), positioning: funding highs, OI, long/short ratios, basis (22), macro FOMC / CPI days (24).
+- **Machine learning**: walk-forward classifiers over outside signals (26), learners over every bundled indicator and FreqAI
+  (45, 47). Both predict at or below chance; don't expect ML to rescue features that fail alone.
+- **Technical indicators and oscillators**: every TA-Lib, `technical` and qtpylib output, alone and in pairs (44, 45, 46).
+- **Faster trading**: grid (2), market making and triangular arbitrage (12), 1-minute patterns (17), hourly seasonality and
+  weekday effects (9, 13).
+- **Other assets / income**: SPY + gold (14, ruled out: crypto only), PAXG / EUR (11), stablecoin pegs (11), ETH/BTC tilt (6, 37),
+  BNB around Launchpool (38), idle USDT yield (32, ruled out: income).
+- **Tax**: UK CGT calculator and after-tax scoring (39, 40), badges of trade (42). Score every new candidate after tax.
+- **Not yet run**: study 43 (three tranches instead of six, see Open leads).
+
 
 | # | Idea | Verdict | Key numbers | Write-up |
 | --- | --- | --- | --- | --- |
