@@ -153,7 +153,8 @@ def depth_day(sym: str, day: str) -> None:
         df = pd.read_csv(io.BytesIO(z.read(z.namelist()[0])))
     df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True)
     w = df.pivot_table(index="timestamp", columns="percentage", values="notional", aggfunc="last")
-    w.columns = [f"n{int(c):+d}" for c in w.columns]
+    w = w[[c for c in w.columns if float(c).is_integer()]]  # from 2026-01-15 the files add +-0.2% levels
+    w.columns = [f"n{int(float(c)):+d}" for c in w.columns]
     w["snaps"] = 1
     g = w.groupby(w.index.floor("h"))
     out = g.mean(numeric_only=True)
