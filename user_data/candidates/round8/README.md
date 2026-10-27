@@ -139,3 +139,104 @@ plan**: Farside's tables answer HTTP 403 to scripted requests (Cloudflare bot ch
 the only other copies are unverified third-party scrapes on GitHub. Not fetched cleanly, so per the brief **not run**;
 recorded as such. (If the owner has an API key or a CSV export, the study is ready to write: flows z-scored against
 20 days, IC vs BTC 1–7 days, overlay as study 48.)
+
+---
+
+# Results (written after running; the plan above is unchanged)
+
+Baseline in every overlay run: the six-tranche bot reproduces study 28 exactly (Sharpe 2.68 / 1.53 / 1.27, CAGR +156% /
++46% / +40%, drawdown 21 / 27 / 24%; 219 orders/yr, 45.5 days with an order, median hold 10 days).
+
+## Study 50: derivatives calendar — dead (0 of 4)
+
+**(a) CME weekend gaps** (`results_50.txt`, `results_50.csv`): 444 weekends, 246 gaps ≥ 1%, 99 ≥ 3%.
+
+- *Fill rates* look like the folklore: gaps of 2–4% trade back to Friday's close within 5 days 70% of the time, ≥ 4% 48%.
+  But the same statistic on pseudo-gaps (the same clock window Monday→Wednesday and Tuesday→Thursday) is 53% / 32%,
+  and the gap's following week (Monday–Friday) is more volatile than the pseudo-gap's (which runs into a weekend), so the
+  excess is volatility, not attraction.
+- *Direction*: forward return from the reopen regressed on the gap has a **positive** slope (continuation, not fill) in
+  every horizon and period: 24 h +0.07 (t 0.7), 72 h +0.07 (t 0.6), to next Friday +0.17 (t 0.9); 2024–26 72 h +0.03
+  (t 0.2). Pseudo-gaps the same. Mean 72 h return after up-gaps ≥ 1% +0.8%, after down-gaps +0.5%.
+- Overlays (−1 after an up-gap ≥ G, +1 after a down-gap, until Wednesday 00 UTC), G = 3% (primary), 2%, 5%:
+
+| use, G 3% | 2019–20 | 2021–23 | 2024–26H1 | orders/yr | bootstrap P(gain ≤ 0) |
+| --- | --- | --- | --- | --- | --- |
+| baseline | +156% / 2.68 / −21% | +46% / 1.53 / −27% | +40% / 1.27 / −24% | 219 | |
+| veto | +156% / 2.68 / −22% | +47% / 1.55 / −27% | +40% / 1.27 / −24% | 216 | 0.75 / 0.02 / 0.17 |
+| trim | +133% / 2.52 / −21% | +43% / 1.49 / −26% | +37% / 1.22 / −24% | 300 | 0.99 / 0.73 / 0.96 |
+| extra | +154% / 2.65 / −23% | +43% / 1.43 / −36% | +42% / 1.30 / −24% | 292 | 0.71 / 0.75 / 0.38 |
+| dial | +134% / 2.51 / −22% | +44% / 1.50 / −26% | +38% / 1.23 / −24% | 348 | 0.99 / 0.67 / 0.84 |
+
+  0 of 12 cells pass. The veto hardly fires (the bot rarely enters on a Sunday night after a 3% up-gap): +0.02 Sharpe in
+  2021–23, a 1-point deeper drawdown in 2019–20. Trims and dials cost 0.15 Sharpe in 2019–20 and add 40–60% more orders.
+
+**(b) Expiries** (102 monthly, 34 quarterly; Deribit Friday 08:00 UTC and CME Friday 16:00 London; vs 341 other Fridays,
+permutation p): no return window meets the overlay condition (p < 0.05 in 2018–22 and the same sign after), so no overlay
+was run. The one discovery-sample hit, Deribit monthly E → E + 24 h (+1.2% vs +0.3%, p 0.03), is all 2019–20 (+2.1%) and
+reverses after 2023 (−0.1% vs +0.3%). The quarterly week before expiry is −2.9% vs +0.6% in 2018–22 (p 0.08) and +0.1%
+after. **Pinning is visible but recent**: the week before a Deribit monthly expiry moved 0.47 of a normal week's vol in
+2024–26 vs 0.86 on other Fridays (p 0.002), not in 2018–22 (0.75 vs 0.77). That is a volatility fact (useful to an
+options seller), not a direction for a long-only spot bot.
+
+## Study 49: liquidation flushes — dead (0 of 2)
+
+`results_49.txt`, `results_49_events.csv`, `results_49.csv`. 5-minute open interest from 2020-09 (BTC), 2021-12 (ETH);
+the mark price is OI value / OI contracts. Events (24 h de-clustered): primary BTC 4h OI −5% & price −5%: **100**;
+3/3: 312; 8/8: 24; 1h 3/3: 167; ETH 5/5: 127; price-only controls −5%: 120, −3%: 400.
+
+| events | n | BTC +1d | BTC +3d | BTC +7d | basket +3d | null p (3d, BTC) |
+| --- | --- | --- | --- | --- | --- | --- |
+| all hours | | +0.08% | +0.24% | +0.57% | +0.21% | |
+| BTC OI −5% & px −5% (primary) | 100 | +0.90% | +1.15% | +1.16% | +0.98% | 0.03 |
+| BTC OI −8% & px −8% | 24 | +3.4% | +3.2% | +1.3% | +4.4% | 0.003 |
+| BTC OI −3% & px −3% | 311 | +0.15% | +0.47% | +0.56% | +0.49% | 0.21 |
+| ETH OI −5% & px −5% | 126 | +0.09% | +0.24% | +0.03% | −0.03% | 0.50 |
+| **control: BTC px −5% only** | 119 | +0.97% | **+1.52%** | +1.35% | +1.43% | 0.007 |
+| control: BTC px −3% only | 397 | +0.02% | +0.15% | +0.34% | +0.15% | 0.67 |
+
+- Big 4-hour drops bounce, as study 17 found at minute scale, but **the open-interest condition adds nothing**: the
+  price-only control bounces as much or more. By year the primary's basket 3-day mean is +1.6% / −1.8% / +2.8% / +2.8% /
+  +4.1% in 2021 / 2022 / 2023 / 2024 / 2025: it loses in the bear year, when the bot is off, which is when an extra entry
+  would act. Bot on at the event: +2.0% (n 47); bot off: 0.0% (n 53).
+- Overlays (`extra`, judged on 2021–23 and 2024–26H1; Sep–Dec 2020 shown in the 2019–20 column):
+
+| context / setting | 2019–20 | 2021–23 | 2024–26H1 | orders/yr |
+| --- | --- | --- | --- | --- |
+| (i) any time off, H 3d 5/5 (primary) | +150% / 2.60 / −22% | +32% / 1.04 / **−49%** | +52% / 1.41 / −23% | 345 |
+| (i) H 1d / 7d | 2.66 / 2.62 | 1.35 / 0.73 | 1.40 / 1.12 | 377 / 299 |
+| (i) 3/3, 8/8 | 2.61 / 2.68 | 0.80 / 1.42 | 0.79 / 1.40 | 461 / 248 |
+| (i) price-only control | 2.60 | 1.18 | 1.38 | 368 |
+| (ii) gate on, fast-exited, H 3d 5/5 (primary) | +149% / 2.58 / −23% | +50% / 1.61 / −27% | +41% / 1.30 / −24% | 248 |
+| (ii) H 1d / 7d | 2.66 / 2.57 | 1.54 / 1.68 | 1.29 / **1.25** | 240 / 248 |
+| (ii) 3/3, 8/8 | 2.57 / 2.68 | **1.49** / 1.56 | 1.28 / **1.25** | 280 / 222 |
+| (ii) price-only control | 2.58 | 1.66 | 1.31 | 254 |
+
+  (i) catches falling knives in 2022 (drawdown 27% → 49%). (ii) (early re-entry while the 100-day gate is still on)
+  meets the bar in both judged periods and beats the exposure-matched bot, but bootstrap P(gain ≤ 0) 0.19 / 0.06, three of
+  four neighbours fail (H 7d and 8/8 lose in 2024–26, 3/3 in 2021–23), it costs 0.10 Sharpe in late 2020, and the
+  price-only control does better (1.66 / 1.31): what helps is "BTC fell 5% in 4 hours inside an up-trend", not
+  liquidations. Not a pass; noted under Open leads as a re-entry idea for the fast exit, without the OI data.
+
+## Study 48 (b): futures book depth imbalance — dead
+
+`results_48_depth.txt`. 18 features (imbalance within 1/2/5% of mid, 1 and 7 days, 1d − 7d change; raw and 90-day z),
+2,160 cells, discovery 2023–24, confirmation 2025–Jun 2026. **0 BH discoveries** (null: median 0, mean 14, 95th pct 98);
+max |t| 3.60 against a null median of 3.52 (43% of shifted replicates exceed it); |t| > 3 in 5 cells vs a null mean of
+18. The top cells say *more resting bids → lower returns* over 3–30 days in 2023–24 (e.g. ETH 1% imbalance change → 3
+days, IC −0.12) and all flip sign in 2025–26 (IC +0.06). Book depth on Binance's perps is mostly market makers'
+quoting, and it says nothing at the bot's scale.
+
+## Passive limit entries — not worth it
+
+`results_48_limit.txt`. 1,043 orders of the simulated six-tranche bot 2022-01 → 2026-06 (238/yr, 6% of the wallet
+each on average). A buy (sell) limit at the decision close fills when a later minute trades through it: 96% within 5
+minutes, 99% within an hour; unfilled orders buy at market at the window's end. Against a market order at the next
+minute's open the limit **loses 0.5 bp per order** (median 0.0; the misses are the orders that ran away), about
+**−0.06 USDT a year** on an 82 USDT wallet. Binance spot charges makers and takers the same (0.1%, 0.075% with BNB) at VIP 0,
+and BTC/ETH-USDT's half-spread is ~0.01–0.05 bp, so there is nothing to save. Keep market orders.
+
+## Study 51: US spot ETF flows — not run
+
+Farside's tables answer HTTP 403 to scripted requests (a Cloudflare bot check, which this research doesn't circumvent),
+SoSoValue's API needs a key, and the remaining copies are unverified third-party scrapes. Not fetched cleanly, so not run.

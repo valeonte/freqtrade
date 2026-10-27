@@ -1,0 +1,176 @@
+depth panels loaded 18 features
+  disc BTC daily h=1 done
+  disc BTC daily h=3 done
+  disc BTC daily h=7 done
+  disc BTC daily h=14 done
+  disc BTC daily h=30 done
+  disc BTC 4h h=1 done
+  disc BTC 4h h=3 done
+  disc BTC 4h h=7 done
+  disc BTC 4h h=14 done
+  disc BTC 4h h=30 done
+  disc ETH daily h=1 done
+  disc ETH daily h=3 done
+  disc ETH daily h=7 done
+  disc ETH daily h=14 done
+  disc ETH daily h=30 done
+  disc ETH 4h h=1 done
+  disc ETH 4h h=3 done
+  disc ETH 4h h=7 done
+  disc ETH 4h h=14 done
+  disc ETH 4h h=30 done
+  disc basket daily h=1 done
+  disc basket daily h=3 done
+  disc basket daily h=7 done
+  disc basket daily h=14 done
+  disc basket daily h=30 done
+  disc basket 4h h=1 done
+  disc basket 4h h=3 done
+  disc basket 4h h=7 done
+  disc basket 4h h=14 done
+  disc basket 4h h=30 done
+  conf BTC daily h=1 done
+  conf BTC daily h=3 done
+  conf BTC daily h=7 done
+  conf BTC daily h=14 done
+  conf BTC daily h=30 done
+  conf BTC 4h h=1 done
+  conf BTC 4h h=3 done
+  conf BTC 4h h=7 done
+  conf BTC 4h h=14 done
+  conf BTC 4h h=30 done
+  conf ETH daily h=1 done
+  conf ETH daily h=3 done
+  conf ETH daily h=7 done
+  conf ETH daily h=14 done
+  conf ETH daily h=30 done
+  conf ETH 4h h=1 done
+  conf ETH 4h h=3 done
+  conf ETH 4h h=7 done
+  conf ETH 4h h=14 done
+  conf ETH 4h h=30 done
+  conf basket daily h=1 done
+  conf basket daily h=3 done
+  conf basket daily h=7 done
+  conf basket daily h=14 done
+  conf basket daily h=30 done
+  conf basket 4h h=1 done
+  conf basket 4h h=3 done
+  conf basket 4h h=7 done
+  conf basket 4h h=14 done
+  conf basket 4h h=30 done
+  2023-24 BTC daily h=1 done
+  2023-24 BTC daily h=3 done
+  2023-24 BTC daily h=7 done
+  2023-24 BTC daily h=14 done
+  2023-24 BTC daily h=30 done
+  2023-24 BTC 4h h=1 done
+  2023-24 BTC 4h h=3 done
+  2023-24 BTC 4h h=7 done
+  2023-24 BTC 4h h=14 done
+  2023-24 BTC 4h h=30 done
+  2023-24 ETH daily h=1 done
+  2023-24 ETH daily h=3 done
+  2023-24 ETH daily h=7 done
+  2023-24 ETH daily h=14 done
+  2023-24 ETH daily h=30 done
+  2023-24 ETH 4h h=1 done
+  2023-24 ETH 4h h=3 done
+  2023-24 ETH 4h h=7 done
+  2023-24 ETH 4h h=14 done
+  2023-24 ETH 4h h=30 done
+  2023-24 basket daily h=1 done
+  2023-24 basket daily h=3 done
+  2023-24 basket daily h=7 done
+  2023-24 basket daily h=14 done
+  2023-24 basket daily h=30 done
+  2023-24 basket 4h h=1 done
+  2023-24 basket 4h h=3 done
+  2023-24 basket 4h h=7 done
+  2023-24 basket 4h h=14 done
+  2023-24 basket 4h h=30 done
+  2025-26H1 BTC daily h=1 done
+  2025-26H1 BTC daily h=3 done
+  2025-26H1 BTC daily h=7 done
+  2025-26H1 BTC daily h=14 done
+  2025-26H1 BTC daily h=30 done
+  2025-26H1 BTC 4h h=1 done
+  2025-26H1 BTC 4h h=3 done
+  2025-26H1 BTC 4h h=7 done
+  2025-26H1 BTC 4h h=14 done
+  2025-26H1 BTC 4h h=30 done
+  2025-26H1 ETH daily h=1 done
+  2025-26H1 ETH daily h=3 done
+  2025-26H1 ETH daily h=7 done
+  2025-26H1 ETH daily h=14 done
+  2025-26H1 ETH daily h=30 done
+  2025-26H1 ETH 4h h=1 done
+  2025-26H1 ETH 4h h=3 done
+  2025-26H1 ETH 4h h=7 done
+  2025-26H1 ETH 4h h=14 done
+  2025-26H1 ETH 4h h=30 done
+  2025-26H1 basket daily h=1 done
+  2025-26H1 basket daily h=3 done
+  2025-26H1 basket daily h=7 done
+  2025-26H1 basket daily h=14 done
+  2025-26H1 basket daily h=30 done
+  2025-26H1 basket 4h h=1 done
+  2025-26H1 basket 4h h=3 done
+  2025-26H1 basket 4h h=7 done
+  2025-26H1 basket 4h h=14 done
+  2025-26H1 basket 4h h=30 done
+
+depth: 2,160 cells (18 features), discovery ('2023-01-01', '2024-12-31')
+BH 10% discoveries: real 0; null mean 14.2, median 0, 95th pct 98, max 434; share of null reps >= real 1.000
+max |t| real 3.60; null max |t| median 3.52, 95th pct 4.48; share of null reps with max >= real 0.430
+|t| > 3: real 5, null mean 18.1, 95th pct 71
+confirmed (Holm 5%, same sign): 0; survivors: 0
+
+by group:
+          cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+group                                                         
+b depth   2160   0          0          0   0.834817   3.603516
+
+by use:
+      cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+use                                                       
+a      540   0          0          0   0.854146   2.931952
+b      540   0          0          0   0.643571   2.595748
+c      540   0          0          0   0.983010   3.603516
+d      540   0          0          0   0.938197   3.094610
+
+top 30 cells by discovery |t|:
+   feature  asset   bar  horizon use     ic      t    bh  ic_conf  t_conf  survivor  boot_p  ic_2023-24  ic_2025-26H1
+imb5_1d_z    ETH    4h       30   c  0.246  3.604 False    0.046   0.266     False   0.003       0.246         0.046
+imb5_1d_z    ETH daily       30   c  0.200  3.106 False    0.091   0.553     False   0.000       0.200         0.091
+imb5_1d_z basket    4h       30   c  0.232  3.101 False    0.050   0.319     False   0.004       0.232         0.050
+imbchg2_z    ETH    4h        3   d -0.120 -3.095 False    0.063   1.631     False   0.002      -0.120         0.063
+  imbchg2    ETH    4h        3   d -0.116 -3.074 False    0.068   1.670     False   0.004      -0.116         0.068
+imbchg1_z    ETH daily       14   c -0.195 -2.981 False    0.042   0.658     False   0.011      -0.195         0.042
+imbchg2_z    ETH    4h        3   a -0.113 -2.932 False    0.061   1.564     False   0.003      -0.113         0.061
+  imbchg2    ETH daily        3   d -0.111 -2.927 False    0.069   1.703     False   0.006      -0.111         0.069
+imbchg2_z    ETH daily        3   d -0.115 -2.923 False    0.063   1.640     False   0.005      -0.115         0.063
+  imbchg2    ETH    4h        3   a -0.109 -2.916 False    0.068   1.673     False   0.005      -0.109         0.068
+  imbchg1 basket daily       14   c -0.179 -2.879 False    0.040   0.802     False   0.005      -0.179         0.040
+imb1_1d_z basket    4h       14   d -0.136 -2.876 False    0.102   1.527     False   0.002      -0.136         0.102
+  imbchg1    BTC daily       14   c -0.159 -2.865 False    0.031   0.809     False   0.003      -0.159         0.031
+imbchg1_z basket daily       14   c -0.184 -2.843 False    0.046   0.943     False   0.004      -0.184         0.046
+imb1_1d_z basket daily       14   d -0.132 -2.835 False    0.106   1.562     False   0.005      -0.132         0.106
+imb1_1d_z    BTC daily       14   c -0.197 -2.825 False   -0.001  -0.011     False   0.005      -0.197        -0.001
+  imbchg2    ETH daily        3   a -0.106 -2.820 False    0.068   1.683     False   0.009      -0.106         0.068
+imbchg2_z    ETH daily        3   a -0.110 -2.815 False    0.060   1.545     False   0.006      -0.110         0.060
+  imbchg1    ETH daily       14   c -0.185 -2.812 False    0.041   0.662     False   0.009      -0.185         0.041
+imb1_1d_z    ETH    4h        3   a -0.107 -2.770 False    0.091   1.859     False   0.005      -0.107         0.091
+  imbchg1    ETH    4h        3   d -0.100 -2.753 False    0.056   1.436     False   0.006      -0.100         0.056
+imb1_1d_z    ETH    4h        3   d -0.106 -2.750 False    0.093   1.923     False   0.006      -0.106         0.093
+imb1_1d_z    ETH daily        3   a -0.107 -2.724 False    0.091   1.818     False   0.003      -0.107         0.091
+imbchg1_z    BTC daily       14   c -0.161 -2.697 False    0.036   0.924     False   0.001      -0.161         0.036
+imb1_1d_z    ETH daily        3   d -0.103 -2.671 False    0.094   1.925     False   0.007      -0.103         0.094
+imbchg1_z    ETH    4h        3   d -0.101 -2.654 False    0.055   1.471     False   0.010      -0.101         0.055
+imb1_1d_z basket daily       14   a -0.127 -2.631 False    0.094   1.185     False   0.012      -0.127         0.094
+  imbchg1    ETH    4h        3   a -0.095 -2.622 False    0.053   1.368     False   0.009      -0.095         0.053
+  imbchg1    ETH daily        3   d -0.095 -2.612 False    0.056   1.439     False   0.019      -0.095         0.056
+imb5_7d_z    BTC    4h        1   a  0.080  2.609 False    0.023   0.672     False   0.028       0.080         0.023
+
+top cell per group, bot-on (b) / bot-off (c) / partial (d) uses:
+  b depth: imb5_1d_z ETH 4h h30 use c: IC +0.246 t +3.60, conf IC +0.046 t +0.27
