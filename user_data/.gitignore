@@ -15,5 +15,8 @@ candidates/round7/cache
 candidates/round7/exports
 candidates/round8/cache
 candidates/round8/exports
-# Scratch strategies CI generates with `freqtrade new-strategy` (see .github/workflows/ci.yml)
+# Scratch files CI generates with `freqtrade create-userdir` / `new-strategy` (see .github/workflows/ci.yml)
 strategies/AwesomeStrategy*.py
+strategies/sample_strategy.py
+hyperopts/sample_hyperopt_loss.py
+notebooks/strategy_analysis_example.ipynb
