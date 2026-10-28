@@ -1,11 +1,12 @@
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 import pandas as pd
 
 from freqtrade.enums import RunMode
 from freqtrade.enums.runmode import OPTIMIZE_MODES
+from freqtrade.exceptions import OperationalException
 from freqtrade.strategy import FactorProvider, IStrategy, stoploss_from_open
 from freqtrade.strategy.holdout import check_holdout
 from freqtrade.strategy.universe import point_in_time_universe
@@ -34,13 +35,12 @@ class FactorStrategy(IStrategy):
     # ── Process-only-new-candle optimisation ──────────────────────────────────
     process_only_new_candles = True
 
-
     def __init__(self, config: dict[str, Any]) -> None:
         super().__init__(config)
         self.fp = FactorProvider(self)
 
-        self.__cached_date = None
-        self.__cached_composite = None
+        self.__cached_date: str | pd.Timestamp | None = None
+        self.__cached_composite: pd.DataFrame | None = None
         # Stores signal rank series per pair (indexed by datetime) so that
         # custom_stoploss / custom_exit can look up the signal during backtesting.
         # In backtesting, self.dp.get_pair_dataframe() returns raw OHLCV only;
@@ -102,7 +102,7 @@ class FactorStrategy(IStrategy):
             )
 
         factors = next(iter(pair_factors.values())).columns[2:]
-        composite_score = None
+        composite_score: pd.DataFrame | None = None
         for factor in factors:
             # combine all
             pair_data = {pair: pair_data[factor] for pair, pair_data in pair_factors.items()}
@@ -111,15 +111,15 @@ class FactorStrategy(IStrategy):
                 # Pairs outside the day's universe take no part in the cross-section
                 factor_data = factor_data.where(eligible)
             factor_data = (
-                factor_data.sub(factor_data.mean(axis=1), axis=0)
-                .div(factor_data.std(axis=1), axis=0)
-                .clip(-3, 3)
+                factor_data.sub(factor_data.mean(axis=1), axis=0).div(factor_data.std(axis=1), axis=0).clip(-3, 3)
             ) * factor_weights[factor]
             if composite_score is None:
                 composite_score = factor_data.fillna(0)
             else:
                 composite_score += factor_data
 
+        if composite_score is None:
+            raise OperationalException("FactorStrategy: no factor columns to build a composite score from")
         logger.info("Composite score calculated. Columns: %s", ", ".join(composite_score.columns))
 
         ranks = composite_score.rank(axis=1, pct=True)
@@ -141,21 +141,17 @@ class FactorStrategy(IStrategy):
             return
         try:
             from freqtrade.persistence import Trade
+
             open_trades = Trade.get_open_trades()
             if not open_trades:
                 return
             latest = self.__cached_composite.iloc[-1]
-            rankings = [
-                (t.pair, float(latest[t.pair]))
-                for t in open_trades
-                if t.pair in latest.index
-            ]
+            rankings = [(t.pair, float(latest[t.pair])) for t in open_trades if t.pair in latest.index]
             rankings.sort(key=lambda x: x[1], reverse=True)
             lines = "  |  ".join(f"{pair} {rank:.2f}" for pair, rank in rankings)
             logger.info("Holdings rank — %s", lines)
         except Exception as e:
             logger.warning("Could not log holdings rank: %s", e)
-
 
     def populate_indicators(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
         composite = self.build_cross_sectional_indicators(dataframe)
@@ -177,9 +173,10 @@ class FactorStrategy(IStrategy):
     # =========================================================================
 
     def populate_entry_trend(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
-        dataframe.loc[
-            dataframe["signal"] > self.entry_signal_threshold, ["enter_long", "enter_tag"]
-        ] = (1, f"signal_over_{self.entry_signal_threshold}")
+        dataframe.loc[dataframe["signal"] > self.entry_signal_threshold, ["enter_long", "enter_tag"]] = (
+            1,
+            f"signal_over_{self.entry_signal_threshold}",
+        )
 
         return dataframe
 
@@ -188,9 +185,10 @@ class FactorStrategy(IStrategy):
     # =========================================================================
 
     def populate_exit_trend(self, dataframe: pd.DataFrame, metadata: dict) -> pd.DataFrame:
-        dataframe.loc[
-            dataframe["signal"] < self.exit_signal_threshold, ["exit_long", "exit_tag"]
-        ] = (1, f"signal_below_{self.exit_signal_threshold}")
+        dataframe.loc[dataframe["signal"] < self.exit_signal_threshold, ["exit_long", "exit_tag"]] = (
+            1,
+            f"signal_below_{self.exit_signal_threshold}",
+        )
 
         return dataframe
 
@@ -198,7 +196,7 @@ class FactorStrategy(IStrategy):
     # Conditional stop loss / take profit
     # =========================================================================
 
-    def _get_current_signal(self, pair: str, current_time: datetime) -> Optional[float]:
+    def _get_current_signal(self, pair: str, current_time: datetime) -> float | None:
         """Return the signal rank [0,1] at or just before current_time, or None.
 
         Uses a per-pair cache populated in populate_indicators because
@@ -221,8 +219,9 @@ class FactorStrategy(IStrategy):
         current_time: datetime,
         current_rate: float,
         current_profit: float,
+        after_fill: bool,
         **kwargs,
-    ) -> float:
+    ) -> float | None:
         """
         Tighten the stop loss when the pair's signal rank has dropped below
         `conditional_stoploss_rank_threshold` (e.g. 0.80 = outside the top 20%).
@@ -246,7 +245,7 @@ class FactorStrategy(IStrategy):
         current_rate: float,
         current_profit: float,
         **kwargs,
-    ) -> Optional[str]:
+    ) -> str | None:
         """
         Take profit when the pair's signal rank has dropped below
         `conditional_takeprofit_rank_threshold` (e.g. 0.70 = outside the top 30%)
@@ -264,10 +263,10 @@ class FactorStrategy(IStrategy):
         current_time: datetime,
         current_rate: float,
         proposed_stake: float,
-        min_stake: Optional[float],
+        min_stake: float | None,
         max_stake: float,
         leverage: float,
-        entry_tag: Optional[str],
+        entry_tag: str | None,
         side: str,
         **kwargs,
     ) -> float:

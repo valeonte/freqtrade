@@ -101,8 +101,8 @@ def main() -> None:
         ep = episodes(s)
         ep_on = ep[sig["on"].reindex(ep).to_numpy()]
         row = {"signal": name, "days on": int(s.sum()), "episodes": len(ep), "while bot on": len(ep_on)}
-        for h in fwd:
-            x = fwd[h].reindex(ep_on).dropna()
+        for h, ret in fwd.items():
+            x = ret.reindex(ep_on).dropna()
             row[f"{h}d mean"] = x.mean()
             row[f"{h}d up"] = (x > 0).mean()
             row[f"{h}d t"] = x.mean() / x.std() * np.sqrt(len(x)) if len(x) > 2 else np.nan

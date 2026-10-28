@@ -20,8 +20,8 @@ from sklearn.preprocessing import StandardScaler
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import EXT, PERIODS, bot_signals, closes, fmt, funding_daily, period_table, run_bot, verdict  # noqa: E402
-from study23_korea import premium  # noqa: E402
+from common import EXT, PERIODS, bot_signals, closes, fmt, funding_daily, period_table, run_bot, verdict
+from study23_korea import premium
 
 
 OUT = Path(__file__).parent

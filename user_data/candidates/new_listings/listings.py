@@ -86,7 +86,7 @@ def build() -> tuple[pd.DataFrame, pd.DataFrame]:
         if d1.empty:
             continue
         day1 = d1["date"].iloc[0]
-        mine = ann[ann["tokens"].map(lambda t: base in t)]
+        mine = ann[ann["tokens"].map(lambda t, base=base: base in t)]
         futs = mine[mine["futures"]]
         if day1 >= FIRST:
             t0 = first_30m(pair, day1)

@@ -2,6 +2,7 @@
 Parse freqtrade backtest JSON results and output a summary CSV.
 Usage: python parse_results.py <results_dir> <output_csv>
 """
+
 import csv
 import json
 import sys

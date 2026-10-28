@@ -1,0 +1,12 @@
+# Ruff settings for tools/ (local utilities that are not part of upstream freqtrade).
+#
+# Same rule set as the repository's pyproject.toml, with the longer line length these tools are
+# written to. Kept out of pyproject.toml so the upstream config, and upstream merges, stay untouched.
+extend = "../pyproject.toml"
+
+line-length = 120
+# Resolve first-party imports (freqtrade, freqtrade_client) relative to the repo root.
+src = [".."]
+
+[lint.extend-per-file-ignores]
+"**/tests/**.py" = ["S101"]  # allow assert in tests, as for the repository's tests/

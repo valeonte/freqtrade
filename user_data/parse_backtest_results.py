@@ -7,7 +7,8 @@ Usage (from repo root):
     python user_data/parse_backtest_results.py --output results_summary.csv
 
     For the stop loss sweep:
-    python user_data/parse_backtest_results.py --sweep-dir user_data/backtest_results/stoploss_sweep --output user_data/backtest_results/stoploss_sweep_summary.csv
+    python user_data/parse_backtest_results.py --sweep-dir user_data/backtest_results/stoploss_sweep \\
+        --output user_data/backtest_results/stoploss_sweep_summary.csv
 
 """
 
@@ -18,22 +19,20 @@ from pathlib import Path
 
 import pandas as pd
 
+
 REPO_ROOT = Path(__file__).parent.parent
 DEFAULT_SWEEP_DIR = REPO_ROOT / "user_data" / "backtest_results" / "factor_sweep"
 DEFAULT_OUTPUT = REPO_ROOT / "user_data" / "backtest_results" / "factor_sweep_summary.csv"
 
 
-def find_result_json(combo_dir: Path) -> dict | None:
+def find_result_json(combo_dir: Path) -> tuple[dict | None, str | None]:
     """
     Look for backtest result JSON in a combo directory.
     Freqtrade saves a .zip (and optionally a .json) named backtest-result-<timestamp>.
     We try json first (no extraction needed), then fall back to zip.
     """
     # JSON files directly in the directory (exclude .meta.json sidecar files)
-    json_files = sorted(
-        f for f in combo_dir.glob("backtest-result-*.json")
-        if not f.name.endswith(".meta.json")
-    )
+    json_files = sorted(f for f in combo_dir.glob("backtest-result-*.json") if not f.name.endswith(".meta.json"))
     if json_files:
         latest = json_files[-1]
         with latest.open() as f:

@@ -9,11 +9,10 @@ Usage (from repo root):
 
 import argparse
 import json
-import os
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
+
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -31,12 +30,14 @@ STRATEGY = "FactorStrategy"
 # Factor builders
 # ---------------------------------------------------------------------------
 
+
 def mom(start: int, end: int, reversal: bool = False) -> dict:
     return {
         "factor": "momentum",
         "weight": 1,
         "kwargs": {"start_days_ago": start, "end_days_ago": end, "reversal": reversal},
     }
+
 
 def vol_mom(window: int = 7) -> dict:
     return {
@@ -45,12 +46,14 @@ def vol_mom(window: int = 7) -> dict:
         "kwargs": {"window_days": window},
     }
 
+
 def vol_adj_mom(mom_window: int = 30, vol_window: int = 30) -> dict:
     return {
         "factor": "factor_vol_adjusted_momentum",
         "weight": 1,
         "kwargs": {"momentum_window_days": mom_window, "vol_window_days": vol_window},
     }
+
 
 def overext(ema_window: int = 30) -> dict:
     return {
@@ -59,11 +62,14 @@ def overext(ema_window: int = 30) -> dict:
         "kwargs": {"ema_window_days": ema_window},
     }
 
+
 def liquidity(window: int = 30) -> dict:
     return {"factor": "liquidity", "weight": 1, "kwargs": {"window_days": window}}
 
+
 def size(window: int = 30) -> dict:
     return {"factor": "size", "weight": 1, "kwargs": {"window_days": window}}
+
 
 # ---------------------------------------------------------------------------
 # Factor combinations to sweep
@@ -74,49 +80,55 @@ COMBINATIONS = [
     (
         "baseline_all",
         [
-            mom(30, 1), mom(7, 1), mom(1, 0, reversal=True),
-            vol_mom(7), vol_adj_mom(30, 30), overext(30),
-            liquidity(30), size(30),
+            mom(30, 1),
+            mom(7, 1),
+            mom(1, 0, reversal=True),
+            vol_mom(7),
+            vol_adj_mom(30, 30),
+            overext(30),
+            liquidity(30),
+            size(30),
         ],
     ),
     # ── Momentum-only variants ────────────────────────────────────────────
-    ("mom_30d_7d_rev1d",    [mom(30, 1), mom(7, 1), mom(1, 0, True)]),
-    ("mom_30d_7d",          [mom(30, 1), mom(7, 1)]),
-    ("mom_multiframe",      [mom(60, 1), mom(30, 1), mom(14, 1), mom(7, 1)]),
-    ("mom_short_term",      [mom(7, 1), mom(3, 1), mom(1, 0, True)]),
+    ("mom_30d_7d_rev1d", [mom(30, 1), mom(7, 1), mom(1, 0, True)]),
+    ("mom_30d_7d", [mom(30, 1), mom(7, 1)]),
+    ("mom_multiframe", [mom(60, 1), mom(30, 1), mom(14, 1), mom(7, 1)]),
+    ("mom_short_term", [mom(7, 1), mom(3, 1), mom(1, 0, True)]),
     # ── Vol-adjusted momentum variants ───────────────────────────────────
-    ("vol_adj_mom_single",  [vol_adj_mom(30, 30)]),
-    ("sharpe_multiframe",   [vol_adj_mom(14, 14), vol_adj_mom(30, 30), vol_adj_mom(60, 30)]),
+    ("vol_adj_mom_single", [vol_adj_mom(30, 30)]),
+    ("sharpe_multiframe", [vol_adj_mom(14, 14), vol_adj_mom(30, 30), vol_adj_mom(60, 30)]),
     # ── Trend-following combos ────────────────────────────────────────────
-    ("trend_quality",       [mom(30, 1), mom(7, 1), vol_adj_mom(30, 30)]),
-    ("trend_vol_confirm",   [mom(30, 1), mom(7, 1), vol_mom(7), vol_adj_mom(30, 30)]),
-    ("trend_full",          [mom(60, 1), mom(30, 1), vol_mom(7), vol_adj_mom(30, 30)]),
+    ("trend_quality", [mom(30, 1), mom(7, 1), vol_adj_mom(30, 30)]),
+    ("trend_vol_confirm", [mom(30, 1), mom(7, 1), vol_mom(7), vol_adj_mom(30, 30)]),
+    ("trend_full", [mom(60, 1), mom(30, 1), vol_mom(7), vol_adj_mom(30, 30)]),
     # ── Contrarian / mean-reversion combos ───────────────────────────────
-    ("contrarian",          [mom(1, 0, True), overext(30)]),
-    ("contrarian_14d_ema",  [mom(1, 0, True), overext(14)]),
-    ("reversal_only",       [mom(1, 0, True)]),
-    ("overext_only",        [overext(30)]),
+    ("contrarian", [mom(1, 0, True), overext(30)]),
+    ("contrarian_14d_ema", [mom(1, 0, True), overext(14)]),
+    ("reversal_only", [mom(1, 0, True)]),
+    ("overext_only", [overext(30)]),
     # ── Market-structure combos ───────────────────────────────────────────
-    ("size_liq",            [size(30), liquidity(30)]),
-    ("market_struct",       [size(30), liquidity(30), overext(30)]),
+    ("size_liq", [size(30), liquidity(30)]),
+    ("market_struct", [size(30), liquidity(30), overext(30)]),
     # ── All minus one ─────────────────────────────────────────────────────
-    ("no_reversal",         [mom(30, 1), mom(7, 1), vol_mom(7), vol_adj_mom(30, 30), overext(30), liquidity(30), size(30)]),
-    ("no_size_liq",         [mom(30, 1), mom(7, 1), mom(1, 0, True), vol_mom(7), vol_adj_mom(30, 30), overext(30)]),
-    ("no_overext",          [mom(30, 1), mom(7, 1), mom(1, 0, True), vol_mom(7), vol_adj_mom(30, 30), liquidity(30), size(30)]),
+    ("no_reversal", [mom(30, 1), mom(7, 1), vol_mom(7), vol_adj_mom(30, 30), overext(30), liquidity(30), size(30)]),
+    ("no_size_liq", [mom(30, 1), mom(7, 1), mom(1, 0, True), vol_mom(7), vol_adj_mom(30, 30), overext(30)]),
+    ("no_overext", [mom(30, 1), mom(7, 1), mom(1, 0, True), vol_mom(7), vol_adj_mom(30, 30), liquidity(30), size(30)]),
     # ── New ideas: carry / vol-targeting ─────────────────────────────────
     # Vol-momentum at different windows (does the signal window matter?)
-    ("vol_mom_14d",         [vol_mom(14)]),
-    ("vol_mom_30d",         [vol_mom(30)]),
-    ("vol_mom_multi",       [vol_mom(7), vol_mom(14), vol_mom(30)]),
+    ("vol_mom_14d", [vol_mom(14)]),
+    ("vol_mom_30d", [vol_mom(30)]),
+    ("vol_mom_multi", [vol_mom(7), vol_mom(14), vol_mom(30)]),
     # Long-window momentum + quality filter
-    ("long_quality",        [mom(90, 1), vol_adj_mom(60, 30), liquidity(30)]),
+    ("long_quality", [mom(90, 1), vol_adj_mom(60, 30), liquidity(30)]),
     # Combination that blends all signals equally but with fresh windows
-    ("fresh_windows",       [mom(14, 1), vol_mom(14), vol_adj_mom(14, 14), overext(14)]),
+    ("fresh_windows", [mom(14, 1), vol_mom(14), vol_adj_mom(14, 14), overext(14)]),
 ]
 
 # ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
+
 
 def run_combination(combo_id: str, factor_mix: list) -> bool:
     out_dir = RESULTS_BASE / combo_id
@@ -135,19 +147,24 @@ def run_combination(combo_id: str, factor_mix: list) -> bool:
     cmd = [
         str(FREQTRADE_EXE),
         "backtesting",
-        "--strategy", STRATEGY,
-        "--config", str(config_path),
-        "--timerange", TIMERANGE,
-        "--timeframe", TIMEFRAME,
-        "--backtest-directory", str(out_dir),
+        "--strategy",
+        STRATEGY,
+        "--config",
+        str(config_path),
+        "--timerange",
+        TIMERANGE,
+        "--timeframe",
+        TIMEFRAME,
+        "--backtest-directory",
+        str(out_dir),
     ]
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  Running: {combo_id}  ({len(factor_mix)} factors)")
     print(f"  Output:  {out_dir}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
-    result = subprocess.run(cmd, cwd=str(REPO_ROOT))
+    result = subprocess.run(cmd, cwd=str(REPO_ROOT), check=False)
     if result.returncode != 0:
         print(f"  [FAILED] {combo_id} exited with code {result.returncode}")
         return False

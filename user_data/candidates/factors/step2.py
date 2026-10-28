@@ -13,8 +13,8 @@ combined), BTC-gated. Three checks on the six best of them:
 
 import numpy as np
 import pandas as pd
-
 import research as r
+
 from freqtrade.strategy.universe import point_in_time_universe
 
 

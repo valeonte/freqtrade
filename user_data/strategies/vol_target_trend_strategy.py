@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from trend_filter_strategy import TrendFilterStrategy
 
+from freqtrade.exceptions import OperationalException
 from freqtrade.persistence import Trade
 
 
@@ -51,6 +52,8 @@ class VolTargetTrendStrategy(TrendFilterStrategy):
         return dataframe
 
     def _portfolio_value(self) -> float:
+        if self.wallets is None:
+            raise OperationalException("VolTargetTrendStrategy needs wallets to size positions")
         value = self.wallets.get_free(self.config["stake_currency"])
         for trade in Trade.get_open_trades():
             df, _ = self.dp.get_analyzed_dataframe(trade.pair, self.timeframe)
@@ -95,7 +98,7 @@ class VolTargetTrendStrategy(TrendFilterStrategy):
         current_entry_profit: float,
         current_exit_profit: float,
         **kwargs,
-    ) -> float | None | tuple[float | None, str | None]:
+    ) -> tuple[float | None, str | None] | float | None:
         if trade.has_open_orders:
             return None
         target = self._target_stake(trade.pair)

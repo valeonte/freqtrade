@@ -15,8 +15,8 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import EXT, bot_signals, closes, fmt, period_table, run_bot, verdict  # noqa: E402
-from study22a_funding import episodes, extend  # noqa: E402
+from common import EXT, bot_signals, closes, fmt, period_table, run_bot, verdict
+from study22a_funding import episodes, extend
 
 
 OUT = Path(__file__).parent
@@ -83,8 +83,8 @@ def main() -> None:
             "episodes": len(ep),
             "bot " + ("on" if want_on else "off"): len(ep_sel),
         }
-        for h in fwd:
-            x = fwd[h].reindex(ep_sel).dropna()
+        for h, ret in fwd.items():
+            x = ret.reindex(ep_sel).dropna()
             row[f"{h}d mean"] = x.mean()
             row[f"{h}d up"] = (x > 0).mean()
             row[f"{h}d t"] = x.mean() / x.std() * np.sqrt(len(x)) if len(x) > 2 else np.nan

@@ -1,6 +1,7 @@
 """
 Tests for FactorProvider — targets 100% line and branch coverage.
 """
+
 from unittest.mock import MagicMock
 
 import numpy as np
@@ -14,13 +15,16 @@ from freqtrade.strategy.factor_provider import FactorProvider
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def make_strategy(timeframe: str = "60m") -> MagicMock:
     strategy = MagicMock()
     strategy.timeframe = timeframe
     return strategy
 
 
-def make_ohlcv(n: int = 200, base_price: float = 100.0, base_volume: float = 1_000.0) -> pd.DataFrame:
+def make_ohlcv(
+    n: int = 200, base_price: float = 100.0, base_volume: float = 1_000.0
+) -> pd.DataFrame:
     """Return a minimal OHLCV DataFrame with monotonically increasing close prices."""
     close = base_price + np.arange(n, dtype=float)
     volume = np.full(n, base_volume, dtype=float)
@@ -29,15 +33,18 @@ def make_ohlcv(n: int = 200, base_price: float = 100.0, base_volume: float = 1_0
 
 def make_flat_ohlcv(n: int = 200, price: float = 100.0, volume: float = 1_000.0) -> pd.DataFrame:
     """All candles have the same close (zero volatility)."""
-    return pd.DataFrame({
-        "close": np.full(n, price, dtype=float),
-        "volume": np.full(n, volume, dtype=float),
-    })
+    return pd.DataFrame(
+        {
+            "close": np.full(n, price, dtype=float),
+            "volume": np.full(n, volume, dtype=float),
+        }
+    )
 
 
 # ---------------------------------------------------------------------------
 # __init__
 # ---------------------------------------------------------------------------
+
 
 class TestFactorProviderInit:
     def test_60m_timeframe(self):
@@ -64,6 +71,7 @@ class TestFactorProviderInit:
 # ---------------------------------------------------------------------------
 # add_factor_from_definition
 # ---------------------------------------------------------------------------
+
 
 class TestAddFactorFromDefinition:
     def setup_method(self):
@@ -112,6 +120,7 @@ class TestAddFactorFromDefinition:
 # ---------------------------------------------------------------------------
 # momentum
 # ---------------------------------------------------------------------------
+
 
 class TestMomentum:
     def setup_method(self):
@@ -173,24 +182,31 @@ class TestMomentum:
 # volume_momentum
 # ---------------------------------------------------------------------------
 
+
 class TestVolumeMomentum:
     def setup_method(self):
         self.fp = FactorProvider(make_strategy("1440m"))  # day_multiplier = 1
 
     def test_column_name(self):
         df = make_ohlcv(200)
-        result = self.fp.volume_momentum(df, window_days=5, recent_volume_days=3, baseline_volume_days=30)
+        result = self.fp.volume_momentum(
+            df, window_days=5, recent_volume_days=3, baseline_volume_days=30
+        )
         assert "vol_mom_5d_3d_30d" in result.columns
 
     def test_returns_dataframe(self):
         df = make_ohlcv(200)
-        result = self.fp.volume_momentum(df, window_days=5, recent_volume_days=3, baseline_volume_days=30)
+        result = self.fp.volume_momentum(
+            df, window_days=5, recent_volume_days=3, baseline_volume_days=30
+        )
         assert isinstance(result, pd.DataFrame)
 
     def test_no_nan_explosion_on_flat_price(self):
         # Flat prices → pct_change = 0 → vol_mom = 0 (not inf/nan from log)
         df = make_flat_ohlcv(200)
-        result = self.fp.volume_momentum(df, window_days=5, recent_volume_days=3, baseline_volume_days=30)
+        result = self.fp.volume_momentum(
+            df, window_days=5, recent_volume_days=3, baseline_volume_days=30
+        )
         col = result["vol_mom_5d_3d_30d"].dropna()
         assert np.isfinite(col).all()
         assert (col.abs() < 1e-10).all()
@@ -198,7 +214,9 @@ class TestVolumeMomentum:
     def test_zero_volume_clipped_to_0_1(self):
         # vol_recent / vol_baseline → clipped to 0.1 before log so no -inf
         df = make_ohlcv(200, base_volume=0.0)
-        result = self.fp.volume_momentum(df, window_days=5, recent_volume_days=3, baseline_volume_days=30)
+        result = self.fp.volume_momentum(
+            df, window_days=5, recent_volume_days=3, baseline_volume_days=30
+        )
         col = result["vol_mom_5d_3d_30d"].dropna()
         assert np.isfinite(col).all()
 
@@ -209,7 +227,9 @@ class TestVolumeMomentum:
         volume[-5:] = 10.0  # recent spike
         close = 100.0 + np.arange(n, dtype=float)
         df = pd.DataFrame({"close": close, "volume": volume})
-        result = self.fp.volume_momentum(df, window_days=5, recent_volume_days=3, baseline_volume_days=30)
+        result = self.fp.volume_momentum(
+            df, window_days=5, recent_volume_days=3, baseline_volume_days=30
+        )
         col = result["vol_mom_5d_3d_30d"].dropna()
         assert np.isfinite(col).all()
 
@@ -217,6 +237,7 @@ class TestVolumeMomentum:
 # ---------------------------------------------------------------------------
 # factor_vol_adjusted_momentum
 # ---------------------------------------------------------------------------
+
 
 class TestFactorVolAdjustedMomentum:
     def setup_method(self):
@@ -229,7 +250,9 @@ class TestFactorVolAdjustedMomentum:
 
     def test_column_name_custom(self):
         df = make_ohlcv(400)
-        result = self.fp.factor_vol_adjusted_momentum(df, momentum_window_days=10, vol_window_days=20)
+        result = self.fp.factor_vol_adjusted_momentum(
+            df, momentum_window_days=10, vol_window_days=20
+        )
         assert "vol_20d_adj_mom_10d" in result.columns
 
     def test_returns_dataframe(self):
@@ -272,6 +295,7 @@ class TestFactorVolAdjustedMomentum:
 # ---------------------------------------------------------------------------
 # factor_overextension
 # ---------------------------------------------------------------------------
+
 
 class TestFactorOverextension:
     def setup_method(self):
@@ -328,6 +352,7 @@ class TestFactorOverextension:
 # liquidity
 # ---------------------------------------------------------------------------
 
+
 class TestLiquidity:
     def setup_method(self):
         self.fp = FactorProvider(make_strategy("1440m"))
@@ -349,10 +374,12 @@ class TestLiquidity:
 
     def test_zero_volume_handled_as_nan(self):
         # All-zero volume → dollar_volume replaced with NaN → amihud = NaN → log1p(NaN) = NaN
-        df = pd.DataFrame({
-            "close": np.full(200, 100.0),
-            "volume": np.zeros(200),
-        })
+        df = pd.DataFrame(
+            {
+                "close": np.full(200, 100.0),
+                "volume": np.zeros(200),
+            }
+        )
         result = self.fp.liquidity(df, window_days=5)
         # Should not raise; result should be all-NaN for zero-volume candles
         assert isinstance(result, pd.DataFrame)
@@ -387,6 +414,7 @@ class TestLiquidity:
 # ---------------------------------------------------------------------------
 # size
 # ---------------------------------------------------------------------------
+
 
 class TestSize:
     def setup_method(self):

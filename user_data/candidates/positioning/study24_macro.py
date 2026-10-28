@@ -14,9 +14,9 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import BIN, FEE, PERIODS, bot_signals, closes, fmt, period_table, run_bot, stats, verdict  # noqa: E402
+from common import BIN, FEE, PERIODS, bot_signals, closes, fmt, period_table, run_bot, stats, verdict
 
-from freqtrade.strategy.holdout import HOLDOUT_START  # noqa: E402
+from freqtrade.strategy.holdout import HOLDOUT_START
 
 
 HERE = Path(__file__).parent

@@ -17,9 +17,7 @@ def fast_out(close: pd.Series, trend: pd.Series, exit_sma: int, reentry_high: in
     out = np.zeros(len(close), dtype=bool)
     state = False
     for i in range(len(close)):
-        if not tr[i]:
-            state = False
-        elif state and high[i]:
+        if not tr[i] or (state and high[i]):
             state = False
         elif not state and below[i]:
             state = True

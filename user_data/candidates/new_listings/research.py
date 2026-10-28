@@ -139,7 +139,7 @@ def portfolio(t: pd.DataFrame, ret: str) -> pd.Series:
         # fees: shift the trade's net-vs-gross difference onto its last step
         step[-1] = (1 + step[-1]) * (1 + x[ret]) / (1 + x["gross"]) - 1
         days = [(x["t_entry"] + (k + 1) * D).floor("D") for k in range(len(step) - 1)] + [x["t_exit"].floor("D")]
-        rows += list(zip(days, step))
+        rows += list(zip(days, step, strict=True))
     if not rows:
         return pd.Series(dtype=float)
     d = pd.DataFrame(rows, columns=["day", "r"]).groupby("day")["r"].mean()
@@ -169,7 +169,7 @@ def summarise(name: str, t: pd.DataFrame) -> dict:
 def passes(r: dict) -> bool:
     means = [r.get(f"mean {p}") for p in PERIODS]
     return (
-        all(m is not None and m == m and m > 0 for m in means)
+        all(pd.notna(m) and m > 0 for m in means)
         and r.get("t", 0) > 2
         and r.get("vs BTC", 0) > 0
         and r.get("mean slip", 0) > 0
@@ -183,7 +183,7 @@ def read(f: Path, dates: list[str]) -> pd.DataFrame:
     return d
 
 
-def main():
+def main():  # noqa: C901
     lst = read(HERE / "listings.csv", ["list_time", "list_day", "last_day", "ann_time"])
     first = read(HERE / "first_listing.csv", ["first"])
     first["base"] = first["base"].astype(str)

@@ -256,6 +256,10 @@ jobs:
   build-linux-online:
     # Run pytest with "live" checks
     name: "Online / live tests"
+    # Binance and Bybit block GitHub's US-hosted runners, so these tests reach them through
+    # CI_WEB_PROXY below, which is upstream's proxy and times out from this fork's runners
+    # (every Binance/Bybit test fails with "Could not load markets"). Only run upstream.
+    if: github.repository == 'freqtrade/freqtrade'
     runs-on: ubuntu-24.04
     strategy:
       matrix:

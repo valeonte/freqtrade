@@ -24,8 +24,8 @@ URL = (
 def get(page: int) -> dict:
     for attempt in range(5):
         try:
-            req = urllib.request.Request(URL.format(page=page), headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=20) as r:
+            req = urllib.request.Request(URL.format(page=page), headers={"User-Agent": "Mozilla/5.0"})  # noqa: S310 (fixed https host)
+            with urllib.request.urlopen(req, timeout=20) as r:  # noqa: S310 (fixed https host)
                 return json.load(r)
         except Exception as e:
             print(f"page {page}: {e}, retry {attempt + 1}")
