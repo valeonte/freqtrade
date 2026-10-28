@@ -17,4 +17,3 @@ extend-ignore = [
   "RUF002",   # ... in docstrings
   "RUF003",   # ... in comments
 ]
-

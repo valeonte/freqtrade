@@ -4,7 +4,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from freqtrade.strategy import IStrategy
+from freqtrade.strategy.interface import IStrategy
 
 
 logger = logging.getLogger(__name__)
