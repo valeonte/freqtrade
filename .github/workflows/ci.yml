@@ -24,7 +24,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ "ubuntu-22.04", "ubuntu-24.04", "ubuntu-26.04", "ubuntu-24.04-arm", "macos-14", "macos-15" , "windows-2022", "windows-2025" ]
+        # No macOS here: this fork's account rarely gets macOS runners, so those jobs sat
+        # queued and were cancelled, failing the Build gate. Upstream still tests macOS.
+        os: [ "ubuntu-22.04", "ubuntu-24.04", "ubuntu-26.04", "ubuntu-24.04-arm", "windows-2022", "windows-2025" ]
         python-version: ["3.11", "3.12", "3.13", "3.14"]
         exclude:
           - os: "ubuntu-22.04"
