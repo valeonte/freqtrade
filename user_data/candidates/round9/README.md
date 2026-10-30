@@ -77,7 +77,7 @@ only); DFII10 and DGS2 20- and 60-observation change; net liquidity 4-, 13- and 
 | Rule | Use | Primary | Neighbours |
 | --- | --- | --- | --- |
 | 52a credit stress | trim | HY OAS 20-observation change > +50 bp (judged on 2024–Jun 2026 only: the series starts 2023-11; indicative) | +35 bp, +75 bp |
-| 52a′ credit stress, long history (stand-in) | trim | BAA10Y 20-observation change > +50 bp × k, k = sd(BAA10Y 20-obs change) / sd(HY OAS 20-obs change) over their common days 2023-11 → 2026-06 (a scale fitted on the series only, no returns) | thresholds × 0.7 and × 1.5 |
+| 52a′ credit stress, long history (stand-in) | trim | BAA10Y 20-observation change > +50 bp × k, k = sd(BAA10Y 20-obs change) / sd(HY OAS 20-obs change) over their common days 2023-11 → 2026-06 (a scale fitted on the series only, no returns); computed after the fetch: k = 0.336, i.e. +16.8 bp | thresholds × 0.7 and × 1.5 |
 | 52b VIX stress | veto | VIX > its trailing-252-observation 90th percentile | 80th and 95th percentile; 90th over 504 observations |
 | 52c liquidity draining | trim | net liquidity 13-week change < 0 | 8- and 26-week change |
 | 52d liquidity extended gate | extra | net liquidity 13-week change > 0 while the tranche is off (i.e. gate = 100-day/fast-exit gate OR rising liquidity) | 8- and 26-week change |
@@ -113,7 +113,8 @@ metric (the lag above, on daily bars), filled at that close, 7.5 bps a side. Run
 ## Study 54: attention
 
 **Screen features**: for each article and the all-language Bitcoin sum: z = (mean log views over the last 7 days −
-mean over the trailing 90 days) / sd of daily log views over those 90 days; 30-day log growth of 7-day views; 90-day
+mean over the 90 days before those 7) / sd of daily log views over those 90 days (clarified while writing the code,
+before any result: a 90-day window that includes the last 7 caps z near 3.4); 30-day log growth of 7-day views; 90-day
 views as a percentile of their trailing year. BTC uses Bitcoin (en and all-language), ETH uses Ethereum, all three use
 Cryptocurrency (basket: the mean of BTC's and ETH's).
 
@@ -131,6 +132,96 @@ Cryptocurrency (basket: the mean of BTC's and ETH's).
 US-close-to-US-close window (BTC from the 1h candles at each US close); and BTC's move from the last US close to the
 bar (the "after-hours" move, known at the bar). Overlays only for a cell that survives the screen's null.
 
-## Results
+## Results (2026-10-30)
 
-(Filled in after running; every variant reported.)
+**Verdict: nothing passes. 0 of 4 screens beat their shifted-return null, 0 of 11 pre-registered overlays pass, and the
+MVRV cycle sleeve lowers the bot's after-tax result as 20% of the account.** No freqtrade run and no holdout look
+followed. Driver: `run_round9.sh` (the screens were also run in parallel by hand); outputs `results_5x_screen.txt` /
+`results_5x_cells.csv.gz` / `_top.csv` / `_null.csv`, `results_overlays.txt` / `.csv`, `results_53c.txt` / `.csv`.
+
+### Screens (study 44's machinery via `study48_screen.py`, discovery 2018-03 → 2022-12, 200 shifted-return replicates)
+
+| Family | Cells (features) | BH 10% real | Null median / 95th pct | Max \|t\| real / null median | Confirmed | Survivors |
+| --- | --- | --- | --- | --- | --- | --- |
+| 52 macro | 1,920 (16; HY OAS dropped: no discovery rows) | 331 | 248 / 605 (41% of reps ≥ real) | 4.60 / 4.47 | 0 | 0 |
+| 53 on-chain | 1,200 (10) | 0 | 73 / 315 | 3.09 / 4.00 | 0 | 0 |
+| 54 attention | 1,845 (18) | 18 | 109 / 449 | 4.89 / 5.48 | 0 | 0 |
+| 55 crypto equities | 1,080 (9; IBIT dropped: no discovery rows) | 0 | 0 / 66 | 3.78 / 3.54 | 0 | 0 |
+
+- **52**: the discoveries are rates (147), net liquidity (113) and M2 (71), all slow series, unconditional and partial
+  uses; the null makes as many. VIX and credit: 0 discoveries, median |t| 0.76–0.78. The largest cell (net liquidity
+  52-week change → BTC 4h next day, partial use, t +4.60) is inside the null's range and not confirmed (t +2.64 needed
+  Holm). M2's best bot-on cell flips sign in confirmation (IC +0.106 → −0.028).
+- **53**: quieter than chance (0 discoveries, max |t| 3.09 vs the null's median max 4.00). MVRV, network-value divergence
+  and activity growth say nothing beyond the bot's state about the next 1–30 days at this sample length.
+- **54**: 18 discoveries vs a null median of 109. Top cells: Solana article percentile → BTC 30 days on bot-off rows
+  (IC +0.81 on the short 2021-09 → sample, conf +0.22, t 1.28), the coin article on bot-on ETH 4h bars (t 3.45, conf
+  −0.66).
+- **55** (screen only, as planned): 0 discoveries; equity-vs-BTC relative moves flip sign in confirmation for every
+  stock; BTC's after-hours move has the largest |t| (−3.78, partial, next day) and the wrong sign after 2023. No
+  overlays (nothing survived).
+
+### Overlays (six-tranche bot, one wallet, 1h bars; CAGR / Sharpe / max DD by period 2019–20 | 2021–23 | 2024–Jun 2026)
+
+Baseline: +156% / 2.68 / −21% | +46% / 1.53 / −27% | +40% / 1.27 / −24%, exposure 0.37, 219 orders/yr, 45.5 order days.
+
+| Rule (use) | Primary | Passes bar | Beats matched | Neighbours pass | Orders/yr | Bootstrap Δ Sharpe (P ≤ 0) | Verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 52a HY OAS 20d > +50 bp (trim; 2024–26 only) | 1.3% of bars (Aug 2024, Mar–Apr 2025) | no (1.26 vs 1.27) | no | 2 of 2 | 220 | −0.01 (0.82) | fail |
+| 52a′ BAA10Y 20d > +16.8 bp (trim) | 2.62 / 1.37 / 1.22 | no | no | 0 of 2 | 247 | −0.06 / −0.16 / −0.04 | fail |
+| 52b VIX > 1y 90th pct (veto) | 2.57 / 1.44 / 1.11 | no | no | 0 of 3 | 195 | −0.11 / −0.08 / −0.16 | fail |
+| 52c net liquidity 13w < 0 (trim) | 2.76 / 1.56 / 1.17, DD −15 / −21 / −20% | no (2024–26 −0.10) | no (exposure ×0.79) | 0 of 2 | 249 | +0.08 / +0.03 / −0.10 | fail |
+| 52d net liquidity 13w > 0 (extra) | 2.04 / 1.10 / 0.51, DD −38 / −42 / −57% | no | no | 0 of 2 | 265 | −0.64 / −0.43 / −0.75 | fail |
+| 53a MVRV > 3.5 (trim) | 2.68 / 1.59 / 1.27 (fires only Feb 2021) | no (identical in 2019–20 and 2024–26) | no | 0 of 2 (> 4.0 never fires) | 238 | +0.00 / +0.06 / +0.00 | fail |
+| 53b MVRV < 1 (extra) | 2.73 / 1.63 / 1.27, DD −21 / −23 / −24% | no (never fires 2024–26) | yes | 0 of 2 | 233 | +0.05 / +0.10 / +0.00 | fail |
+| 53d NV divergence > 1y 90th pct (trim) | 2.73 / 1.38 / 1.12 | no | no | 0 of 3 | 337 | +0.05 / −0.15 / −0.15 | fail |
+| 54a attention z > 3 (trim) | 2.75 / 1.59 / 1.27, DD −21 / −26 / −23% | **yes** | **yes** | 1 of 3 (z > 2.5 loses everywhere; z > 3.5 identical in 2019–20) | 234 | +0.07 / +0.06 / +0.00 (0.28 / 0.12 / 0.47) | fail |
+| 54b attention collapse (extra) | 2.42 / 0.83 / 0.64, DD −37 / −50 / −44% | no | no | 0 of 2 | 339 | −0.26 / −0.70 / −0.62 | fail |
+| 54c attention dial (g30 terciles) | 2.73 / 1.50 / 0.88 | no | no | 0 of 2 | 432 | +0.04 / −0.02 / −0.39 | fail |
+
+Readings:
+- **The priors held.** Every extra entry while flat lost (52d, 54b by 0.4–0.8 Sharpe, drawdowns to −44..−57%), except
+  53b, MVRV < 1, which bought the Dec 2018 / early 2019 and Jun 2022 → Jan 2023 bottoms (2021–23 +0.10 Sharpe, DD −23%
+  vs −27%; the 0.9 neighbour +0.25, DD −15%) and never fired after Jan 2023: two episodes, untestable in 2024–26.
+- **Froth trims don't cost here because they barely fire**: MVRV > 3.5 was on in Feb 2021 only (and helped 0.06 in
+  2021–23); the attention spike (z > 3) on ~1% of bars, +0.07 / +0.06 / +0.00, inside the noise of study 27c (sd ≈ 0.2),
+  and its z > 2.5 neighbour loses in every period.
+- **Net liquidity as a trim is a size cut**: drawdowns fall in every period (−15 / −21 / −20%) because exposure falls to
+  0.29; the bot scaled to the same exposure does as well, and 2024–26 loses 0.10 Sharpe.
+- **VIX and credit stress lose as vetoes and trims** in every period: crypto stress coincides with equity stress, but
+  the bot is usually already out by then, and the extra exits catch rebounds (as study 14's S&P / DVOL filters).
+- HY OAS since 2023-11: its +50 bp rule fired on one day in Aug 2024 and through late Mar → Apr 2025 (28 observations), costing 0.01.
+
+### 53c: the MVRV cycle sleeve
+
+Trades, Binance BTC/USDT daily from 2017-08 (starts in USDT; MVRV 1.0 / 3.5 and MVRV-Z 0 / 6 trade within a day of each
+other): **buy 2018-11-21 at $4,559, sell 2021-01-08 at $39,432, buy 2022-06-15 at $22,136, still held at 2026-06-30**
+(MVRV 1.10). Three trades in nine years: one and a half cycles. Pre-tax 2017-08 → 2026-06: sleeve +43% / 0.98 / −63%
+vs BTC buy and hold +35% / 0.78 / −83%. Context from 2011 (CoinMetrics price, not a backtest): the same rule bought
+2011-09, 2014-10, 2018-11, 2022-06 and sold 2013-03, 2017-06, 2021-01 (MVRV-Z: 2013-03, 2017-11, 2021-01); ×1,650 vs
+hold ×198,000 for MVRV (it sold 2017 six months early), ×7,600 vs ×4,200 for MVRV-Z. Each cycle's sell came weeks to
+months before the top; that is four data points, all of them inside the period the thresholds were popularised on.
+
+After UK CGT (£50k, higher rate, today's rules, tax paid each 31 January; liquidation basis, unsold basis in brackets):
+
+| 2019-01 → 2026-06 | Pre-tax CAGR / Sharpe / DD | After-tax CAGR | After-tax end | Tax share of gain | Orders/yr | Coin disposal lines/yr | Median hold | Held > 1 year |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Live bot | +66% / 1.76 / −24% | **+56%** | £1.41m (£1.41m) | 36% | 221 | 46 | 10 days | 0% |
+| MVRV sleeve alone (in at the start) | +56% / 1.12 / −63% | +48% | £0.93m (£1.09m) | 35% | 0.4 | 0.4 | 738 days | 100% |
+| 80% bot + 20% sleeve | +64% / 1.68 / −31% | +55% | £1.31m (£1.31m) | 36% | 222 | 46 | 17 days | 0% (FIFO across the shared pool) |
+| BTC buy and hold | +44% / 0.91 / −73% | +40% | £0.61m (£0.79m) | 24% | 0.1 | 0 | — | — |
+
+By period, 80/20 vs the bot after tax: 2019–20 +125% vs +121% (the sleeve is BTC buy and hold then; Sharpe 2.41 vs 2.58,
+DD −31% vs −23%), 2021–23 +38.5% vs +39.9%, 2024–Jun 2026 +26.4% vs +30.5% (DD −33% vs −29%). MVRV-Z is within 0.1
+points. **Verdict: not adopted.** The sleeve's badges of trade are an investor's (a trade every 2–3 years, every sale held
+> 1 year), but the UK has no long-term rate, so the deferral only delays tax: its tax share is 35% vs the bot's 36%
+because the 2021 sale realises a ten-fold gain. Beside the bot it adds BTC's 2024–26 drawdown and costs 1.5 points of
+after-tax CAGR overall. Indicative only: three trades.
+
+### Skipped or substituted
+
+- **HY OAS before 2023-11**: FRED serves only the last three years of ICE BofA series; ALFRED's archived vintages were not
+  reachable as CSV. 52a was judged on 2024–Jun 2026 only, and BAA10Y (Moody's Baa − 10y) stood in for the long history.
+- **Google Trends**: no official API (only scrapers), skipped. **Stooq**: a JavaScript proof-of-work page, so Yahoo only.
+- **CoinMetrics** realised cap, adjusted transfer value and NVT need a key; realised cap was derived from MVRV, NVT
+  dropped. **IBIT** has no discovery rows (listed 2024-01), so it dropped out of study 55's screen.

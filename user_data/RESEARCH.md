@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-27 (round 8).
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-30 (round 9).
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -60,6 +60,7 @@ trade small real money, while research continues.
 | GBP/USD (round 6) | `user_data/data_bed/external/fx/gbp_per_usd.csv`: the ECB's daily reference rates, sterling per dollar, from `candidates/round6/fetch_fx.py` |
 | 1-minute candles with taker volume | `user_data/data/binance/klines_1m/<SYMBOL>/<YYYY-MM>.parquet` (gitignored, 6.6 GB): every top-30 pair-month 2022-01 to 2026-06, from `candidates/high_frequency/fetch.py` |
 | Order flow and derivatives data (round 8) | `user_data/data_bed/external/binance_vision/round8/` from `candidates/round8/fetch.py` (data.binance.vision, cut at 2026-06-30): spot 1h klines BTC/ETH with taker-buy volume and trade counts (2017-08 →), USD-M perp 1h klines (2020-01 →), USD-M 5-minute metrics with open interest (BTC 2020-09 →, ETH 2021-12 →), USD-M `bookDepth` as hourly mean notional within ±1…5% of mid (2023-01 →; earlier days don't exist; from 2026-01-15 the files add ±0.2% levels), spot aggTrades as hourly taker buy / sell notional histograms by log10(USD) bin (2019-01 →; the raw files are 0.4–0.8 GB a month, ~90 GB in all, streamed and deleted). Loaders and features in `candidates/round8/r8data.py` |
+| Macro, on-chain, attention and equity series (round 9) | `user_data/data_bed/external/round9/` from `candidates/round9/fetch.py`, cut at 2026-06-30: FRED `fred/*.csv` (HY OAS only from 2023-10-31: FRED serves three years of ICE BofA data; BAA10Y, VIX, DFII10, DGS2, WALCL, WTREGEN, RRPONTSYD, M2SL), CoinMetrics community metrics `coinmetrics/{btc,eth}.csv` (MVRV, market cap, active addresses, tx count, price, supply; realised cap / NVT need a key), Wikipedia daily `user` pageviews `wiki/*.csv` (2015-07 →; en Bitcoin / Ethereum / Cryptocurrency / Blockchain / Dogecoin / Solana, Bitcoin in 9 more languages), Yahoo daily closes `equities/` (COIN, MSTR, MARA, RIOT, IBIT). Each series' publication lag is in `candidates/round9/README.md`; loaders in `round9/r9data.py` index every feature by the time it became usable |
 | Machine and long runs (2026-10-25) | The machine was upgraded to 8 cores / 23 GB and reboots now and then. Run anything longer than a few minutes detached (`setsid nohup nice -n 19 …`), checkpoint each step so a rerun skips finished work (pattern: `candidates/round7/run_round7.sh` with a gitignored `cache/`), keep it under ~4 GB and LightGBM at ≤ 2 threads so the live bot can't be OOM-killed. The live bot comes back by itself within 10 minutes (cron `*/10` + `flock`). Don't edit the crontab: suggest an `@reboot` line to the owner instead. The upgrade removed `~/.local/bin`, so there is no `claude` CLI on PATH (only the desktop app's bundled copy) |
 
 ### The honest test bed (`user_data/honest_bed/README.md`)
@@ -124,6 +125,13 @@ below). Everything not marked otherwise is dead.
   interest (49). Market making itself: study 12.
 - **Derivatives calendar** (round 8): CME weekend gaps, Deribit / CME monthly and quarterly expiries (50).
 - **US spot ETF flows**: not run (51): Farside blocks scripted access, SoSoValue needs a key.
+- **Macro liquidity and credit** (round 9): HY OAS and Baa spread changes, VIX vs its 1-year percentiles, real and 2y yields, Fed net
+  liquidity (WALCL − TGA − RRP) changes, M2 growth; as trim / veto / extended gate (52).
+- **On-chain valuation** (round 9): MVRV, MVRV-Z, active-address and tx growth, network-value divergence, Metcalfe-style value;
+  froth trim, deep-value entry, a standalone MVRV cycle sleeve after tax (53). Hash ribbon and Puell: study 15.
+- **Attention** (round 9): Wikipedia pageviews (spike z, 30-day growth, 1-year lows; Google Trends not fetchable without a
+  scraper) as trim / extra / dial (54).
+- **Crypto equities as signals** (round 9): COIN / MSTR / MARA / RIOT / IBIT moves relative to BTC, BTC's after-hours move (55).
 - **Not yet run**: study 43 (three tranches instead of six, see Open leads).
 
 
@@ -179,6 +187,11 @@ below). Everything not marked otherwise is dead.
 | 49 | Liquidation flushes: BTC open interest −5% and price −5% in 4h (5-minute metrics, 2020-09 →), 100 events; extra entry while off, or early re-entry while the 100-day gate is on; holds 1–7 days; OI 3/3, 8/8, 1h, ETH; price-only control | Dead: 0 of 2 | +1.15% BTC over 3 days after an event (null p 0.03), but the price-only drop does +1.52% (p 0.007): OI adds nothing. While off: 2021–23 drawdown 27% → 49%. Gate-on re-entry 2.58 / 1.61 / 1.30 vs 2.68 / 1.53 / 1.27, bootstrap P(≤ 0) 0.19 / 0.06, 3 of 4 neighbours fail; the price-only control does better (1.66 / 1.31) | `candidates/round8/` |
 | 50 | Derivatives calendar: CME weekend gap (444 weekends, Fri 16:00 → Sun 17:00 Chicago from 1h candles) as veto / trim / extra / dial until Wednesday, G 2/3/5%; Deribit (Fri 08:00 UTC) and CME (Fri 16:00 London) monthly / quarterly expiry windows vs other Fridays | Dead: 0 of 4; no expiry overlay qualified | Gaps "fill" no more than pseudo-gaps on weekdays once the following week's volatility is allowed for; the return after the reopen *continues* the gap (slope +0.07, t 0.6). Overlays −0.17 to +0.02 Sharpe. Expiry returns: no window significant in 2018–22 with the same sign after. Pinning since 2024: the week before a Deribit monthly expiry moves 0.47 of normal vol vs 0.86 (p 0.002), a volatility fact, not a direction | `candidates/round8/` |
 | 51 | US spot bitcoin ETF daily net flows (2024 →) | Not run | Farside answers 403 to scripts (bot check), SoSoValue's API needs a key, other copies are unverified scrapes | `candidates/round8/README.md` |
+
+| 52 | Macro liquidity and credit (FRED, each lagged to publication): 16 features (VIX, BAA10Y, real and 2y yields, Fed net liquidity, M2) through study 48's screen; pre-registered overlays: HY OAS 20d > +50 bp trim (2023-11 → only), BAA10Y stand-in, VIX > 1y 90th pct veto, net liquidity 13w < 0 trim, 13w > 0 extended gate | **Dead: 0 of 5** | Screen: 331 BH discoveries vs null median 248 (95th pct 605), 0 confirmed. Net-liquidity trim cuts DD every period (−15 / −21 / −20%) at exposure 0.29 but loses to the exposure-matched bot and 0.10 Sharpe in 2024–26; VIX veto −0.11 / −0.08 / −0.16; liquidity extended gate 2.04 / 1.10 / 0.51, DD −57% | `candidates/round9/` |
+| 53 | BTC/ETH on-chain valuation (CoinMetrics community: MVRV, MVRV-Z, active addresses, tx count): screen; MVRV > 3.5 trim, MVRV < 1 extra entry, network-value divergence trim; **MVRV cycle sleeve** (buy < 1, sell > 3.5; MVRV-Z 0 / 6) alone and as 20% beside the bot, after UK CGT | **Dead: 0 of 3 overlays; sleeve not adopted** | Screen: 0 discoveries (null median 73). MVRV > 3.5 fires Feb 2021 only (+0.06 in 2021–23); MVRV < 1 helps 2019–20 / 2021–23 (+0.05 / +0.10, DD −23% vs −27%) on two episodes, never fires after Jan 2023. Sleeve: 3 trades since 2017 (buy Nov 2018, sell Jan 2021, buy Jun 2022); 2019–Jun 2026 after tax +48%/yr vs the bot's +56%; 80/20 +54.6% vs +56.1%, DD −31% vs −24%; tax share 35% (no long-term rate in the UK) | `candidates/round9/` |
+| 54 | Attention: Wikipedia daily pageviews (spike z 7d vs prior 90d, 30-day growth, 90-day views vs their year) for Bitcoin (en and 10 languages), Ethereum and other crypto articles; spike trim, collapse extra entry, dial | **Dead: 0 of 3** | Screen: 18 discoveries vs null median 109. Spike trim (z > 3, ~1% of bars) +0.07 / +0.06 / +0.00 Sharpe, passes the bar and beats exposure-matched, but z > 2.5 loses in every period and z > 3.5 is identical in 2019–20; collapse entries −0.26 / −0.70 / −0.62; dial −0.39 in 2024–26 with 432 orders/yr | `candidates/round9/` |
+| 55 | Crypto equities as signals (Yahoo: COIN, MSTR, MARA, RIOT, IBIT 5/20-day moves vs BTC over the same US-close window; BTC's move since the last US close), screen only | Dead | 0 discoveries (null median 0, 95th pct 66); every stock's cells flip sign in confirmation; IBIT too new for the discovery sample | `candidates/round9/` |
 
 All write-up paths are under `user_data/`.
 
@@ -264,6 +277,17 @@ All write-up paths are under `user_data/`.
   not drift.
 - **Limit orders save nothing at this size** (round 8): Binance spot maker = taker fee at VIP 0, the BTC/ETH half-spread
   is ~0.01–0.05 bp, and resting at the decision price misses the orders that run away (−0.5 bp a trade).
+- **Macro liquidity, credit and VIX don't time the bot** (study 52): stress in equities and credit arrives when the bot is
+  usually already out, so vetoes and trims on it exit into rebounds; a net-liquidity trim is a size cut in disguise, and a
+  "liquidity is rising" gate buys bear markets. Several macro features look significant in a raw screen only because they
+  are slow: the shifted-return null makes as many discoveries.
+- **On-chain valuation picks cycle bottoms on a handful of episodes** (study 53): MVRV < 1 bought late 2018 and mid-2022
+  well, and MVRV > 3.5 sold early 2021 well, but that is two to four data points, never firing in 2024–26. As a slow
+  standalone sleeve it beats BTC buy and hold (fewer, longer holds) but not the bot, and its tax deferral is only timing:
+  UK CGT has no long-term rate, and one sale realises a whole cycle's gain.
+- **Public attention is trend in another form** (study 54): Wikipedia spikes and collapses track price; trimming spikes is
+  noise-level, buying collapses is buying bear markets.
+- **Crypto equities lead nothing at daily scale** (study 55): COIN / MSTR / miners relative to BTC flip sign after 2023.
 - Hourly seasonality doesn't persist; weekday effects don't survive costs.
 - **Minute-scale patterns don't pay a 15 bp round trip** (study 17): the predictable moves after
   BTC jumps, flow bursts or extreme minutes are 0–10 bp. Market making lost to adverse selection
@@ -351,6 +375,10 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
   100-day gate is still on, buying for 3 days after a 5% 4-hour BTC drop met the bar in 2021–23 and 2024–26 (2.58 / 1.61 / 1.30
   vs 2.68 / 1.53 / 1.27) but its neighbours failed and 2019–20 lost 0.10; the price-only version (no OI data) did slightly
   better. If the fast exit (study 25) is ever revisited, test it there as a re-entry rule, pre-registered.
+- **MVRV < 1 as an extra entry (study 53b, not a pass)**: right sign in both episodes since 2018 (Dec 2018 → 2019, Jun 2022 →
+  Jan 2023), 2021–23 Sharpe +0.10 (0.9 threshold +0.25), but it has not fired since Jan 2023 and can't be judged on 2024–26.
+  BTC's MVRV was 1.10 on 2026-06-30, so it may fire soon: a free forward log of MVRV vs the bot's state is the only way to
+  learn more. Pre-registered thresholds 0.9 / 1.0 / 1.1.
 - **ETF flows (study 51)**: ready to run if the owner has a SoSoValue key or a CSV export of daily US spot BTC ETF flows.
 - **Paper vs backtest**: once the paper bot has a few weeks of trades, check `reconcile.py`
   reports; any systematic gap matters more than any new idea.
@@ -369,3 +397,4 @@ Round 5 (studies 33–38) used no look: no idea showed an edge before July that 
 Round 6 (studies 39–42) used no look: no candidate passed the bar, and no order reached 2026-07-01.
 Round 7 (studies 44–47) used no look: nothing passed before July.
 Round 8 (studies 48–51) used no look: nothing passed before July, and every download stops at 2026-06-30.
+Round 9 (studies 52–55) used no look: no overlay passed and the MVRV sleeve didn't beat the bot before July; every download is cut at 2026-06-30.
