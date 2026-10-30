@@ -1,0 +1,19 @@
+# Ruff settings for user_data/ (strategies, research scripts, paper-trading tools).
+#
+# Inherits everything from the repository's pyproject.toml so the same rule set applies,
+# and only relaxes what makes sense for research code. Keeping these overrides here, rather
+# than in pyproject.toml, means the upstream freqtrade config stays untouched (line-length
+# 100, upstream rule set), so upstream merges never re-flow freqtrade/ or conflict on lint config.
+extend = "../pyproject.toml"
+
+line-length = 120
+# Resolve first-party imports (freqtrade, freqtrade_client) relative to the repo root.
+src = [".."]
+
+[lint]
+extend-ignore = [
+  "S101",     # assert is used for sanity checks in one-off research scripts
+  "RUF001",   # ambiguous unicode in strings (×, –, → are intentional in research output)
+  "RUF002",   # ... in docstrings
+  "RUF003",   # ... in comments
+]

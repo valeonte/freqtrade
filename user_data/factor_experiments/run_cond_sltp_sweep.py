@@ -31,23 +31,26 @@ import subprocess
 import zipfile
 from pathlib import Path
 
+
 # ---------------------------------------------------------------------------
 # Paths & constants
 # ---------------------------------------------------------------------------
 
 RESULTS_DIR = Path("user_data/backtest_results")
-OUTPUT_CSV  = Path("user_data/factor_experiments/results_cond_sltp_sweep.csv")
-BASE_CONFIG = Path("user_data/factor_experiments/v35_cond_sltp.json")   # factor mix source
-TIMERANGE   = "20240101-20260331"
-WALLET      = 1000
+OUTPUT_CSV = Path("user_data/factor_experiments/results_cond_sltp_sweep.csv")
+BASE_CONFIG = Path("user_data/factor_experiments/v35_cond_sltp.json")  # factor mix source
+TIMERANGE = "20240101-20260331"
+WALLET = 1000
 
 # ---------------------------------------------------------------------------
 # Build the combo list
 # ---------------------------------------------------------------------------
 
+
 def _id(sl_pct, sl_rank, tp_pct, tp_rank) -> str:
     def fmt(v, scale=100):
-        return "x" if v is None else f"{int(round(v * scale)):02d}"
+        return "x" if v is None else f"{round(v * scale):02d}"
+
     return f"sl{fmt(sl_pct)}_slr{fmt(sl_rank)}_tp{fmt(tp_pct)}_tpr{fmt(tp_rank)}"
 
 
@@ -108,6 +111,7 @@ for c in raw_combos:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def get_newest_zip(before: set[Path]) -> Path | None:
     all_zips = set(RESULTS_DIR.glob("*.zip"))
     new = all_zips - before
@@ -125,8 +129,8 @@ def extract_metrics(zip_path: Path) -> dict:
     strat_key = next(iter(data["strategy"].keys()))
     s = data["strategy"][strat_key]
     total = s.get("total_trades", 0)
-    wins  = s.get("wins", 0)
-    days  = s.get("backtest_days", 1) or 1
+    wins = s.get("wins", 0)
+    days = s.get("backtest_days", 1) or 1
 
     # Count conditional_tp exits
     exit_reasons = s.get("exit_reason_summary", [])
@@ -138,16 +142,16 @@ def extract_metrics(zip_path: Path) -> dict:
             cond_tp_profit = round(er.get("profit_mean_pct", 0), 2)
 
     return {
-        "trades":        total,
-        "win_rate":      round(wins / total * 100, 1) if total else 0,
-        "profit_pct":    round(s.get("profit_total_abs", 0) / WALLET * 100, 2),
+        "trades": total,
+        "win_rate": round(wins / total * 100, 1) if total else 0,
+        "profit_pct": round(s.get("profit_total_abs", 0) / WALLET * 100, 2),
         "profit_factor": round(s.get("profit_factor", 0), 3),
-        "sharpe":        round(s.get("sharpe", 0), 3),
-        "calmar":        round(s.get("calmar", 0), 3),
-        "sortino":       round(s.get("sortino", 0), 3),
-        "drawdown_pct":  round(s.get("max_drawdown_abs", 0) / WALLET * 100, 2),
-        "dd_days":       round(s.get("drawdown_duration_s", 0) / 86400, 1),
-        "tpd":           round(total / days, 3),
+        "sharpe": round(s.get("sharpe", 0), 3),
+        "calmar": round(s.get("calmar", 0), 3),
+        "sortino": round(s.get("sortino", 0), 3),
+        "drawdown_pct": round(s.get("max_drawdown_abs", 0) / WALLET * 100, 2),
+        "dd_days": round(s.get("drawdown_duration_s", 0) / 86400, 1),
+        "tpd": round(total / days, 3),
         "cond_tp_count": cond_tp_count,
         "cond_tp_avg_pct": cond_tp_profit,
     }
@@ -160,13 +164,13 @@ def run_combo(combo_id, sl_pct, sl_rank, tp_pct, tp_rank) -> dict | None:
     # Rebuild strategy_settings with only what's needed
     ss = {
         "entry_signal_threshold": 0.9,
-        "exit_signal_threshold":  0.65,
+        "exit_signal_threshold": 0.65,
     }
     if sl_pct is not None:
-        ss["conditional_stoploss_pct"]             = sl_pct
-        ss["conditional_stoploss_rank_threshold"]  = sl_rank
+        ss["conditional_stoploss_pct"] = sl_pct
+        ss["conditional_stoploss_rank_threshold"] = sl_rank
     if tp_pct is not None:
-        ss["conditional_takeprofit_pct"]            = tp_pct
+        ss["conditional_takeprofit_pct"] = tp_pct
         ss["conditional_takeprofit_rank_threshold"] = tp_rank
 
     config["strategy_settings"] = ss
@@ -179,13 +183,18 @@ def run_combo(combo_id, sl_pct, sl_rank, tp_pct, tp_rank) -> dict | None:
     existing = set(RESULTS_DIR.glob("*.zip"))
 
     cmd = [
-        "freqtrade", "backtesting",
-        "--config", str(tmp_cfg),
-        "--strategy", "FactorStrategy",
-        "--timerange", TIMERANGE,
-        "--cache", "none",
+        "freqtrade",
+        "backtesting",
+        "--config",
+        str(tmp_cfg),
+        "--strategy",
+        "FactorStrategy",
+        "--timerange",
+        TIMERANGE,
+        "--cache",
+        "none",
     ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, check=False)
     tmp_cfg.unlink(missing_ok=True)
 
     if result.returncode != 0:
@@ -211,10 +220,11 @@ def run_combo(combo_id, sl_pct, sl_rank, tp_pct, tp_rank) -> dict | None:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=None)
-    parser.add_argument("--id",    type=str, default=None)
+    parser.add_argument("--id", type=str, default=None)
     args = parser.parse_args()
 
     combos = COMBOS
@@ -226,25 +236,22 @@ def main():
                 print(f"  {c[0]}")
             return
     elif args.limit:
-        combos = combos[:args.limit]
+        combos = combos[: args.limit]
 
     print(f"Cond SL/TP sweep: {len(combos)} combinations  |  timerange={TIMERANGE}")
     print(f"Output: {OUTPUT_CSV}\n")
 
     rows = []
     for i, (combo_id, sl_pct, sl_rank, tp_pct, tp_rank) in enumerate(combos, 1):
-        print(
-            f"[{i:02d}/{len(combos)}] {combo_id:<40}"
-            f"  sl={sl_pct}  slr={sl_rank}  tp={tp_pct}  tpr={tp_rank}"
-        )
+        print(f"[{i:02d}/{len(combos)}] {combo_id:<40}  sl={sl_pct}  slr={sl_rank}  tp={tp_pct}  tpr={tp_rank}")
         m = run_combo(combo_id, sl_pct, sl_rank, tp_pct, tp_rank)
         if m:
             row = {
                 "combo_id": combo_id,
-                "sl_pct":   sl_pct,
-                "sl_rank":  sl_rank,
-                "tp_pct":   tp_pct,
-                "tp_rank":  tp_rank,
+                "sl_pct": sl_pct,
+                "sl_rank": sl_rank,
+                "tp_pct": tp_pct,
+                "tp_rank": tp_rank,
                 **m,
             }
             rows.append(row)
@@ -261,10 +268,23 @@ def main():
         return
 
     fieldnames = [
-        "combo_id", "sl_pct", "sl_rank", "tp_pct", "tp_rank",
-        "profit_pct", "calmar", "sharpe", "sortino",
-        "drawdown_pct", "dd_days", "profit_factor", "win_rate",
-        "trades", "tpd", "cond_tp_count", "cond_tp_avg_pct",
+        "combo_id",
+        "sl_pct",
+        "sl_rank",
+        "tp_pct",
+        "tp_rank",
+        "profit_pct",
+        "calmar",
+        "sharpe",
+        "sortino",
+        "drawdown_pct",
+        "dd_days",
+        "profit_factor",
+        "win_rate",
+        "trades",
+        "tpd",
+        "cond_tp_count",
+        "cond_tp_avg_pct",
     ]
     with OUTPUT_CSV.open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
@@ -275,7 +295,10 @@ def main():
 
     # Quick ranking by Calmar
     ranked = sorted(rows, key=lambda r: r["calmar"], reverse=True)
-    print(f"\n{'Rank':<5} {'combo_id':<42} {'profit%':>8} {'calmar':>7} {'dd%':>7} {'dd_days':>8} {'trades':>7} {'cond_tp':>8}")
+    print(
+        f"\n{'Rank':<5} {'combo_id':<42} {'profit%':>8} {'calmar':>7} {'dd%':>7} "
+        f"{'dd_days':>8} {'trades':>7} {'cond_tp':>8}"
+    )
     print("-" * 105)
     for rank, r in enumerate(ranked[:20], 1):
         print(

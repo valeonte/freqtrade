@@ -45,7 +45,7 @@ class FundingVolAltSleeveStrategy(FundingVolTrendStrategy):
         self.alt_vol_days = int(s.get("alt_vol_days", 90))
         self.alt_rebalance_days = int(s.get("alt_rebalance_days", 7))
         self.core_pairs = list(s.get("core_pairs", ["BTC/USDT", "ETH/USDT"]))
-        self._cache_key = None
+        self._cache_key: Any = None
         self._weights: pd.DataFrame | None = None
 
     def _cross_section(self, last_date) -> pd.DataFrame:

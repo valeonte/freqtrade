@@ -4,7 +4,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from freqtrade.strategy import IStrategy
+from freqtrade.strategy.interface import IStrategy
 
 
 logger = logging.getLogger(__name__)
@@ -14,6 +14,7 @@ class FactorProvider:
     """
     Factor provider for freqtrade
     """
+
     def __init__(self, strategy: IStrategy) -> None:
         self._strategy = strategy
 
@@ -27,7 +28,11 @@ class FactorProvider:
         return factor_gen(dataframe, **factor["kwargs"])
 
     def momentum(
-        self, dataframe: pd.DataFrame, start_days_ago: int, end_days_ago: int, reversal: bool = False
+        self,
+        dataframe: pd.DataFrame,
+        start_days_ago: int,
+        end_days_ago: int,
+        reversal: bool = False,
     ) -> pd.DataFrame:
         col_name = ("rev" if reversal else "mom") + f"_{start_days_ago}d_{end_days_ago}d"
 
@@ -36,7 +41,9 @@ class FactorProvider:
             now = datetime.datetime.now(tz=datetime.UTC)
             if now - self.__last_warning_ts > datetime.timedelta(minutes=1):
                 logger.warning(
-                    "Shrinking start momentum index from %d to %d, which is max available!", start_idx, len(dataframe) - 1
+                    "Shrinking start momentum index from %d to %d, which is max available!",
+                    start_idx,
+                    len(dataframe) - 1,
                 )
                 self.__last_warning_ts = now
 
@@ -49,12 +56,18 @@ class FactorProvider:
             return dataframe
 
         mult = -1 if reversal else 1
-        dataframe[col_name] = mult * (dataframe["close"].shift(end_idx) / dataframe["close"].shift(start_idx) - 1)
+        dataframe[col_name] = mult * (
+            dataframe["close"].shift(end_idx) / dataframe["close"].shift(start_idx) - 1
+        )
 
         return dataframe
 
     def volume_momentum(
-        self, dataframe: pd.DataFrame, window_days: int, recent_volume_days: int, baseline_volume_days: int
+        self,
+        dataframe: pd.DataFrame,
+        window_days: int,
+        recent_volume_days: int,
+        baseline_volume_days: int,
     ) -> pd.DataFrame:
         """
         Volume-confirmed momentum.
@@ -66,30 +79,34 @@ class FactorProvider:
         window = window_days * self.day_multiplier
 
         # Price return over window
-        price_momentum = dataframe['close'].pct_change(window)
+        price_momentum = dataframe["close"].pct_change(window)
 
         # Volume surprise: ratio of recent avg volume to longer-term baseline
         # Use 3d recent vs 30d baseline — captures abnormal activity
-        vol_recent   = dataframe['volume'].rolling(recent_volume_days * self.day_multiplier).mean()
+        vol_recent = dataframe["volume"].rolling(recent_volume_days * self.day_multiplier).mean()
         window = baseline_volume_days * self.day_multiplier
-        vol_baseline = dataframe['volume'].rolling(
-            baseline_volume_days * self.day_multiplier, min_periods=min(len(dataframe), window)
-        ).mean()
+        vol_baseline = (
+            dataframe["volume"]
+            .rolling(
+                baseline_volume_days * self.day_multiplier, min_periods=min(len(dataframe), window)
+            )
+            .mean()
+        )
         volume_surprise = vol_recent / vol_baseline  # > 1 means above-average volume
 
         # Log-transform volume surprise to reduce impact of extreme spikes
         # e.g. 10x volume doesn't get 10x weight — log(10) ~ 2.3x
         volume_surprise_log = np.log(volume_surprise.clip(lower=0.1))
 
-        dataframe[
-            f"vol_mom_{window_days}d_{recent_volume_days}d_{baseline_volume_days}d"
-        ] = price_momentum * volume_surprise_log
+        dataframe[f"vol_mom_{window_days}d_{recent_volume_days}d_{baseline_volume_days}d"] = (
+            price_momentum * volume_surprise_log
+        )
 
         return dataframe
 
     def factor_vol_adjusted_momentum(
-            self, dataframe: pd.DataFrame, momentum_window_days: int = 30, vol_window_days: int = 30
-        ) -> pd.DataFrame:
+        self, dataframe: pd.DataFrame, momentum_window_days: int = 30, vol_window_days: int = 30
+    ) -> pd.DataFrame:
         """
         Momentum normalised by realised volatility over the same window.
         Equivalent to an in-sample Sharpe ratio for the asset.
@@ -101,9 +118,9 @@ class FactorProvider:
         volume_window = min(vol_window_days * self.day_multiplier, len(dataframe))
         yearly_window = 365.25 * self.day_multiplier
 
-        returns = dataframe['close'].pct_change()
+        returns = dataframe["close"].pct_change()
 
-        price_momentum = dataframe['close'].pct_change(momentum_window)
+        price_momentum = dataframe["close"].pct_change(momentum_window)
 
         # Annualised vol using daily returns, rolling over same window
         # ddof=1 for unbiased estimator — matters on short windows
@@ -112,10 +129,14 @@ class FactorProvider:
         # Clip vol to avoid division by near-zero (very stable assets or data gaps)
         realised_vol = realised_vol.clip(lower=0.01)
 
-        dataframe[f"vol_{vol_window_days}d_adj_mom_{momentum_window_days}d"] = price_momentum / realised_vol
+        dataframe[f"vol_{vol_window_days}d_adj_mom_{momentum_window_days}d"] = (
+            price_momentum / realised_vol
+        )
         return dataframe
 
-    def factor_overextension(self, dataframe: pd.DataFrame, ema_window_days: int = 20) -> pd.DataFrame:
+    def factor_overextension(
+        self, dataframe: pd.DataFrame, ema_window_days: int = 20
+    ) -> pd.DataFrame:
         """
         Normalised distance of price from its EMA.
 
@@ -127,11 +148,11 @@ class FactorProvider:
         """
         ema_window = ema_window_days * self.day_multiplier
 
-        ema = dataframe['close'].ewm(span=ema_window, adjust=False).mean()
+        ema = dataframe["close"].ewm(span=ema_window, adjust=False).mean()
 
         # Percentage distance — makes it comparable across assets with
         # different price levels (e.g. BTC at 60k vs ALT at 0.01)
-        distance = (dataframe['close'] - ema) / ema
+        distance = (dataframe["close"] - ema) / ema
 
         # Invert: we want a HIGH score to mean "likely to go up"
         # Overextended UP → negative score (expect reversal down)
@@ -149,10 +170,12 @@ class FactorProvider:
         vary enormously — normalises across assets.
         """
         window = window_days * self.day_multiplier
-        returns = dataframe['close'].pct_change(self.day_multiplier).abs()
+        returns = dataframe["close"].pct_change(self.day_multiplier).abs()
 
         # Dollar volume: price x volume (gives volume in USDT terms)
-        dollar_volume = (dataframe['close'] * dataframe['volume']).rolling(self.day_multiplier).sum()
+        dollar_volume = (
+            (dataframe["close"] * dataframe["volume"]).rolling(self.day_multiplier).sum()
+        )
 
         # Avoid division by zero on zero-volume candles (holidays, delistings)
         dollar_volume = dollar_volume.replace(0, np.nan)
@@ -177,7 +200,7 @@ class FactorProvider:
         """
         window = window_days * self.day_multiplier
 
-        dollar_volume = dataframe['close'] * dataframe['volume']
+        dollar_volume = dataframe["close"] * dataframe["volume"]
         avg_dollar_volume = dollar_volume.rolling(window).mean()
 
         # Log-transform (size distributions are log-normal, same as equities)

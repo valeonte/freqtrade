@@ -18,7 +18,7 @@ repos:
     rev: "v2.3.1"
     hooks:
       - id: mypy
-        exclude: build_helpers
+        exclude: ^(build_helpers|tools|user_data/(candidates|factor_experiments))/
         additional_dependencies:
           - types-cachetools==7.0.0.20260713
           - types-filelock==3.2.7
@@ -53,7 +53,8 @@ repos:
       - id: trailing-whitespace
         exclude: |
           (?x)^(
-                .*\.md
+                .*\.md|
+                user_data/.*\.txt
             )$
 
   - repo: https://github.com/stefmolin/exif-stripper

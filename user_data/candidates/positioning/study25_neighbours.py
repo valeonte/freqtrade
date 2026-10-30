@@ -14,8 +14,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, "user_data/strategies")
-from common import bot_signals, closes, period_table, run_bot  # noqa: E402
-from funding_vol_fast_exit_strategy import fast_out  # noqa: E402
+from common import bot_signals, closes, period_table, run_bot
+from funding_vol_fast_exit_strategy import fast_out
 
 
 OUT = Path(__file__).parent

@@ -73,14 +73,24 @@ class TestHoldout:
 
     def test_refused_without_unlock(self, tmp_path, monkeypatch):
         monkeypatch.delenv(UNLOCK_ENV, raising=False)
-        config = {"runmode": RunMode.BACKTEST, "timerange": "20260601-20260801", "user_data_dir": tmp_path}
+        config = {
+            "runmode": RunMode.BACKTEST,
+            "timerange": "20260601-20260801",
+            "user_data_dir": tmp_path,
+        }
         with pytest.raises(OperationalException, match="holdout"):
             check_holdout(config)
 
     def test_live_and_early_backtests_pass(self, tmp_path, monkeypatch):
         monkeypatch.delenv(UNLOCK_ENV, raising=False)
         check_holdout({"runmode": RunMode.LIVE, "user_data_dir": tmp_path})
-        check_holdout({"runmode": RunMode.BACKTEST, "timerange": "20250101-20260630", "user_data_dir": tmp_path})
+        check_holdout(
+            {
+                "runmode": RunMode.BACKTEST,
+                "timerange": "20250101-20260630",
+                "user_data_dir": tmp_path,
+            }
+        )
         assert not (tmp_path / "holdout_ledger.jsonl").exists()
 
     def test_unlock_is_logged(self, tmp_path, monkeypatch):

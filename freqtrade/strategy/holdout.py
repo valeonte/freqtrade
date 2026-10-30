@@ -3,10 +3,11 @@ Holdout lock for strategy research.
 
 Candles from `HOLDOUT_START` up to `HOLDOUT_END` (the day the holdout was set aside) are kept
 away from research: a backtest or hyperopt whose timerange overlaps them is refused. Later
-candles are free, so paper trades can be compared with a backtest of the same days. A strategy that has been frozen can be scored on the
-holdout by setting the environment variable `FT_HOLDOUT_UNLOCK` to the reason, which is then
-appended, with the config's strategy settings, to `user_data/holdout_ledger.jsonl`. Every look
-at the holdout is on that ledger, so it is clear how many times the data has been used.
+candles are free, so paper trades can be compared with a backtest of the same days. A strategy
+that has been frozen can be scored on the holdout by setting the environment variable
+`FT_HOLDOUT_UNLOCK` to the reason, which is then appended, with the config's strategy settings,
+to `user_data/holdout_ledger.jsonl`. Every look at the holdout is on that ledger, so it is clear
+how many times the data has been used.
 """
 
 import hashlib
@@ -50,7 +51,8 @@ def check_holdout(config: dict[str, Any]) -> None:
         raise OperationalException(
             f"Timerange {config.get('timerange') or '(none)'} reaches into the holdout "
             f"({HOLDOUT_START:%Y-%m-%d} to {HOLDOUT_END:%Y-%m-%d}). End it on or before "
-            f"{HOLDOUT_START:%Y%m%d}, start it on or after {HOLDOUT_END:%Y%m%d}, or set {UNLOCK_ENV}=<reason> to score a frozen strategy."
+            f"{HOLDOUT_START:%Y%m%d}, start it on or after {HOLDOUT_END:%Y%m%d}, "
+            f"or set {UNLOCK_ENV}=<reason> to score a frozen strategy."
         )
     settings = {
         "strategy": config.get("strategy"),
@@ -64,7 +66,9 @@ def check_holdout(config: dict[str, Any]) -> None:
         "runmode": str(config.get("runmode")),
         "timerange": config.get("timerange"),
         "config_files": config.get("config_files"),
-        "settings_sha256": hashlib.sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest(),
+        "settings_sha256": hashlib.sha256(
+            json.dumps(settings, sort_keys=True).encode()
+        ).hexdigest(),
         "settings": settings,
     }
     ledger = Path(config.get("user_data_dir", "user_data")) / "holdout_ledger.jsonl"

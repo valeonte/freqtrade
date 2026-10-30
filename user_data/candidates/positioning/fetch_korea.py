@@ -18,10 +18,10 @@ OUT = Path("user_data/data_bed/external/korea")
 
 
 def get(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})  # noqa: S310 (fixed https host)
     for i in range(6):
         try:
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with urllib.request.urlopen(req, timeout=30) as r:  # noqa: S310 (fixed https host)
                 return r.read()
         except Exception:
             time.sleep(2**i)

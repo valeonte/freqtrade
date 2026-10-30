@@ -15,6 +15,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
@@ -34,6 +35,7 @@ STRATEGY = "FactorStrategy"
 # trailing_stop_positive, trailing_stop_positive_offset,
 # trailing_only_offset_is_reached
 # ---------------------------------------------------------------------------
+
 
 def _sl(sl, trail=False, trail_pos=None, trail_pos_offset=None, only_offset=False):
     """Build a stoploss settings dict."""
@@ -86,8 +88,10 @@ trailing_variants = [
 for sl in [-0.10, -0.15, -0.20]:
     for tp, to in trailing_variants:
         COMBINATIONS.append(
-            (_id(sl, trail=True, trail_pos=tp, trail_pos_offset=to),
-             _sl(sl, trail=True, trail_pos=tp, trail_pos_offset=to))
+            (
+                _id(sl, trail=True, trail_pos=tp, trail_pos_offset=to),
+                _sl(sl, trail=True, trail_pos=tp, trail_pos_offset=to),
+            )
         )
 
 # ── Group 4: trailing_only_offset_is_reached variants ────────────────────────
@@ -95,13 +99,16 @@ for sl in [-0.10, -0.15, -0.20]:
 # the initial stoploss acts as a hard floor.
 for sl, tp, to in [(-0.10, 0.03, 0.05), (-0.15, 0.03, 0.05), (-0.15, 0.05, 0.08)]:
     COMBINATIONS.append(
-        (_id(sl, trail=True, trail_pos=tp, trail_pos_offset=to, only_offset=True),
-         _sl(sl, trail=True, trail_pos=tp, trail_pos_offset=to, only_offset=True))
+        (
+            _id(sl, trail=True, trail_pos=tp, trail_pos_offset=to, only_offset=True),
+            _sl(sl, trail=True, trail_pos=tp, trail_pos_offset=to, only_offset=True),
+        )
     )
 
 # ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
+
 
 def run_combination(combo_id: str, sl_settings: dict) -> bool:
     out_dir = RESULTS_BASE / combo_id
@@ -120,21 +127,26 @@ def run_combination(combo_id: str, sl_settings: dict) -> bool:
     cmd = [
         str(FREQTRADE_EXE),
         "backtesting",
-        "--strategy", STRATEGY,
-        "--config", str(config_path),
-        "--timerange", TIMERANGE,
-        "--timeframe", TIMEFRAME,
-        "--backtest-directory", str(out_dir),
+        "--strategy",
+        STRATEGY,
+        "--config",
+        str(config_path),
+        "--timerange",
+        TIMERANGE,
+        "--timeframe",
+        TIMEFRAME,
+        "--backtest-directory",
+        str(out_dir),
     ]
 
     settings_str = "  ".join(f"{k}={v}" for k, v in sl_settings.items())
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  Running: {combo_id}")
     print(f"  Settings: {settings_str}")
     print(f"  Output:   {out_dir}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
-    result = subprocess.run(cmd, cwd=str(REPO_ROOT))
+    result = subprocess.run(cmd, cwd=str(REPO_ROOT), check=False)
     if result.returncode != 0:
         print(f"  [FAILED] {combo_id} exited with code {result.returncode}")
         return False

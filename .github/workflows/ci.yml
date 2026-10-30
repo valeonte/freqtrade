@@ -24,7 +24,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ "ubuntu-22.04", "ubuntu-24.04", "ubuntu-26.04", "ubuntu-24.04-arm", "macos-14", "macos-15" , "windows-2022", "windows-2025" ]
+        # No macOS here: this fork's account rarely gets macOS runners, so those jobs sat
+        # queued and were cancelled, failing the Build gate. Upstream still tests macOS.
+        os: [ "ubuntu-22.04", "ubuntu-24.04", "ubuntu-26.04", "ubuntu-24.04-arm", "windows-2022", "windows-2025" ]
         python-version: ["3.11", "3.12", "3.13", "3.14"]
         exclude:
           - os: "ubuntu-22.04"
@@ -88,7 +90,8 @@ jobs:
         pytest --random-order --cov=freqtrade --cov=freqtrade_client --cov-config=.coveragerc
 
     - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-      if: (runner.os == 'Linux' && matrix.python-version == '3.14' && matrix.os == 'ubuntu-24.04')
+      # Uploads need CODECOV_TOKEN, which only the upstream repository has.
+      if: (runner.os == 'Linux' && matrix.python-version == '3.14' && matrix.os == 'ubuntu-24.04' && github.repository == 'freqtrade/freqtrade')
       with:
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}  # zizmor: ignore[secrets-outside-env] Intentionally not using environment variable.
@@ -256,6 +259,10 @@ jobs:
   build-linux-online:
     # Run pytest with "live" checks
     name: "Online / live tests"
+    # Binance and Bybit block GitHub's US-hosted runners, so these tests reach them through
+    # CI_WEB_PROXY below, which is upstream's proxy and times out from this fork's runners
+    # (every Binance/Bybit test fails with "Could not load markets"). Only run upstream.
+    if: github.repository == 'freqtrade/freqtrade'
     runs-on: ubuntu-24.04
     strategy:
       matrix:

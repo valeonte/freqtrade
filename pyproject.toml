@@ -235,7 +235,7 @@ ccxt = false
 virtualenv = "5 days"
 
 [tool.ruff]
-line-length = 120
+line-length = 100
 # TODO: markdown files should be linted.
 extend-exclude = [".env", ".venv", "*.md"]
 
@@ -275,8 +275,6 @@ extend-ignore = [
   "RUF012",  # mutable-class-default
   "RUF022",  # unsorted-dunder-all
   "RUF005",  # list concatenation
-  "S101",   # assertions
-  "UP045",  # Optional
   "BLE001",  # Do not catch blind exception: `Exception`
   "SIM117",  # Multiple with statements
   # TODO: the below rules are in the default now and should be reconsidered.
@@ -340,4 +338,4 @@ exclude = [
 
 [tool.codespell]
 ignore-words-list = "coo,fo,strat,zar,selectin,dependant"
-skip="*.svg,./user_data,freqtrade/rpc/api_server/ui/installed,freqtrade/exchange/*.json"
+skip="*.svg,./user_data,user_data/*,freqtrade/rpc/api_server/ui/installed,freqtrade/exchange/*.json"

@@ -65,8 +65,9 @@ def main():
     for hn, g in t.groupby("hold"):
         m = g[g["vs24"] > 1]
         print(
-            f"hold {hn}: rule {len(m)} trades, mean {100 * m['net'].mean():+.1f}%, median {100 * m['net'].median():+.1f}%, "
-            f"vs BTC {100 * (m['net'] - m['btc']).mean():+.1f}% | all day-30 entries {len(g)}, mean {100 * g['net'].mean():+.1f}%"
+            f"hold {hn}: rule {len(m)} trades, mean {100 * m['net'].mean():+.1f}%, "
+            f"median {100 * m['net'].median():+.1f}%, vs BTC {100 * (m['net'] - m['btc']).mean():+.1f}% | "
+            f"all day-30 entries {len(g)}, mean {100 * g['net'].mean():+.1f}%"
         )
         print(m[["pair", "t_entry", "vs24", "net", "btc"]].round(3).to_string(index=False))
 

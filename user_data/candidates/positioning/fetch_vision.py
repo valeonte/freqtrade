@@ -30,7 +30,7 @@ END = "2026-10-17"
 def get(url: str) -> bytes | None:
     for i in range(5):
         try:
-            with urllib.request.urlopen(url, timeout=30) as r:
+            with urllib.request.urlopen(url, timeout=30) as r:  # noqa: S310 (fixed https host)
                 return r.read()
         except urllib.error.HTTPError as e:
             if e.code == 404:

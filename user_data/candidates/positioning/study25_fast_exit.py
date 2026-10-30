@@ -13,7 +13,7 @@ import pandas as pd
 
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import bot_signals, closes, fmt, period_table, run_bot, verdict  # noqa: E402
+from common import bot_signals, closes, fmt, period_table, run_bot, verdict
 
 
 OUT = Path(__file__).parent
@@ -44,10 +44,9 @@ def switch(sig: pd.DataFrame, btc: pd.Series, exit_kind: str, reentry: str) -> t
             out = False
         else:
             reentered = False
-            if out:
-                if (reentry == "high20" and high20[i]) or (reentry == "wait10" and i - exit_i >= 10):
-                    out = False
-                    reentered = True
+            if out and ((reentry == "high20" and high20[i]) or (reentry == "wait10" and i - exit_i >= 10)):
+                out = False
+                reentered = True
             if not out and not reentered and trig[i]:
                 out = True
                 exit_i = i

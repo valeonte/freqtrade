@@ -80,12 +80,13 @@ def backtest_trades(config: Path, datadir: str, since: datetime, pairs: list[str
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
         if run.returncode != 0:
             if "No data left after adjusting for startup candles" in run.stdout + run.stderr:
                 return EMPTY.copy()  # no candle has closed inside the window yet
             raise RuntimeError(f"backtest failed:\n{run.stdout[-2000:]}{run.stderr[-2000:]}")
-        zf = zipfile.ZipFile(sorted(Path(out).glob("*.zip"))[-1])
+        zf = zipfile.ZipFile(max(Path(out).glob("*.zip")))
         name = next(n for n in zf.namelist() if n.endswith(".json") and "config" not in n and "market" not in n)
         result = json.load(zf.open(name))["strategy"]
     t = pd.DataFrame(next(iter(result.values()))["trades"])
@@ -130,9 +131,11 @@ def main() -> int:
     lines = [
         f"# Paper vs backtest, {cfg.get('bot_name', args.config.stem)}, {datetime.now(UTC):%Y-%m-%d %H:%M} UTC",
         "",
-        f"Window from {since:%Y-%m-%d}. Paper trades {len(paper)}, backtest trades {len(bt)}, "
-        f"matched {len(matched)} (same pair, same entry day), paper only {len(paper_only)}, "
-        f"backtest only {len(bt_only)}.",
+        (
+            f"Window from {since:%Y-%m-%d}. Paper trades {len(paper)}, backtest trades {len(bt)}, "
+            f"matched {len(matched)} (same pair, same entry day), paper only {len(paper_only)}, "
+            f"backtest only {len(bt_only)}."
+        ),
         "",
     ]
     if len(matched):

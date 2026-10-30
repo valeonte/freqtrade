@@ -2,6 +2,7 @@
 Parse 2024 backtest results from the 13 newest zip files.
 Matches by mtime order to config order (v00 oldest, v12 newest).
 """
+
 import csv
 import json
 import zipfile
@@ -27,6 +28,7 @@ CONFIG_ORDER = [
     ("v12", "v04_volmom14", "v12_v04_volmom14"),
 ]
 
+
 def extract_json_from_zip(zip_path):
     with zipfile.ZipFile(zip_path) as z:
         names = z.namelist()
@@ -35,6 +37,7 @@ def extract_json_from_zip(zip_path):
             raise ValueError(f"No JSON in {zip_path}")
         with z.open(json_files[0]) as f:
             return json.load(f)
+
 
 def parse_data(data):
     strat_key = next(iter(data["strategy"].keys()))
@@ -55,6 +58,7 @@ def parse_data(data):
         "market_change_pct": round(s.get("market_change", 0) * 100, 2),
     }
 
+
 # Get the 13 newest zip files sorted oldest-first
 all_zips = sorted(RESULTS_DIR.glob("*.zip"), key=lambda p: p.stat().st_mtime)
 newest_13 = all_zips[-13:]  # last 13 = today's 2024 runs, oldest first
@@ -74,9 +78,20 @@ for zip_path, (version, desc, cfg_name) in zip(newest_13, CONFIG_ORDER, strict=F
     except Exception as e:
         print(f"ERR {version}: {e}")
 
-fieldnames = ["config", "description", "profit_pct", "sharpe", "calmar", "sortino",
-              "max_drawdown_pct", "profit_factor", "win_rate_pct", "total_trades",
-              "trades_per_day", "market_change_pct"]
+fieldnames = [
+    "config",
+    "description",
+    "profit_pct",
+    "sharpe",
+    "calmar",
+    "sortino",
+    "max_drawdown_pct",
+    "profit_factor",
+    "win_rate_pct",
+    "total_trades",
+    "trades_per_day",
+    "market_change_pct",
+]
 
 with OUTPUT_CSV.open("w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)

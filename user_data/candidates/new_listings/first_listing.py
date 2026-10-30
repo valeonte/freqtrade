@@ -69,8 +69,8 @@ VISION = "https://s3-ap-northeast-1.amazonaws.com/data.binance.vision"
 def fetch(url: str) -> bytes | None:
     for attempt in range(4):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=20) as r:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})  # noqa: S310 (fixed https host)
+            with urllib.request.urlopen(req, timeout=20) as r:  # noqa: S310 (fixed https host)
                 return r.read()
         except urllib.error.HTTPError as e:
             if e.code == 400:
