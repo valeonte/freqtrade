@@ -113,6 +113,105 @@ day (a day already logged is skipped). Backfilled from 2026-07-01 once. **Holdou
 evaluated or used to tune anything**; rows after 2026-10-17 are free forward data. Not added to the crontab (a line is
 suggested instead).
 
-## Results
+## Results (2026-10-31)
 
-(Filled in after running; every variant reported.)
+**Verdict: nothing passes.** 0 of 4 screens beat their shifted-return null, 0 of 10 pre-registered overlays pass,
+three tranches lose more after tax than the rule allows, and the forward log is running. No freqtrade run of an
+overlay and no holdout look followed. One post-hoc lead (the stablecoin-supply veto, below). Driver:
+`run_round10.sh`; outputs `results_5x_screen.txt` / `_cells.csv.gz` / `_top.csv` / `_null.csv`,
+`results_overlays_56_58_59.*`, `results_overlays_57.*`, `results_58c_posthoc.txt`, `results_60.*`,
+`results_freqtrade/`, `orders/`.
+
+### Screens (discovery 2018-03 → 2022-12, 200 shifted-return replicates)
+
+| Family | Cells (features) | BH 10% real | Null median / 95th pct | Max \|t\| real / null median | Confirmed |
+| --- | --- | --- | --- | --- | --- |
+| 56 exchange flows | 840 (7) | 0 | 35 / 278 | 2.82 / 3.99 | 0 |
+| 57 Deribit options | 960 (8) | 19 | 6 / 135 (41% of reps ≥ real) | 3.76 / 3.66 | 0 |
+| 58 dominance, stablecoin supply | 840 (7) | 53 | 32 / 357 (43% of reps ≥ real) | 3.70 / 3.89 | 0 |
+| 59 funding dispersion | 720 (6) | 22 | 0 / 71 (20% ≥ real) | 3.64 / 3.42 | 0 |
+
+- **56**: quieter than chance; the largest cells (BTC exchange-supply change and 7-day net inflow on bot-off days, next
+  3 days, t ≈ −2.6) vanish in confirmation (t −0.2 / −0.4). Even with today's (revised, `flash`) address labels, flows
+  say nothing about BTC/ETH direction.
+- **58**: the discoveries are stablecoin-supply growth (35) and BTC dominance (18); top cells, stablecoin 30-day growth on
+  bot-on 4h bars → next day (t +3.14) and BTC dominance 90-day change on bot-off rows (t +3.05), both ≈ 0 in confirmation.
+- **59** (from 2019-04 / 2020-03): dispersion and the venue minimum carry the discoveries (minimum funding on bot-off
+  days → basket 30 days, IC −0.36, t −3.64; conf −0.17, t −1.36), inside the null.
+- **57** (rebuilt from 2018–Jun 2026 trades, 3,103 days, 500 trades a day in 2018 to 14,500 in 2025; skew on 93% of
+  2019 days and every day from 2020, 30-day ATM IV on 65% of 2018 days, 78% of 2019 and 86–90% after): all 19 discoveries are put/call ratios (7-day put/call
+  premium on the basket's 4h bars, partial use, 30 days, t −3.17; conf t −0.04); skew and term structure 0 (median |t|
+  0.42 and 0.59). June 2022 shows what the features measure (skew30 from 12 to 29 vol points, front IV 69 → 149) and
+  that they come after the move.
+
+### Overlays (six-tranche bot; CAGR / Sharpe / max DD 2019–20 | 2021–23 | 2024–Jun 2026)
+
+Baseline: +156% / 2.68 / −21% | +46% / 1.53 / −27% | +40% / 1.27 / −24%, exposure 0.37, 219 orders/yr.
+
+| Rule (use) | Primary | Passes bar | Beats matched | Neighbours pass | Orders/yr | Bootstrap Δ Sharpe | Verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 56a BTC net inflow z30 > 2 (trim) | 2.63 / 1.51 / 1.11 | no | no | 0 of 3 | 377 | −0.05 / −0.02 / −0.16 | fail |
+| 56b exchange supply 30d < 0 (extra) | 2.29 / 1.41 / 0.88, DD −37 / −30 / −40% | no | no | 0 of 2 | 327 | −0.39 / −0.12 / −0.38 | fail |
+| 57a extreme put skew, extra while flat | 2.53 / 1.25 / 0.92, DD −21 / −33 / −35% | no | no | 0 of 2 | 493 | −0.15 / −0.28 / −0.35 | fail |
+| 57b extreme put skew, hold while on | 2.67 / 1.51 / 1.30, DD −21 / −25 / −21% | no | yes | 0 of 2 | 233 | −0.01 / −0.02 / +0.04 | fail |
+| 57c inverted term structure (trim) | 2.69 / 1.24 / 1.04 | no | no | 0 of 2 | 601 | +0.01 / −0.29 / −0.23 | fail |
+| 58a stablecoin dominance 30d rising (trim) | 2.44 / 1.34 / 1.14 | no | no | 0 of 2 | 368 | −0.24 / −0.18 / −0.12 | fail |
+| 58b BTC dominance tilt ×1.25 (per coin) | 2.65 / 1.38 / 1.25 | no | no | 0 of 2 | 364 | −0.03 / −0.15 / −0.01 | fail |
+| 58c stablecoin supply 30d ≤ 0 (exit, AND gate) | 2.40 / 1.78 / 1.19, DD −23 / −14 / −22% | no | no (×0.78) | 1 of 3 (the veto) | 204 | −0.28 / +0.25 / −0.08 | fail |
+| 59a funding dispersion top decile (trim) | 2.61 / 1.50 / 1.34 | no | no | 0 of 2 | 315 | −0.07 / −0.03 / +0.08 | fail |
+| 59b every venue's funding < 0 as the trigger | 2.63 / 1.38 / 1.18 | no | no | 0 of 2 ("any": 2.44 / 1.30 / 0.58) | 193 | −0.05 / −0.14 / −0.08 | fail |
+
+- **Study 9's stablecoin lead, rebuilt point-in-time from chain supply (58c)**: as the pre-registered AND gate it
+  helps only 2021–23 (1.78 vs 1.53, DD −14% vs −27%: it kept the bot out of 2022's rallies) and loses 2019–20 (−0.28)
+  and 2024–26 (−0.08). The DefiLlama result of study 9 doesn't survive as the bot's gate.
+- **POST-HOC** (`posthoc_58c.py`, the pre-registered veto neighbour taken up after the primary failed): no *new* entry
+  while 30-day stablecoin supply growth ≤ 0 gives 2.74 / 1.74 / 1.27, DD −24 / −13 / −22%, exposure 0.32, 183 orders/yr;
+  it beats the exposure-matched bot (2.70 / 1.44 / 1.25) and 200 shifted signals (null p < 0.005); 60-day window 2.80 /
+  1.72 / 1.26 passes too, **14-day fails** (1.45 in 2021–23). Bootstrap P(gain ≤ 0) 0.33 / 0.19 / 0.44: the gain is
+  2022 (+0.22) and nothing since 2024 (+0.01). Not a pass (post-hoc, a neighbour fails); a lead to pre-register.
+- Cross-venue funding: requiring every venue negative (59b) drops good entries; accepting any venue negative buys 2022
+  and 2024–26 dips (0.58). Binance alone remains the best trigger.
+- Dispersion trims gain a little in 2024–26 (+0.08) and lose before; BTC-dominance tilts lose in 2021–23 (−0.15).
+- **Options** (57): buying extreme put skew while flat buys 2022 and 2024–26's falling markets (drawdowns −33 / −35%);
+  holding on through it barely changes anything (it only acts on the bars where a tranche would switch off); trimming on an inverted term structure
+  sells into the volatility spikes that precede rebounds, and trades 601 orders a year.
+
+### Study 60: three tranches (freqtrade, orders exported; after UK CGT, £50k, higher rate)
+
+This round's six-tranche runs reproduce round 6's orders exactly (417 / 655 / 582 / 1,657).
+
+| Period | Six: pre-tax CAGR / Sharpe / DD | Three: pre-tax | Six: after-tax CAGR | Three: after-tax | Orders/yr six → three | Days with an order | Coin disposal lines/yr | Median hold |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2019–20 | +146% / 2.58 / −23% | +138% / 2.47 / −24% | +120.7% | +113.9% (−6.8) | 208 → 111 | 46 → 40 | 44 → 36 | 11 → 11 days |
+| 2021–23 | +49% / 1.57 / −23% | +48% / 1.55 / −22% | +39.9% | +39.2% (−0.7) | 218 → 113 | 43 → 38 | 44 → 38 | 4 → 4 days |
+| 2024–Jun 2026 | +37% / 1.20 / −24% | +33% / 1.10 / −24% | +30.5% | +27.7% (−2.8) | 233 → 121 | 45 → 38 | 48 → 39 | 11 → 11 days |
+| 2019–Jun 2026 | +66% / 1.76 / −24% | +62% / 1.68 / −24% | +56.1% (£1.41m) | +52.9% (£1.20m) | 221 → 115 | 45 → 39 | 46 → 38 | 10.5 → 10.3 days |
+
+**Verdict: not worth it** (the pre-registered rule needs ≤ 2 points after tax in every period; 2019–20 loses 6.8 and
+2024–26 2.8). Orders halve, but the badges that matter barely move: days with an order 45 → 39, disposal lines 46 → 38,
+the same 10-day median hold and ~75% sold within 30 days. The order count scales with the number of tranches, while the
+days and the disposals that HMRC's badges look at fall only ~15%.
+
+### Study 61: forward log
+
+`forward_log.py` backfilled 122 days, 2026-07-01 → 2026-10-30, into `forward/forward_log.jsonl` (gitignored) and is
+idempotent (a rerun writes nothing). Over the free rows (2026-10-18 → 30) BTC MVRV was 1.43–1.56, so 53b's MVRV < 1 hasn't fired. Coinbase listed 15 new USD products since
+2026-07-01 (GROVE, GRVT, ALIGN, BASECAT, DRB, GRASS, CP, BLUECHIP, CT, PONS, DATA, WHUF, AXIS, RITUAL, STABLE), **none of
+them trading on Binance at the time** (DATA was delisted from Binance in Feb 2026), so the study 35 lead (coins already
+on Binance) had no events. Holdout-window rows (to 2026-10-17) are flagged `holdout_window: true` and were not evaluated.
+
+Suggested crontab line (not installed; the owner's call), daily at 06:15 UTC, after CoinMetrics publishes the previous day:
+
+```
+15 6 * * * cd /home/fistix/repos/freqtrade && nice -n 19 .env/bin/python user_data/candidates/round10/forward_log.py >> user_data/candidates/round10/forward/cron.log 2>&1
+```
+
+(It needs the script on the checkout cron runs from: `~/repos/freqtrade` once this branch is merged into `my-strats`, or
+point it at `~/repos/freqtrade-round9` until then. The log lives next to the script, in that checkout's `forward/`.)
+
+### Skipped or substituted
+
+- **OKX** funding history: the public API serves three months, the CDN files answer 404. **BitMEX**: 403. Study 59 used
+  Binance, Bybit (2020-03 →) and Deribit's perpetual (2019-04 →).
+- **CoinMetrics' exchange flows** are all `flash` values; the free tier has no reviewed history. CoinMetrics' asset list
+  lacks SOL and coins it never covered, so BTC dominance is over its served universe only.
