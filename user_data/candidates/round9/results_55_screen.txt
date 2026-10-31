@@ -1,0 +1,214 @@
+55 panels loaded 11 features
+  disc BTC daily h=1 done
+  disc BTC daily h=3 done
+  disc BTC daily h=7 done
+  disc BTC daily h=14 done
+  disc BTC daily h=30 done
+  disc BTC 4h h=1 done
+  disc BTC 4h h=3 done
+  disc BTC 4h h=7 done
+  disc BTC 4h h=14 done
+  disc BTC 4h h=30 done
+  disc ETH daily h=1 done
+  disc ETH daily h=3 done
+  disc ETH daily h=7 done
+  disc ETH daily h=14 done
+  disc ETH daily h=30 done
+  disc ETH 4h h=1 done
+  disc ETH 4h h=3 done
+  disc ETH 4h h=7 done
+  disc ETH 4h h=14 done
+  disc ETH 4h h=30 done
+  disc basket daily h=1 done
+  disc basket daily h=3 done
+  disc basket daily h=7 done
+  disc basket daily h=14 done
+  disc basket daily h=30 done
+  disc basket 4h h=1 done
+  disc basket 4h h=3 done
+  disc basket 4h h=7 done
+  disc basket 4h h=14 done
+  disc basket 4h h=30 done
+  conf BTC daily h=1 done
+  conf BTC daily h=3 done
+  conf BTC daily h=7 done
+  conf BTC daily h=14 done
+  conf BTC daily h=30 done
+  conf BTC 4h h=1 done
+  conf BTC 4h h=3 done
+  conf BTC 4h h=7 done
+  conf BTC 4h h=14 done
+  conf BTC 4h h=30 done
+  conf ETH daily h=1 done
+  conf ETH daily h=3 done
+  conf ETH daily h=7 done
+  conf ETH daily h=14 done
+  conf ETH daily h=30 done
+  conf ETH 4h h=1 done
+  conf ETH 4h h=3 done
+  conf ETH 4h h=7 done
+  conf ETH 4h h=14 done
+  conf ETH 4h h=30 done
+  conf basket daily h=1 done
+  conf basket daily h=3 done
+  conf basket daily h=7 done
+  conf basket daily h=14 done
+  conf basket daily h=30 done
+  conf basket 4h h=1 done
+  conf basket 4h h=3 done
+  conf basket 4h h=7 done
+  conf basket 4h h=14 done
+  conf basket 4h h=30 done
+  2019-20 BTC daily h=1 done
+  2019-20 BTC daily h=3 done
+  2019-20 BTC daily h=7 done
+  2019-20 BTC daily h=14 done
+  2019-20 BTC daily h=30 done
+  2019-20 BTC 4h h=1 done
+  2019-20 BTC 4h h=3 done
+  2019-20 BTC 4h h=7 done
+  2019-20 BTC 4h h=14 done
+  2019-20 BTC 4h h=30 done
+  2019-20 ETH daily h=1 done
+  2019-20 ETH daily h=3 done
+  2019-20 ETH daily h=7 done
+  2019-20 ETH daily h=14 done
+  2019-20 ETH daily h=30 done
+  2019-20 ETH 4h h=1 done
+  2019-20 ETH 4h h=3 done
+  2019-20 ETH 4h h=7 done
+  2019-20 ETH 4h h=14 done
+  2019-20 ETH 4h h=30 done
+  2019-20 basket daily h=1 done
+  2019-20 basket daily h=3 done
+  2019-20 basket daily h=7 done
+  2019-20 basket daily h=14 done
+  2019-20 basket daily h=30 done
+  2019-20 basket 4h h=1 done
+  2019-20 basket 4h h=3 done
+  2019-20 basket 4h h=7 done
+  2019-20 basket 4h h=14 done
+  2019-20 basket 4h h=30 done
+  2021-23 BTC daily h=1 done
+  2021-23 BTC daily h=3 done
+  2021-23 BTC daily h=7 done
+  2021-23 BTC daily h=14 done
+  2021-23 BTC daily h=30 done
+  2021-23 BTC 4h h=1 done
+  2021-23 BTC 4h h=3 done
+  2021-23 BTC 4h h=7 done
+  2021-23 BTC 4h h=14 done
+  2021-23 BTC 4h h=30 done
+  2021-23 ETH daily h=1 done
+  2021-23 ETH daily h=3 done
+  2021-23 ETH daily h=7 done
+  2021-23 ETH daily h=14 done
+  2021-23 ETH daily h=30 done
+  2021-23 ETH 4h h=1 done
+  2021-23 ETH 4h h=3 done
+  2021-23 ETH 4h h=7 done
+  2021-23 ETH 4h h=14 done
+  2021-23 ETH 4h h=30 done
+  2021-23 basket daily h=1 done
+  2021-23 basket daily h=3 done
+  2021-23 basket daily h=7 done
+  2021-23 basket daily h=14 done
+  2021-23 basket daily h=30 done
+  2021-23 basket 4h h=1 done
+  2021-23 basket 4h h=3 done
+  2021-23 basket 4h h=7 done
+  2021-23 basket 4h h=14 done
+  2021-23 basket 4h h=30 done
+  2024-26H1 BTC daily h=1 done
+  2024-26H1 BTC daily h=3 done
+  2024-26H1 BTC daily h=7 done
+  2024-26H1 BTC daily h=14 done
+  2024-26H1 BTC daily h=30 done
+  2024-26H1 BTC 4h h=1 done
+  2024-26H1 BTC 4h h=3 done
+  2024-26H1 BTC 4h h=7 done
+  2024-26H1 BTC 4h h=14 done
+  2024-26H1 BTC 4h h=30 done
+  2024-26H1 ETH daily h=1 done
+  2024-26H1 ETH daily h=3 done
+  2024-26H1 ETH daily h=7 done
+  2024-26H1 ETH daily h=14 done
+  2024-26H1 ETH daily h=30 done
+  2024-26H1 ETH 4h h=1 done
+  2024-26H1 ETH 4h h=3 done
+  2024-26H1 ETH 4h h=7 done
+  2024-26H1 ETH 4h h=14 done
+  2024-26H1 ETH 4h h=30 done
+  2024-26H1 basket daily h=1 done
+  2024-26H1 basket daily h=3 done
+  2024-26H1 basket daily h=7 done
+  2024-26H1 basket daily h=14 done
+  2024-26H1 basket daily h=30 done
+  2024-26H1 basket 4h h=1 done
+  2024-26H1 basket 4h h=3 done
+  2024-26H1 basket 4h h=7 done
+  2024-26H1 basket 4h h=14 done
+  2024-26H1 basket 4h h=30 done
+
+55: 1,080 cells (9 features), discovery ('2018-03-01', '2022-12-31')
+BH 10% discoveries: real 0; null mean 10.6, median 0, 95th pct 66, max 164; share of null reps >= real 1.000
+max |t| real 3.78; null max |t| median 3.54, 95th pct 4.45; share of null reps with max >= real 0.360
+|t| > 3: real 17, null mean 12.2, 95th pct 37
+confirmed (Holm 5%, same sign): 0; survivors: 0
+
+by group:
+              cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+group                                                             
+COIN           240   0          0          0   0.476731   1.293791
+MARA           240   0          0          0   0.698934   2.577257
+MSTR           240   0          0          0   0.552161   2.641576
+RIOT           240   0          0          0   0.424564   2.880902
+after hours    120   0          0          0   1.641698   3.781569
+
+by use:
+      cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+use                                                       
+a      270   0          0          0   0.543007   2.827620
+b      270   0          0          0   0.513183   2.333708
+c      270   0          0          0   0.577380   3.266878
+d      270   0          0          0   0.637755   3.781569
+
+top 30 cells by discovery |t|:
+    feature  asset   bar  horizon use     ic      t    bh  ic_conf  t_conf  survivor  boot_p  ic_2019-20  ic_2021-23  ic_2024-26H1
+    btc_ah    BTC    4h        1   d -0.076 -3.782 False    0.023   1.135     False   0.000      -0.058      -0.044         0.005
+    btc_ah    BTC daily        1   d -0.075 -3.506 False    0.023   1.072     False   0.000      -0.062      -0.042         0.008
+    btc_ah basket    4h        7   d -0.084 -3.484 False    0.010   0.388     False   0.002      -0.036      -0.066        -0.015
+    btc_ah    BTC    4h        7   d -0.086 -3.461 False   -0.007  -0.251     False   0.001      -0.050      -0.057        -0.038
+    btc_ah basket daily        7   d -0.081 -3.292 False    0.009   0.356     False   0.000      -0.034      -0.065        -0.016
+    btc_ah    BTC daily        7   d -0.083 -3.281 False   -0.006  -0.222     False   0.001      -0.049      -0.056        -0.037
+    btc_ah basket    4h        1   d -0.066 -3.267 False    0.027   1.373     False   0.002      -0.046      -0.040         0.014
+    btc_ah    BTC    4h       30   c -0.094 -3.267 False    0.000   0.010     False   0.006      -0.044      -0.065        -0.020
+    btc_ah    BTC daily       30   c -0.093 -3.233 False    0.012   0.300     False   0.002      -0.040      -0.061        -0.009
+    btc_ah    ETH    4h        7   d -0.080 -3.226 False    0.015   0.599     False   0.002      -0.033      -0.068        -0.005
+    btc_ah basket    4h       14   d -0.082 -3.192 False    0.030   1.076     False   0.001      -0.058      -0.066         0.021
+    btc_ah    ETH daily        7   d -0.078 -3.094 False    0.014   0.532     False   0.001      -0.031      -0.068        -0.007
+    btc_ah    ETH    4h        1   d -0.063 -3.086 False    0.024   1.222     False   0.006      -0.049      -0.040         0.015
+    btc_ah    ETH    4h       14   d -0.081 -3.072 False    0.041   1.503     False   0.003      -0.056      -0.070         0.037
+    btc_ah    BTC daily        1   c -0.078 -3.047 False    0.069   2.143     False   0.001      -0.058      -0.057         0.044
+    btc_ah basket daily       14   d -0.079 -3.025 False    0.030   1.107     False   0.004      -0.052      -0.069         0.021
+    btc_ah basket daily        1   d -0.065 -3.016 False    0.028   1.280     False   0.002      -0.049      -0.038         0.015
+    btc_ah    ETH daily       14   d -0.079 -2.959 False    0.041   1.529     False   0.004      -0.052      -0.073         0.036
+RIOT_rel20    ETH daily       30   c  0.280  2.881 False   -0.181  -1.307     False   0.004       0.371       0.154        -0.165
+    btc_ah    ETH daily        1   d -0.062 -2.866 False    0.024   1.127     False   0.003      -0.052      -0.038         0.015
+    btc_ah    BTC    4h        1   c -0.068 -2.861 False    0.080   2.593     False   0.007      -0.039      -0.033         0.060
+    btc_ah    BTC    4h       14   d -0.074 -2.851 False    0.011   0.384     False   0.005      -0.057      -0.051        -0.004
+    btc_ah    BTC    4h        1   a -0.049 -2.828 False    0.018   0.885     False   0.007      -0.003      -0.045        -0.001
+    btc_ah basket daily       30   c -0.081 -2.826 False    0.019   0.507     False   0.002      -0.037      -0.083        -0.000
+RIOT_rel20    ETH    4h       30   c  0.287  2.793 False   -0.163  -1.112     False   0.000       0.410       0.161        -0.158
+    btc_ah    BTC daily        1   a -0.050 -2.747 False    0.020   0.917     False   0.004      -0.011      -0.042         0.002
+    btc_ah    BTC    4h        3   d -0.068 -2.703 False    0.009   0.405     False   0.010      -0.034      -0.032        -0.025
+    btc_ah basket daily        1   c -0.066 -2.679 False    0.065   1.998     False   0.002      -0.053      -0.053         0.039
+    btc_ah    ETH    4h        1   a -0.046 -2.676 False    0.022   1.104     False   0.011      -0.031      -0.041         0.012
+    btc_ah    BTC daily       14   d -0.071 -2.672 False    0.012   0.426     False   0.011      -0.050      -0.054        -0.002
+
+top cell per group, bot-on (b) / bot-off (c) / partial (d) uses:
+  COIN: COIN_rel20 ETH daily h30 use d: IC +0.209 t +1.29, conf IC +0.005 t +0.05
+  MARA: MARA_rel20 ETH 4h h30 use c: IC +0.261 t +2.58, conf IC -0.128 t -0.98
+  MSTR: MSTR_rel20 ETH 4h h30 use c: IC +0.292 t +2.64, conf IC -0.112 t -0.87
+  RIOT: RIOT_rel20 ETH daily h30 use c: IC +0.280 t +2.88, conf IC -0.181 t -1.31
+  after hours: btc_ah BTC 4h h1 use d: IC -0.076 t -3.78, conf IC +0.023 t +1.14
