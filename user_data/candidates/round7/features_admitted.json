@@ -1,0 +1,4658 @@
+{
+ "talib.BBANDS.upperband@x0.5": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "upperband",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 13
+ },
+ "talib.BBANDS.middleband@x0.5": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "middleband",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 13
+ },
+ "talib.BBANDS.lowerband@x0.5": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "lowerband",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 13
+ },
+ "talib.BBANDS.upperband@x1": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "upperband",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 22
+ },
+ "talib.BBANDS.middleband@x1": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "middleband",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 22
+ },
+ "talib.BBANDS.lowerband@x1": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "lowerband",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 22
+ },
+ "talib.BBANDS.upperband@x2": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "upperband",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 37
+ },
+ "talib.BBANDS.middleband@x2": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "middleband",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 37
+ },
+ "talib.BBANDS.lowerband@x2": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "lowerband",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 37
+ },
+ "talib.BBANDS.upperband@x4": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "upperband",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 67
+ },
+ "talib.BBANDS.middleband@x4": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "middleband",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 67
+ },
+ "talib.BBANDS.lowerband@x4": {
+  "spec": "talib.BBANDS",
+  "family": "overlap",
+  "output": "lowerband",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 67
+ },
+ "talib.DEMA.real@x0.5": {
+  "spec": "talib.DEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 94
+ },
+ "talib.DEMA.real@x1": {
+  "spec": "talib.DEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 184
+ },
+ "talib.DEMA.real@x2": {
+  "spec": "talib.DEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 364
+ },
+ "talib.DEMA.real@x4": {
+  "spec": "talib.DEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 724
+ },
+ "talib.EMA.real@x0.5": {
+  "spec": "talib.EMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 52
+ },
+ "talib.EMA.real@x1": {
+  "spec": "talib.EMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 97
+ },
+ "talib.EMA.real@x2": {
+  "spec": "talib.EMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 187
+ },
+ "talib.EMA.real@x4": {
+  "spec": "talib.EMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 367
+ },
+ "talib.HT_TRENDLINE.real@x1": {
+  "spec": "talib.HT_TRENDLINE",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 199
+ },
+ "talib.KAMA.real@x0.5": {
+  "spec": "talib.KAMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 55
+ },
+ "talib.KAMA.real@x1": {
+  "spec": "talib.KAMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 100
+ },
+ "talib.KAMA.real@x2": {
+  "spec": "talib.KAMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 190
+ },
+ "talib.KAMA.real@x4": {
+  "spec": "talib.KAMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 370
+ },
+ "talib.MA.real@x0.5": {
+  "spec": "talib.MA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 52
+ },
+ "talib.MA.real@x1": {
+  "spec": "talib.MA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 97
+ },
+ "talib.MA.real@x2": {
+  "spec": "talib.MA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 187
+ },
+ "talib.MA.real@x4": {
+  "spec": "talib.MA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 367
+ },
+ "talib.MAMA.mama@x1": {
+  "spec": "talib.MAMA",
+  "family": "overlap",
+  "output": "mama",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 106
+ },
+ "talib.MAMA.fama@x1": {
+  "spec": "talib.MAMA",
+  "family": "overlap",
+  "output": "fama",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 106
+ },
+ "talib.MIDPOINT.real@x0.5": {
+  "spec": "talib.MIDPOINT",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 28
+ },
+ "talib.MIDPOINT.real@x1": {
+  "spec": "talib.MIDPOINT",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 49
+ },
+ "talib.MIDPOINT.real@x2": {
+  "spec": "talib.MIDPOINT",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 91
+ },
+ "talib.MIDPOINT.real@x4": {
+  "spec": "talib.MIDPOINT",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 175
+ },
+ "talib.MIDPRICE.real@x0.5": {
+  "spec": "talib.MIDPRICE",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 28
+ },
+ "talib.MIDPRICE.real@x1": {
+  "spec": "talib.MIDPRICE",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 49
+ },
+ "talib.MIDPRICE.real@x2": {
+  "spec": "talib.MIDPRICE",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 91
+ },
+ "talib.MIDPRICE.real@x4": {
+  "spec": "talib.MIDPRICE",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 175
+ },
+ "talib.SAR.real@x1": {
+  "spec": "talib.SAR",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 13
+ },
+ "talib.T3.real@x0.5": {
+  "spec": "talib.T3",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 28
+ },
+ "talib.T3.real@x1": {
+  "spec": "talib.T3",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 82
+ },
+ "talib.T3.real@x2": {
+  "spec": "talib.T3",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 172
+ },
+ "talib.T3.real@x4": {
+  "spec": "talib.T3",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 352
+ },
+ "talib.TEMA.real@x0.5": {
+  "spec": "talib.TEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 136
+ },
+ "talib.TEMA.real@x1": {
+  "spec": "talib.TEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 271
+ },
+ "talib.TEMA.real@x2": {
+  "spec": "talib.TEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 541
+ },
+ "talib.TEMA.real@x4": {
+  "spec": "talib.TEMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 1081
+ },
+ "talib.TRIMA.real@x0.5": {
+  "spec": "talib.TRIMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 52
+ },
+ "talib.TRIMA.real@x1": {
+  "spec": "talib.TRIMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 97
+ },
+ "talib.TRIMA.real@x2": {
+  "spec": "talib.TRIMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 187
+ },
+ "talib.TRIMA.real@x4": {
+  "spec": "talib.TRIMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 367
+ },
+ "talib.WMA.real@x0.5": {
+  "spec": "talib.WMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 52
+ },
+ "talib.WMA.real@x1": {
+  "spec": "talib.WMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 97
+ },
+ "talib.WMA.real@x2": {
+  "spec": "talib.WMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 187
+ },
+ "talib.WMA.real@x4": {
+  "spec": "talib.WMA",
+  "family": "overlap",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 367
+ },
+ "talib.ADX.real@x0.5": {
+  "spec": "talib.ADX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 49
+ },
+ "talib.ADX.real@x1": {
+  "spec": "talib.ADX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 91
+ },
+ "talib.ADX.real@x2": {
+  "spec": "talib.ADX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 175
+ },
+ "talib.ADX.real@x4": {
+  "spec": "talib.ADX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 343
+ },
+ "talib.ADXR.real@x0.5": {
+  "spec": "talib.ADXR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 67
+ },
+ "talib.ADXR.real@x1": {
+  "spec": "talib.ADXR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 130
+ },
+ "talib.ADXR.real@x2": {
+  "spec": "talib.ADXR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 256
+ },
+ "talib.ADXR.real@x4": {
+  "spec": "talib.ADXR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 508
+ },
+ "talib.APO.real@x0.5": {
+  "spec": "talib.APO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 46
+ },
+ "talib.APO.real@x1": {
+  "spec": "talib.APO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 85
+ },
+ "talib.APO.real@x2": {
+  "spec": "talib.APO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 163
+ },
+ "talib.APO.real@x4": {
+  "spec": "talib.APO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 319
+ },
+ "talib.AROON.aroondown@x0.5": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroondown",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.AROON.aroonup@x0.5": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroonup",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.AROON.aroondown@x1": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroondown",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.AROON.aroonup@x1": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroonup",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.AROON.aroondown@x2": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroondown",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.AROON.aroonup@x2": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroonup",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.AROON.aroondown@x4": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroondown",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.AROON.aroonup@x4": {
+  "spec": "talib.AROON",
+  "family": "momentum",
+  "output": "aroonup",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.AROONOSC.real@x0.5": {
+  "spec": "talib.AROONOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.AROONOSC.real@x1": {
+  "spec": "talib.AROONOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.AROONOSC.real@x2": {
+  "spec": "talib.AROONOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.AROONOSC.real@x4": {
+  "spec": "talib.AROONOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.BOP.real@x1": {
+  "spec": "talib.BOP",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 10
+ },
+ "talib.CCI.real@x0.5": {
+  "spec": "talib.CCI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 28
+ },
+ "talib.CCI.real@x1": {
+  "spec": "talib.CCI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 49
+ },
+ "talib.CCI.real@x2": {
+  "spec": "talib.CCI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 91
+ },
+ "talib.CCI.real@x4": {
+  "spec": "talib.CCI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 175
+ },
+ "talib.CMO.real@x0.5": {
+  "spec": "talib.CMO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.CMO.real@x1": {
+  "spec": "talib.CMO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.CMO.real@x2": {
+  "spec": "talib.CMO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.CMO.real@x4": {
+  "spec": "talib.CMO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.DX.real@x0.5": {
+  "spec": "talib.DX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.DX.real@x1": {
+  "spec": "talib.DX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.DX.real@x2": {
+  "spec": "talib.DX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.DX.real@x4": {
+  "spec": "talib.DX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.MACD.macd@x0.5": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 55
+ },
+ "talib.MACD.macdsignal@x0.5": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 55
+ },
+ "talib.MACD.macdhist@x0.5": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 55
+ },
+ "talib.MACD.macd@x1": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACD.macdsignal@x1": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACD.macdhist@x1": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACD.macd@x2": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "talib.MACD.macdsignal@x2": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "talib.MACD.macdhist@x2": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "talib.MACD.macd@x4": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 424
+ },
+ "talib.MACD.macdsignal@x4": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 424
+ },
+ "talib.MACD.macdhist@x4": {
+  "spec": "talib.MACD",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 424
+ },
+ "talib.MACDEXT.macd@x0.5": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 55
+ },
+ "talib.MACDEXT.macdsignal@x0.5": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 55
+ },
+ "talib.MACDEXT.macdhist@x0.5": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 55
+ },
+ "talib.MACDEXT.macd@x1": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACDEXT.macdsignal@x1": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACDEXT.macdhist@x1": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACDEXT.macd@x2": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "talib.MACDEXT.macdsignal@x2": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "talib.MACDEXT.macdhist@x2": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "talib.MACDEXT.macd@x4": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 424
+ },
+ "talib.MACDEXT.macdsignal@x4": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 424
+ },
+ "talib.MACDEXT.macdhist@x4": {
+  "spec": "talib.MACDEXT",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 424
+ },
+ "talib.MACDFIX.macd@x0.5": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 94
+ },
+ "talib.MACDFIX.macdsignal@x0.5": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 94
+ },
+ "talib.MACDFIX.macdhist@x0.5": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 94
+ },
+ "talib.MACDFIX.macd@x1": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACDFIX.macdsignal@x1": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACDFIX.macdhist@x1": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 109
+ },
+ "talib.MACDFIX.macd@x2": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 136
+ },
+ "talib.MACDFIX.macdsignal@x2": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 136
+ },
+ "talib.MACDFIX.macdhist@x2": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 136
+ },
+ "talib.MACDFIX.macd@x4": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macd",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 190
+ },
+ "talib.MACDFIX.macdsignal@x4": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdsignal",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 190
+ },
+ "talib.MACDFIX.macdhist@x4": {
+  "spec": "talib.MACDFIX",
+  "family": "momentum",
+  "output": "macdhist",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 190
+ },
+ "talib.MFI.real@x0.5": {
+  "spec": "talib.MFI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.MFI.real@x1": {
+  "spec": "talib.MFI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.MFI.real@x2": {
+  "spec": "talib.MFI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.MFI.real@x4": {
+  "spec": "talib.MFI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.MINUS_DI.real@x0.5": {
+  "spec": "talib.MINUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.MINUS_DI.real@x1": {
+  "spec": "talib.MINUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.MINUS_DI.real@x2": {
+  "spec": "talib.MINUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.MINUS_DI.real@x4": {
+  "spec": "talib.MINUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.MINUS_DM.real@x0.5": {
+  "spec": "talib.MINUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 28
+ },
+ "talib.MINUS_DM.real@x1": {
+  "spec": "talib.MINUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 49
+ },
+ "talib.MINUS_DM.real@x2": {
+  "spec": "talib.MINUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 91
+ },
+ "talib.MINUS_DM.real@x4": {
+  "spec": "talib.MINUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 175
+ },
+ "talib.MOM.real@x0.5": {
+  "spec": "talib.MOM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 25
+ },
+ "talib.MOM.real@x1": {
+  "spec": "talib.MOM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 40
+ },
+ "talib.MOM.real@x2": {
+  "spec": "talib.MOM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 70
+ },
+ "talib.MOM.real@x4": {
+  "spec": "talib.MOM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 130
+ },
+ "talib.PLUS_DI.real@x0.5": {
+  "spec": "talib.PLUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.PLUS_DI.real@x1": {
+  "spec": "talib.PLUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.PLUS_DI.real@x2": {
+  "spec": "talib.PLUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.PLUS_DI.real@x4": {
+  "spec": "talib.PLUS_DI",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.PLUS_DM.real@x0.5": {
+  "spec": "talib.PLUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 28
+ },
+ "talib.PLUS_DM.real@x1": {
+  "spec": "talib.PLUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 49
+ },
+ "talib.PLUS_DM.real@x2": {
+  "spec": "talib.PLUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 91
+ },
+ "talib.PLUS_DM.real@x4": {
+  "spec": "talib.PLUS_DM",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 175
+ },
+ "talib.PPO.real@x0.5": {
+  "spec": "talib.PPO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 46
+ },
+ "talib.PPO.real@x1": {
+  "spec": "talib.PPO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 85
+ },
+ "talib.PPO.real@x2": {
+  "spec": "talib.PPO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 163
+ },
+ "talib.PPO.real@x4": {
+  "spec": "talib.PPO",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 319
+ },
+ "talib.ROC.real@x0.5": {
+  "spec": "talib.ROC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 25
+ },
+ "talib.ROC.real@x1": {
+  "spec": "talib.ROC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 40
+ },
+ "talib.ROC.real@x2": {
+  "spec": "talib.ROC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "talib.ROC.real@x4": {
+  "spec": "talib.ROC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 130
+ },
+ "talib.STOCH.slowk@x0.5": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowk",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 19
+ },
+ "talib.STOCH.slowd@x0.5": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowd",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 19
+ },
+ "talib.STOCH.slowk@x1": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowk",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 34
+ },
+ "talib.STOCH.slowd@x1": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowd",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 34
+ },
+ "talib.STOCH.slowk@x2": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowk",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 67
+ },
+ "talib.STOCH.slowd@x2": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowd",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 67
+ },
+ "talib.STOCH.slowk@x4": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowk",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 133
+ },
+ "talib.STOCH.slowd@x4": {
+  "spec": "talib.STOCH",
+  "family": "momentum",
+  "output": "slowd",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 133
+ },
+ "talib.STOCHF.fastk@x0.5": {
+  "spec": "talib.STOCHF",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 16
+ },
+ "talib.STOCHF.fastk@x1": {
+  "spec": "talib.STOCHF",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 28
+ },
+ "talib.STOCHF.fastk@x2": {
+  "spec": "talib.STOCHF",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.STOCHF.fastd@x2": {
+  "spec": "talib.STOCHF",
+  "family": "momentum",
+  "output": "fastd",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.STOCHF.fastk@x4": {
+  "spec": "talib.STOCHF",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 100
+ },
+ "talib.STOCHF.fastd@x4": {
+  "spec": "talib.STOCHF",
+  "family": "momentum",
+  "output": "fastd",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 100
+ },
+ "talib.STOCHRSI.fastk@x0.5": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 37
+ },
+ "talib.STOCHRSI.fastd@x0.5": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastd",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 37
+ },
+ "talib.STOCHRSI.fastk@x1": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "talib.STOCHRSI.fastd@x1": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastd",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "talib.STOCHRSI.fastk@x2": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 136
+ },
+ "talib.STOCHRSI.fastd@x2": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastd",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 136
+ },
+ "talib.STOCHRSI.fastk@x4": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastk",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 268
+ },
+ "talib.STOCHRSI.fastd@x4": {
+  "spec": "talib.STOCHRSI",
+  "family": "momentum",
+  "output": "fastd",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 268
+ },
+ "talib.TRIX.real@x0.5": {
+  "spec": "talib.TRIX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 139
+ },
+ "talib.TRIX.real@x1": {
+  "spec": "talib.TRIX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 274
+ },
+ "talib.TRIX.real@x2": {
+  "spec": "talib.TRIX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 544
+ },
+ "talib.TRIX.real@x4": {
+  "spec": "talib.TRIX",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 1084
+ },
+ "talib.ULTOSC.real@x0.5": {
+  "spec": "talib.ULTOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.ULTOSC.real@x1": {
+  "spec": "talib.ULTOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.ULTOSC.real@x2": {
+  "spec": "talib.ULTOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.ULTOSC.real@x4": {
+  "spec": "talib.ULTOSC",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 346
+ },
+ "talib.WILLR.real@x0.5": {
+  "spec": "talib.WILLR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 28
+ },
+ "talib.WILLR.real@x1": {
+  "spec": "talib.WILLR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 49
+ },
+ "talib.WILLR.real@x2": {
+  "spec": "talib.WILLR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 91
+ },
+ "talib.WILLR.real@x4": {
+  "spec": "talib.WILLR",
+  "family": "momentum",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 175
+ },
+ "talib.AD.real@x1": {
+  "spec": "talib.AD",
+  "family": "volume",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 10
+ },
+ "talib.ADOSC.real@x0.5": {
+  "spec": "talib.ADOSC",
+  "family": "volume",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 22
+ },
+ "talib.ADOSC.real@x1": {
+  "spec": "talib.ADOSC",
+  "family": "volume",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 37
+ },
+ "talib.ADOSC.real@x2": {
+  "spec": "talib.ADOSC",
+  "family": "volume",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 67
+ },
+ "talib.ADOSC.real@x4": {
+  "spec": "talib.ADOSC",
+  "family": "volume",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 127
+ },
+ "talib.OBV.real@x1": {
+  "spec": "talib.OBV",
+  "family": "volume",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 10
+ },
+ "talib.ATR.real@x0.5": {
+  "spec": "talib.ATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 31
+ },
+ "talib.ATR.real@x1": {
+  "spec": "talib.ATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 52
+ },
+ "talib.ATR.real@x2": {
+  "spec": "talib.ATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 94
+ },
+ "talib.ATR.real@x4": {
+  "spec": "talib.ATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 178
+ },
+ "talib.NATR.real@x0.5": {
+  "spec": "talib.NATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "talib.NATR.real@x1": {
+  "spec": "talib.NATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.NATR.real@x2": {
+  "spec": "talib.NATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "talib.NATR.real@x4": {
+  "spec": "talib.NATR",
+  "family": "volatility",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "talib.TRANGE.real@x1": {
+  "spec": "talib.TRANGE",
+  "family": "volatility",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 13
+ },
+ "talib.HT_DCPERIOD.real@x1": {
+  "spec": "talib.HT_DCPERIOD",
+  "family": "cycle",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 106
+ },
+ "talib.HT_DCPHASE.real@x1": {
+  "spec": "talib.HT_DCPHASE",
+  "family": "cycle",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "talib.HT_PHASOR.inphase@x1": {
+  "spec": "talib.HT_PHASOR",
+  "family": "cycle",
+  "output": "inphase",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 106
+ },
+ "talib.HT_PHASOR.quadrature@x1": {
+  "spec": "talib.HT_PHASOR",
+  "family": "cycle",
+  "output": "quadrature",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 106
+ },
+ "talib.HT_SINE.sine@x1": {
+  "spec": "talib.HT_SINE",
+  "family": "cycle",
+  "output": "sine",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "talib.HT_SINE.leadsine@x1": {
+  "spec": "talib.HT_SINE",
+  "family": "cycle",
+  "output": "leadsine",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "talib.HT_TRENDMODE.integer@x1": {
+  "spec": "talib.HT_TRENDMODE",
+  "family": "cycle",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "talib.BETA.real@x0.5": {
+  "spec": "talib.BETA",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 16
+ },
+ "talib.BETA.real@x1": {
+  "spec": "talib.BETA",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 25
+ },
+ "talib.BETA.real@x2": {
+  "spec": "talib.BETA",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 40
+ },
+ "talib.BETA.real@x4": {
+  "spec": "talib.BETA",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "talib.CORREL.real@x0.5": {
+  "spec": "talib.CORREL",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "talib.CORREL.real@x1": {
+  "spec": "talib.CORREL",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 97
+ },
+ "talib.CORREL.real@x2": {
+  "spec": "talib.CORREL",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 187
+ },
+ "talib.CORREL.real@x4": {
+  "spec": "talib.CORREL",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 367
+ },
+ "talib.LINEARREG.real@x0.5": {
+  "spec": "talib.LINEARREG",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 28
+ },
+ "talib.LINEARREG.real@x1": {
+  "spec": "talib.LINEARREG",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 49
+ },
+ "talib.LINEARREG.real@x2": {
+  "spec": "talib.LINEARREG",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 91
+ },
+ "talib.LINEARREG.real@x4": {
+  "spec": "talib.LINEARREG",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 175
+ },
+ "talib.LINEARREG_ANGLE.real@x0.5": {
+  "spec": "talib.LINEARREG_ANGLE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 28
+ },
+ "talib.LINEARREG_ANGLE.real@x1": {
+  "spec": "talib.LINEARREG_ANGLE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 49
+ },
+ "talib.LINEARREG_ANGLE.real@x2": {
+  "spec": "talib.LINEARREG_ANGLE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 91
+ },
+ "talib.LINEARREG_ANGLE.real@x4": {
+  "spec": "talib.LINEARREG_ANGLE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 175
+ },
+ "talib.LINEARREG_INTERCEPT.real@x0.5": {
+  "spec": "talib.LINEARREG_INTERCEPT",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 28
+ },
+ "talib.LINEARREG_INTERCEPT.real@x1": {
+  "spec": "talib.LINEARREG_INTERCEPT",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 49
+ },
+ "talib.LINEARREG_INTERCEPT.real@x2": {
+  "spec": "talib.LINEARREG_INTERCEPT",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 91
+ },
+ "talib.LINEARREG_INTERCEPT.real@x4": {
+  "spec": "talib.LINEARREG_INTERCEPT",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 175
+ },
+ "talib.LINEARREG_SLOPE.real@x0.5": {
+  "spec": "talib.LINEARREG_SLOPE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 28
+ },
+ "talib.LINEARREG_SLOPE.real@x1": {
+  "spec": "talib.LINEARREG_SLOPE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 49
+ },
+ "talib.LINEARREG_SLOPE.real@x2": {
+  "spec": "talib.LINEARREG_SLOPE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 91
+ },
+ "talib.LINEARREG_SLOPE.real@x4": {
+  "spec": "talib.LINEARREG_SLOPE",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 175
+ },
+ "talib.STDDEV.real@x0.5": {
+  "spec": "talib.STDDEV",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 13
+ },
+ "talib.STDDEV.real@x1": {
+  "spec": "talib.STDDEV",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 22
+ },
+ "talib.STDDEV.real@x2": {
+  "spec": "talib.STDDEV",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 37
+ },
+ "talib.STDDEV.real@x4": {
+  "spec": "talib.STDDEV",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 67
+ },
+ "talib.TSF.real@x0.5": {
+  "spec": "talib.TSF",
+  "family": "statistic",
+  "output": "real",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 28
+ },
+ "talib.TSF.real@x1": {
+  "spec": "talib.TSF",
+  "family": "statistic",
+  "output": "real",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 49
+ },
+ "talib.TSF.real@x2": {
+  "spec": "talib.TSF",
+  "family": "statistic",
+  "output": "real",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 91
+ },
+ "talib.TSF.real@x4": {
+  "spec": "talib.TSF",
+  "family": "statistic",
+  "output": "real",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 175
+ },
+ "talib.CDL3OUTSIDE.integer@x1": {
+  "spec": "talib.CDL3OUTSIDE",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 19
+ },
+ "talib.CDLBELTHOLD.integer@x1": {
+  "spec": "talib.CDLBELTHOLD",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLCLOSINGMARUBOZU.integer@x1": {
+  "spec": "talib.CDLCLOSINGMARUBOZU",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLDOJI.integer@x1": {
+  "spec": "talib.CDLDOJI",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLENGULFING.integer@x1": {
+  "spec": "talib.CDLENGULFING",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 16
+ },
+ "talib.CDLHAMMER.integer@x1": {
+  "spec": "talib.CDLHAMMER",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 43
+ },
+ "talib.CDLHARAMI.integer@x1": {
+  "spec": "talib.CDLHARAMI",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 43
+ },
+ "talib.CDLHARAMICROSS.integer@x1": {
+  "spec": "talib.CDLHARAMICROSS",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 43
+ },
+ "talib.CDLHIGHWAVE.integer@x1": {
+  "spec": "talib.CDLHIGHWAVE",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLHIKKAKE.integer@x1": {
+  "spec": "talib.CDLHIKKAKE",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 25
+ },
+ "talib.CDLLONGLINE.integer@x1": {
+  "spec": "talib.CDLLONGLINE",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLMARUBOZU.integer@x1": {
+  "spec": "talib.CDLMARUBOZU",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLMATCHINGLOW.integer@x1": {
+  "spec": "talib.CDLMATCHINGLOW",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 28
+ },
+ "talib.CDLRICKSHAWMAN.integer@x1": {
+  "spec": "talib.CDLRICKSHAWMAN",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLSHORTLINE.integer@x1": {
+  "spec": "talib.CDLSHORTLINE",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "talib.CDLSPINNINGTOP.integer@x1": {
+  "spec": "talib.CDLSPINNINGTOP",
+  "family": "pattern",
+  "output": "integer",
+  "mult": 1.0,
+  "kind": "event",
+  "warmup": 40
+ },
+ "technical.MADR.rate@x0.5": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "rate",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 100
+ },
+ "technical.MADR.stdcenter@x0.5": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "stdcenter",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 100
+ },
+ "technical.MADR.plusdev@x0.5": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "plusdev",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 100
+ },
+ "technical.MADR.minusdev@x0.5": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "minusdev",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 100
+ },
+ "technical.MADR.rate@x1": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "rate",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "technical.MADR.stdcenter@x1": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "stdcenter",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "technical.MADR.plusdev@x1": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "plusdev",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "technical.MADR.minusdev@x1": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "minusdev",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 199
+ },
+ "technical.MADR.rate@x2": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "rate",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 388
+ },
+ "technical.MADR.stdcenter@x2": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "stdcenter",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 388
+ },
+ "technical.MADR.plusdev@x2": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "plusdev",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 388
+ },
+ "technical.MADR.minusdev@x2": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "minusdev",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 388
+ },
+ "technical.MADR.rate@x4": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "rate",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 766
+ },
+ "technical.MADR.stdcenter@x4": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "stdcenter",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 766
+ },
+ "technical.MADR.plusdev@x4": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "plusdev",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 766
+ },
+ "technical.MADR.minusdev@x4": {
+  "spec": "technical.MADR",
+  "family": "helper",
+  "output": "minusdev",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 766
+ },
+ "technical.PMAX.atr@x0.5": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "atr",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 64
+ },
+ "technical.PMAX.pm@x0.5": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pm",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 64
+ },
+ "technical.PMAX.pmx@x0.5": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pmx",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 64
+ },
+ "technical.PMAX.atr@x1": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "atr",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 118
+ },
+ "technical.PMAX.pm@x1": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pm",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 118
+ },
+ "technical.PMAX.pmx@x1": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pmx",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 118
+ },
+ "technical.PMAX.atr@x2": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "atr",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 226
+ },
+ "technical.PMAX.pm@x2": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pm",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 226
+ },
+ "technical.PMAX.pmx@x2": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pmx",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 226
+ },
+ "technical.PMAX.atr@x4": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "atr",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 442
+ },
+ "technical.PMAX.pm@x4": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pm",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 442
+ },
+ "technical.PMAX.pmx@x4": {
+  "spec": "technical.PMAX",
+  "family": "helper",
+  "output": "pmx",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 442
+ },
+ "technical.RMI.rmi@x0.5": {
+  "spec": "technical.RMI",
+  "family": "helper",
+  "output": "rmi",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 46
+ },
+ "technical.RMI.rmi@x1": {
+  "spec": "technical.RMI",
+  "family": "helper",
+  "output": "rmi",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 85
+ },
+ "technical.RMI.rmi@x2": {
+  "spec": "technical.RMI",
+  "family": "helper",
+  "output": "rmi",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 160
+ },
+ "technical.RMI.rmi@x4": {
+  "spec": "technical.RMI",
+  "family": "helper",
+  "output": "rmi",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 310
+ },
+ "technical.SSLChannels.down@x0.5": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "down",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 25
+ },
+ "technical.SSLChannels.up@x0.5": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "up",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 25
+ },
+ "technical.SSLChannels.down@x1": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "down",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 40
+ },
+ "technical.SSLChannels.up@x1": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "up",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 40
+ },
+ "technical.SSLChannels.down@x2": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "down",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "technical.SSLChannels.up@x2": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "up",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "technical.SSLChannels.down@x4": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "down",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "technical.SSLChannels.up@x4": {
+  "spec": "technical.SSLChannels",
+  "family": "helper",
+  "output": "up",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "technical.TKE.tke@x0.5": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "tke",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 73
+ },
+ "technical.TKE.ema@x0.5": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "ema",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 73
+ },
+ "technical.TKE.tke@x1": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "tke",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 136
+ },
+ "technical.TKE.ema@x1": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "ema",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 136
+ },
+ "technical.TKE.tke@x2": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "tke",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 262
+ },
+ "technical.TKE.ema@x2": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "ema",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 262
+ },
+ "technical.TKE.tke@x4": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "tke",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 514
+ },
+ "technical.TKE.ema@x4": {
+  "spec": "technical.TKE",
+  "family": "helper",
+  "output": "ema",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 514
+ },
+ "technical.VIDYA.vidya@x0.5": {
+  "spec": "technical.VIDYA",
+  "family": "helper",
+  "output": "vidya",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 46
+ },
+ "technical.VIDYA.vidya@x1": {
+  "spec": "technical.VIDYA",
+  "family": "helper",
+  "output": "vidya",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 91
+ },
+ "technical.VIDYA.vidya@x2": {
+  "spec": "technical.VIDYA",
+  "family": "helper",
+  "output": "vidya",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 172
+ },
+ "technical.VIDYA.vidya@x4": {
+  "spec": "technical.VIDYA",
+  "family": "helper",
+  "output": "vidya",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 334
+ },
+ "technical.atr_percent.atrp@x0.5": {
+  "spec": "technical.atr_percent",
+  "family": "helper",
+  "output": "atrp",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "technical.atr_percent.atrp@x1": {
+  "spec": "technical.atr_percent",
+  "family": "helper",
+  "output": "atrp",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "technical.atr_percent.atrp@x2": {
+  "spec": "technical.atr_percent",
+  "family": "helper",
+  "output": "atrp",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "technical.atr_percent.atrp@x4": {
+  "spec": "technical.atr_percent",
+  "family": "helper",
+  "output": "atrp",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "technical.bollinger_bands.bb_lower@x0.5": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_lower",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "technical.bollinger_bands.bb_upper@x0.5": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_upper",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "technical.bollinger_bands.bb_lower@x1": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_lower",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 73
+ },
+ "technical.bollinger_bands.bb_middle@x1": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_middle",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 73
+ },
+ "technical.bollinger_bands.bb_upper@x1": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_upper",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 73
+ },
+ "technical.bollinger_bands.bb_lower@x2": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_lower",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 136
+ },
+ "technical.bollinger_bands.bb_middle@x2": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_middle",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 136
+ },
+ "technical.bollinger_bands.bb_upper@x2": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_upper",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 136
+ },
+ "technical.bollinger_bands.bb_lower@x4": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_lower",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 262
+ },
+ "technical.bollinger_bands.bb_middle@x4": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_middle",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 262
+ },
+ "technical.bollinger_bands.bb_upper@x4": {
+  "spec": "technical.bollinger_bands",
+  "family": "helper",
+  "output": "bb_upper",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 262
+ },
+ "technical.chaikin_money_flow.cmf@x0.5": {
+  "spec": "technical.chaikin_money_flow",
+  "family": "helper",
+  "output": "cmf",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 40
+ },
+ "technical.chaikin_money_flow.cmf@x1": {
+  "spec": "technical.chaikin_money_flow",
+  "family": "helper",
+  "output": "cmf",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 73
+ },
+ "technical.chaikin_money_flow.cmf@x2": {
+  "spec": "technical.chaikin_money_flow",
+  "family": "helper",
+  "output": "cmf",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 136
+ },
+ "technical.chaikin_money_flow.cmf@x4": {
+  "spec": "technical.chaikin_money_flow",
+  "family": "helper",
+  "output": "cmf",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 262
+ },
+ "technical.chopiness.chop@x0.5": {
+  "spec": "technical.chopiness",
+  "family": "helper",
+  "output": "chop",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "technical.chopiness.chop@x1": {
+  "spec": "technical.chopiness",
+  "family": "helper",
+  "output": "chop",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "technical.chopiness.chop@x2": {
+  "spec": "technical.chopiness",
+  "family": "helper",
+  "output": "chop",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "technical.chopiness.chop@x4": {
+  "spec": "technical.chopiness",
+  "family": "helper",
+  "output": "chop",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "technical.dema.dema@x0.5": {
+  "spec": "technical.dema",
+  "family": "helper",
+  "output": "dema",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 100
+ },
+ "technical.dema.dema@x1": {
+  "spec": "technical.dema",
+  "family": "helper",
+  "output": "dema",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 190
+ },
+ "technical.dema.dema@x2": {
+  "spec": "technical.dema",
+  "family": "helper",
+  "output": "dema",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 370
+ },
+ "technical.dema.dema@x4": {
+  "spec": "technical.dema",
+  "family": "helper",
+  "output": "dema",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 730
+ },
+ "technical.ema.ema@x1": {
+  "spec": "technical.ema",
+  "family": "helper",
+  "output": "ema",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 100
+ },
+ "technical.ema.ema@x2": {
+  "spec": "technical.ema",
+  "family": "helper",
+  "output": "ema",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 190
+ },
+ "technical.ema.ema@x4": {
+  "spec": "technical.ema",
+  "family": "helper",
+  "output": "ema",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 370
+ },
+ "technical.tema.tema@x0.5": {
+  "spec": "technical.tema",
+  "family": "helper",
+  "output": "tema",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 145
+ },
+ "technical.tema.tema@x1": {
+  "spec": "technical.tema",
+  "family": "helper",
+  "output": "tema",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 280
+ },
+ "technical.tema.tema@x2": {
+  "spec": "technical.tema",
+  "family": "helper",
+  "output": "tema",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 550
+ },
+ "technical.tema.tema@x4": {
+  "spec": "technical.tema",
+  "family": "helper",
+  "output": "tema",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 1090
+ },
+ "technical.hull_moving_average.hma@x0.5": {
+  "spec": "technical.hull_moving_average",
+  "family": "helper",
+  "output": "hma",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 34
+ },
+ "technical.hull_moving_average.hma@x1": {
+  "spec": "technical.hull_moving_average",
+  "family": "helper",
+  "output": "hma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 64
+ },
+ "technical.hull_moving_average.hma@x2": {
+  "spec": "technical.hull_moving_average",
+  "family": "helper",
+  "output": "hma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 118
+ },
+ "technical.hull_moving_average.hma@x4": {
+  "spec": "technical.hull_moving_average",
+  "family": "helper",
+  "output": "hma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 226
+ },
+ "technical.ichimoku.tenkan_sen@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "tenkan_sen",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 127
+ },
+ "technical.ichimoku.kijun_sen@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "kijun_sen",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 127
+ },
+ "technical.ichimoku.senkou_span_a@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_a",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 127
+ },
+ "technical.ichimoku.senkou_span_b@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_b",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 127
+ },
+ "technical.ichimoku.leading_senkou_span_a@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_a",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 127
+ },
+ "technical.ichimoku.leading_senkou_span_b@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_b",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 127
+ },
+ "technical.ichimoku.cloud_green@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "cloud_green",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 127
+ },
+ "technical.ichimoku.cloud_red@x0.5": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "cloud_red",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 127
+ },
+ "technical.ichimoku.tenkan_sen@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "tenkan_sen",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 244
+ },
+ "technical.ichimoku.kijun_sen@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "kijun_sen",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 244
+ },
+ "technical.ichimoku.senkou_span_a@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_a",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 244
+ },
+ "technical.ichimoku.senkou_span_b@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_b",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 244
+ },
+ "technical.ichimoku.leading_senkou_span_a@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_a",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 244
+ },
+ "technical.ichimoku.leading_senkou_span_b@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_b",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 244
+ },
+ "technical.ichimoku.cloud_green@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "cloud_green",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 244
+ },
+ "technical.ichimoku.cloud_red@x1": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "cloud_red",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 244
+ },
+ "technical.ichimoku.tenkan_sen@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "tenkan_sen",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 478
+ },
+ "technical.ichimoku.kijun_sen@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "kijun_sen",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 478
+ },
+ "technical.ichimoku.senkou_span_a@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_a",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 478
+ },
+ "technical.ichimoku.senkou_span_b@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_b",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 478
+ },
+ "technical.ichimoku.leading_senkou_span_a@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_a",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 478
+ },
+ "technical.ichimoku.leading_senkou_span_b@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_b",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 478
+ },
+ "technical.ichimoku.cloud_green@x2": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "cloud_green",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 478
+ },
+ "technical.ichimoku.tenkan_sen@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "tenkan_sen",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 946
+ },
+ "technical.ichimoku.kijun_sen@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "kijun_sen",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 946
+ },
+ "technical.ichimoku.senkou_span_a@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_a",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 946
+ },
+ "technical.ichimoku.senkou_span_b@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "senkou_span_b",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 946
+ },
+ "technical.ichimoku.leading_senkou_span_a@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_a",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 946
+ },
+ "technical.ichimoku.leading_senkou_span_b@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "leading_senkou_span_b",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 946
+ },
+ "technical.ichimoku.cloud_green@x4": {
+  "spec": "technical.ichimoku",
+  "family": "helper",
+  "output": "cloud_green",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 946
+ },
+ "technical.laguerre.laguerre@x1": {
+  "spec": "technical.laguerre",
+  "family": "helper",
+  "output": "laguerre",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "technical.madrid_sqz.sqz_cma_c@x0.5": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_cma_c",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 163
+ },
+ "technical.madrid_sqz.sqz_rma_c@x0.5": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_rma_c",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 163
+ },
+ "technical.madrid_sqz.sqz_sma_c@x0.5": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_sma_c",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 163
+ },
+ "technical.madrid_sqz.sqz_cma_c@x1": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_cma_c",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 316
+ },
+ "technical.madrid_sqz.sqz_rma_c@x1": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_rma_c",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 316
+ },
+ "technical.madrid_sqz.sqz_sma_c@x1": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_sma_c",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 316
+ },
+ "technical.madrid_sqz.sqz_cma_c@x2": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_cma_c",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 622
+ },
+ "technical.madrid_sqz.sqz_rma_c@x2": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_rma_c",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 622
+ },
+ "technical.madrid_sqz.sqz_sma_c@x2": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_sma_c",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 622
+ },
+ "technical.madrid_sqz.sqz_cma_c@x4": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_cma_c",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 1234
+ },
+ "technical.madrid_sqz.sqz_rma_c@x4": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_rma_c",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 1234
+ },
+ "technical.madrid_sqz.sqz_sma_c@x4": {
+  "spec": "technical.madrid_sqz",
+  "family": "helper",
+  "output": "sqz_sma_c",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 1234
+ },
+ "technical.mmar.lead@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "lead",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c10@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c10",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c20@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c20",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c30@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c30",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c40@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c40",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c50@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c50",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c60@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c60",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c70@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c70",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c80@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c80",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.mmar.c90@x1": {
+  "spec": "technical.mmar",
+  "family": "helper",
+  "output": "c90",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.osc.osc@x0.5": {
+  "spec": "technical.osc",
+  "family": "helper",
+  "output": "osc",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "technical.osc.osc@x1": {
+  "spec": "technical.osc",
+  "family": "helper",
+  "output": "osc",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "technical.osc.osc@x2": {
+  "spec": "technical.osc",
+  "family": "helper",
+  "output": "osc",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "technical.osc.osc@x4": {
+  "spec": "technical.osc",
+  "family": "helper",
+  "output": "osc",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "technical.stc.stc@x0.5": {
+  "spec": "technical.stc",
+  "family": "helper",
+  "output": "stc",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 235
+ },
+ "technical.stc.stc@x1": {
+  "spec": "technical.stc",
+  "family": "helper",
+  "output": "stc",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 460
+ },
+ "technical.stc.stc@x2": {
+  "spec": "technical.stc",
+  "family": "helper",
+  "output": "stc",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 910
+ },
+ "technical.td_sequential.td@x1": {
+  "spec": "technical.td_sequential",
+  "family": "helper",
+  "output": "td",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 40
+ },
+ "technical.tv_alma.alma@x0.5": {
+  "spec": "technical.tv_alma",
+  "family": "helper",
+  "output": "alma",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 22
+ },
+ "technical.tv_alma.alma@x1": {
+  "spec": "technical.tv_alma",
+  "family": "helper",
+  "output": "alma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 34
+ },
+ "technical.tv_alma.alma@x2": {
+  "spec": "technical.tv_alma",
+  "family": "helper",
+  "output": "alma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 58
+ },
+ "technical.tv_alma.alma@x4": {
+  "spec": "technical.tv_alma",
+  "family": "helper",
+  "output": "alma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 106
+ },
+ "technical.tv_hma.hma@x1": {
+  "spec": "technical.tv_hma",
+  "family": "helper",
+  "output": "hma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 64
+ },
+ "technical.tv_hma.hma@x2": {
+  "spec": "technical.tv_hma",
+  "family": "helper",
+  "output": "hma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 118
+ },
+ "technical.tv_hma.hma@x4": {
+  "spec": "technical.tv_hma",
+  "family": "helper",
+  "output": "hma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 226
+ },
+ "technical.tv_trama.trama@x0.5": {
+  "spec": "technical.tv_trama",
+  "family": "helper",
+  "output": "trama",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 460
+ },
+ "technical.tv_trama.trama@x1": {
+  "spec": "technical.tv_trama",
+  "family": "helper",
+  "output": "trama",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 901
+ },
+ "technical.tv_wma.wma@x0.5": {
+  "spec": "technical.tv_wma",
+  "family": "helper",
+  "output": "wma",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 22
+ },
+ "technical.tv_wma.wma@x1": {
+  "spec": "technical.tv_wma",
+  "family": "helper",
+  "output": "wma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 37
+ },
+ "technical.tv_wma.wma@x2": {
+  "spec": "technical.tv_wma",
+  "family": "helper",
+  "output": "wma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 64
+ },
+ "technical.tv_wma.wma@x4": {
+  "spec": "technical.tv_wma",
+  "family": "helper",
+  "output": "wma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 118
+ },
+ "technical.vfi.vfi@x0.5": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "vfi",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 223
+ },
+ "technical.vfi.vfima@x0.5": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "vfima",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 223
+ },
+ "technical.vfi.hist@x0.5": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "hist",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 223
+ },
+ "technical.vfi.vfi@x1": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "vfi",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 445
+ },
+ "technical.vfi.vfima@x1": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "vfima",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 445
+ },
+ "technical.vfi.hist@x1": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "hist",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 445
+ },
+ "technical.vfi.vfi@x2": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "vfi",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 880
+ },
+ "technical.vfi.vfima@x2": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "vfima",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 880
+ },
+ "technical.vfi.hist@x2": {
+  "spec": "technical.vfi",
+  "family": "helper",
+  "output": "hist",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 880
+ },
+ "technical.vpci.vpci@x0.5": {
+  "spec": "technical.vpci",
+  "family": "helper",
+  "output": "vpci",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 40
+ },
+ "technical.vpci.vpci@x1": {
+  "spec": "technical.vpci",
+  "family": "helper",
+  "output": "vpci",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 70
+ },
+ "technical.vpci.vpci@x2": {
+  "spec": "technical.vpci",
+  "family": "helper",
+  "output": "vpci",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 130
+ },
+ "technical.vpci.vpci@x4": {
+  "spec": "technical.vpci",
+  "family": "helper",
+  "output": "vpci",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 250
+ },
+ "technical.vpcii.vpcii@x0.5": {
+  "spec": "technical.vpcii",
+  "family": "helper",
+  "output": "vpcii",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 85
+ },
+ "technical.vpcii.vpcii@x1": {
+  "spec": "technical.vpcii",
+  "family": "helper",
+  "output": "vpcii",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 160
+ },
+ "technical.vpcii.vpcii@x2": {
+  "spec": "technical.vpcii",
+  "family": "helper",
+  "output": "vpcii",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 310
+ },
+ "technical.vpcii.vpcii@x4": {
+  "spec": "technical.vpcii",
+  "family": "helper",
+  "output": "vpcii",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 610
+ },
+ "technical.vwma.vwma@x0.5": {
+  "spec": "technical.vwma",
+  "family": "helper",
+  "output": "vwma",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "technical.vwma.vwma@x1": {
+  "spec": "technical.vwma",
+  "family": "helper",
+  "output": "vwma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "technical.vwma.vwma@x2": {
+  "spec": "technical.vwma",
+  "family": "helper",
+  "output": "vwma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "technical.vwma.vwma@x4": {
+  "spec": "technical.vwma",
+  "family": "helper",
+  "output": "vwma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "technical.vwmacd.vwmacd@x0.5": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "vwmacd",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 127
+ },
+ "technical.vwmacd.signal@x0.5": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 127
+ },
+ "technical.vwmacd.hist@x0.5": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "hist",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 127
+ },
+ "technical.vwmacd.vwmacd@x1": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "vwmacd",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 244
+ },
+ "technical.vwmacd.signal@x1": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 244
+ },
+ "technical.vwmacd.hist@x1": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "hist",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 244
+ },
+ "technical.vwmacd.vwmacd@x2": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "vwmacd",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 478
+ },
+ "technical.vwmacd.signal@x2": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 478
+ },
+ "technical.vwmacd.hist@x2": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "hist",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 478
+ },
+ "technical.vwmacd.vwmacd@x4": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "vwmacd",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 946
+ },
+ "technical.vwmacd.signal@x4": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 946
+ },
+ "technical.vwmacd.hist@x4": {
+  "spec": "technical.vwmacd",
+  "family": "helper",
+  "output": "hist",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 946
+ },
+ "technical.williams_percent.wr@x2": {
+  "spec": "technical.williams_percent",
+  "family": "helper",
+  "output": "wr",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "technical.williams_percent.wr@x4": {
+  "spec": "technical.williams_percent",
+  "family": "helper",
+  "output": "wr",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "qtpylib.atr.atr@x0.5": {
+  "spec": "qtpylib.atr",
+  "family": "helper",
+  "output": "atr",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 31
+ },
+ "qtpylib.atr.atr@x1": {
+  "spec": "qtpylib.atr",
+  "family": "helper",
+  "output": "atr",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 52
+ },
+ "qtpylib.atr.atr@x2": {
+  "spec": "qtpylib.atr",
+  "family": "helper",
+  "output": "atr",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 94
+ },
+ "qtpylib.atr.atr@x4": {
+  "spec": "qtpylib.atr",
+  "family": "helper",
+  "output": "atr",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 178
+ },
+ "qtpylib.awesome_oscillator.ao@x0.5": {
+  "spec": "qtpylib.awesome_oscillator",
+  "family": "helper",
+  "output": "ao",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 61
+ },
+ "qtpylib.awesome_oscillator.ao@x1": {
+  "spec": "qtpylib.awesome_oscillator",
+  "family": "helper",
+  "output": "ao",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 112
+ },
+ "qtpylib.awesome_oscillator.ao@x2": {
+  "spec": "qtpylib.awesome_oscillator",
+  "family": "helper",
+  "output": "ao",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 214
+ },
+ "qtpylib.awesome_oscillator.ao@x4": {
+  "spec": "qtpylib.awesome_oscillator",
+  "family": "helper",
+  "output": "ao",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 418
+ },
+ "qtpylib.bollinger_bands.upper@x1": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.bollinger_bands.mid@x1": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.bollinger_bands.lower@x1": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.bollinger_bands.upper@x2": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.bollinger_bands.mid@x2": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.bollinger_bands.lower@x2": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.bollinger_bands.upper@x4": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.bollinger_bands.mid@x4": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.bollinger_bands.lower@x4": {
+  "spec": "qtpylib.bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.heikinashi.open@x1": {
+  "spec": "qtpylib.heikinashi",
+  "family": "helper",
+  "output": "open",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.heikinashi.high@x1": {
+  "spec": "qtpylib.heikinashi",
+  "family": "helper",
+  "output": "high",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.heikinashi.low@x1": {
+  "spec": "qtpylib.heikinashi",
+  "family": "helper",
+  "output": "low",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.heikinashi.close@x1": {
+  "spec": "qtpylib.heikinashi",
+  "family": "helper",
+  "output": "close",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.ibs.ibs@x1": {
+  "spec": "qtpylib.ibs",
+  "family": "helper",
+  "output": "ibs",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 13
+ },
+ "qtpylib.keltner_channel.upper@x0.5": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "upper",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 31
+ },
+ "qtpylib.keltner_channel.mid@x0.5": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "mid",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 31
+ },
+ "qtpylib.keltner_channel.lower@x0.5": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "lower",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 31
+ },
+ "qtpylib.keltner_channel.upper@x1": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "upper",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 52
+ },
+ "qtpylib.keltner_channel.mid@x1": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "mid",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 52
+ },
+ "qtpylib.keltner_channel.lower@x1": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "lower",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 52
+ },
+ "qtpylib.keltner_channel.upper@x2": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "upper",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 94
+ },
+ "qtpylib.keltner_channel.mid@x2": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "mid",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 94
+ },
+ "qtpylib.keltner_channel.lower@x2": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "lower",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 94
+ },
+ "qtpylib.keltner_channel.upper@x4": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "upper",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 178
+ },
+ "qtpylib.keltner_channel.mid@x4": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "mid",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 178
+ },
+ "qtpylib.keltner_channel.lower@x4": {
+  "spec": "qtpylib.keltner_channel",
+  "family": "helper",
+  "output": "lower",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 178
+ },
+ "qtpylib.macd.macd@x0.5": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "macd",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 82
+ },
+ "qtpylib.macd.signal@x0.5": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 82
+ },
+ "qtpylib.macd.histogram@x0.5": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "histogram",
+  "mult": 0.5,
+  "kind": "rank",
+  "warmup": 82
+ },
+ "qtpylib.macd.macd@x1": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "macd",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 154
+ },
+ "qtpylib.macd.signal@x1": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 154
+ },
+ "qtpylib.macd.histogram@x1": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "histogram",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 154
+ },
+ "qtpylib.macd.macd@x2": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "macd",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 298
+ },
+ "qtpylib.macd.signal@x2": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 298
+ },
+ "qtpylib.macd.histogram@x2": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "histogram",
+  "mult": 2.0,
+  "kind": "rank",
+  "warmup": 298
+ },
+ "qtpylib.macd.macd@x4": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "macd",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 586
+ },
+ "qtpylib.macd.signal@x4": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "signal",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 586
+ },
+ "qtpylib.macd.histogram@x4": {
+  "spec": "qtpylib.macd",
+  "family": "helper",
+  "output": "histogram",
+  "mult": 4.0,
+  "kind": "rank",
+  "warmup": 586
+ },
+ "qtpylib.pvt.pvt@x1": {
+  "spec": "qtpylib.pvt",
+  "family": "helper",
+  "output": "pvt",
+  "mult": 1.0,
+  "kind": "rank",
+  "warmup": 13
+ },
+ "qtpylib.roc.roc@x0.5": {
+  "spec": "qtpylib.roc",
+  "family": "helper",
+  "output": "roc",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 31
+ },
+ "qtpylib.roc.roc@x1": {
+  "spec": "qtpylib.roc",
+  "family": "helper",
+  "output": "roc",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 52
+ },
+ "qtpylib.roc.roc@x2": {
+  "spec": "qtpylib.roc",
+  "family": "helper",
+  "output": "roc",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 94
+ },
+ "qtpylib.roc.roc@x4": {
+  "spec": "qtpylib.roc",
+  "family": "helper",
+  "output": "roc",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 178
+ },
+ "qtpylib.rsi.rsi@x0.5": {
+  "spec": "qtpylib.rsi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 73
+ },
+ "qtpylib.rsi.rsi@x1": {
+  "spec": "qtpylib.rsi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 136
+ },
+ "qtpylib.rsi.rsi@x2": {
+  "spec": "qtpylib.rsi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 262
+ },
+ "qtpylib.rsi.rsi@x4": {
+  "spec": "qtpylib.rsi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 514
+ },
+ "qtpylib.rolling_vwap.rvwap@x0.5": {
+  "spec": "qtpylib.rolling_vwap",
+  "family": "helper",
+  "output": "rvwap",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 310
+ },
+ "qtpylib.rolling_vwap.rvwap@x1": {
+  "spec": "qtpylib.rolling_vwap",
+  "family": "helper",
+  "output": "rvwap",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 610
+ },
+ "qtpylib.rolling_vwap.rvwap@x2": {
+  "spec": "qtpylib.rolling_vwap",
+  "family": "helper",
+  "output": "rvwap",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 1210
+ },
+ "qtpylib.stoch.slow_k@x0.5": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_k",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 49
+ },
+ "qtpylib.stoch.slow_d@x0.5": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_d",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 49
+ },
+ "qtpylib.stoch.slow_k@x1": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_k",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "qtpylib.stoch.slow_d@x1": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_d",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "qtpylib.stoch.slow_k@x2": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_k",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 112
+ },
+ "qtpylib.stoch.slow_d@x2": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_d",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 112
+ },
+ "qtpylib.stoch.slow_k@x4": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_k",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 196
+ },
+ "qtpylib.stoch.slow_d@x4": {
+  "spec": "qtpylib.stoch",
+  "family": "helper",
+  "output": "slow_d",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 196
+ },
+ "qtpylib.tdi.rsi@x0.5": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 115
+ },
+ "qtpylib.tdi.rsi_signal@x0.5": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_signal",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 115
+ },
+ "qtpylib.tdi.rsi_smooth@x0.5": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_smooth",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 115
+ },
+ "qtpylib.tdi.rsi_bb_upper@x0.5": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_upper",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 115
+ },
+ "qtpylib.tdi.rsi_bb_lower@x0.5": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_lower",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 115
+ },
+ "qtpylib.tdi.rsi_bb_mid@x0.5": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_mid",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 115
+ },
+ "qtpylib.tdi.rsi@x1": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 229
+ },
+ "qtpylib.tdi.rsi_signal@x1": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_signal",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 229
+ },
+ "qtpylib.tdi.rsi_smooth@x1": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_smooth",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 229
+ },
+ "qtpylib.tdi.rsi_bb_upper@x1": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_upper",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 229
+ },
+ "qtpylib.tdi.rsi_bb_lower@x1": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_lower",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 229
+ },
+ "qtpylib.tdi.rsi_bb_mid@x1": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_mid",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 229
+ },
+ "qtpylib.tdi.rsi@x2": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 448
+ },
+ "qtpylib.tdi.rsi_signal@x2": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_signal",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 448
+ },
+ "qtpylib.tdi.rsi_smooth@x2": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_smooth",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 448
+ },
+ "qtpylib.tdi.rsi_bb_upper@x2": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_upper",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 448
+ },
+ "qtpylib.tdi.rsi_bb_lower@x2": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_lower",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 448
+ },
+ "qtpylib.tdi.rsi_bb_mid@x2": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_mid",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 448
+ },
+ "qtpylib.tdi.rsi@x4": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 886
+ },
+ "qtpylib.tdi.rsi_signal@x4": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_signal",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 886
+ },
+ "qtpylib.tdi.rsi_smooth@x4": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_smooth",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 886
+ },
+ "qtpylib.tdi.rsi_bb_upper@x4": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_upper",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 886
+ },
+ "qtpylib.tdi.rsi_bb_lower@x4": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_lower",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 886
+ },
+ "qtpylib.tdi.rsi_bb_mid@x4": {
+  "spec": "qtpylib.tdi",
+  "family": "helper",
+  "output": "rsi_bb_mid",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 886
+ },
+ "qtpylib.weighted_bollinger_bands.upper@x0.5": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.weighted_bollinger_bands.mid@x0.5": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.weighted_bollinger_bands.lower@x0.5": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.weighted_bollinger_bands.upper@x1": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.weighted_bollinger_bands.mid@x1": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.weighted_bollinger_bands.lower@x1": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.weighted_bollinger_bands.upper@x2": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.weighted_bollinger_bands.mid@x2": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.weighted_bollinger_bands.lower@x2": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.weighted_bollinger_bands.upper@x4": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "upper",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.weighted_bollinger_bands.mid@x4": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "mid",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.weighted_bollinger_bands.lower@x4": {
+  "spec": "qtpylib.weighted_bollinger_bands",
+  "family": "helper",
+  "output": "lower",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.zlema.zlema@x0.5": {
+  "spec": "qtpylib.zlema",
+  "family": "helper",
+  "output": "zlema",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.zlema.zlema@x1": {
+  "spec": "qtpylib.zlema",
+  "family": "helper",
+  "output": "zlema",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.zlema.zlema@x2": {
+  "spec": "qtpylib.zlema",
+  "family": "helper",
+  "output": "zlema",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.zlema.zlema@x4": {
+  "spec": "qtpylib.zlema",
+  "family": "helper",
+  "output": "zlema",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.zlhma.zlhma@x0.5": {
+  "spec": "qtpylib.zlhma",
+  "family": "helper",
+  "output": "zlhma",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.zlhma.zlhma@x1": {
+  "spec": "qtpylib.zlhma",
+  "family": "helper",
+  "output": "zlhma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.zlhma.zlhma@x2": {
+  "spec": "qtpylib.zlhma",
+  "family": "helper",
+  "output": "zlhma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.zlhma.zlhma@x4": {
+  "spec": "qtpylib.zlhma",
+  "family": "helper",
+  "output": "zlhma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.zlsma.zlsma@x0.5": {
+  "spec": "qtpylib.zlsma",
+  "family": "helper",
+  "output": "zlsma",
+  "mult": 0.5,
+  "kind": "price",
+  "warmup": 40
+ },
+ "qtpylib.zlsma.zlsma@x1": {
+  "spec": "qtpylib.zlsma",
+  "family": "helper",
+  "output": "zlsma",
+  "mult": 1.0,
+  "kind": "price",
+  "warmup": 70
+ },
+ "qtpylib.zlsma.zlsma@x2": {
+  "spec": "qtpylib.zlsma",
+  "family": "helper",
+  "output": "zlsma",
+  "mult": 2.0,
+  "kind": "price",
+  "warmup": 130
+ },
+ "qtpylib.zlsma.zlsma@x4": {
+  "spec": "qtpylib.zlsma",
+  "family": "helper",
+  "output": "zlsma",
+  "mult": 4.0,
+  "kind": "price",
+  "warmup": 250
+ },
+ "qtpylib.zscore.z@x0.5": {
+  "spec": "qtpylib.zscore",
+  "family": "helper",
+  "output": "z",
+  "mult": 0.5,
+  "kind": "raw",
+  "warmup": 40
+ },
+ "qtpylib.zscore.z@x1": {
+  "spec": "qtpylib.zscore",
+  "family": "helper",
+  "output": "z",
+  "mult": 1.0,
+  "kind": "raw",
+  "warmup": 70
+ },
+ "qtpylib.zscore.z@x2": {
+  "spec": "qtpylib.zscore",
+  "family": "helper",
+  "output": "z",
+  "mult": 2.0,
+  "kind": "raw",
+  "warmup": 130
+ },
+ "qtpylib.zscore.z@x4": {
+  "spec": "qtpylib.zscore",
+  "family": "helper",
+  "output": "z",
+  "mult": 4.0,
+  "kind": "raw",
+  "warmup": 250
+ }
+}

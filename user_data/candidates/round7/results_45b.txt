@@ -1,0 +1,67 @@
+                                   feature use  horizon        ic       t
+0                talib.HT_DCPERIOD.real@x1   d        7 -0.248130 -4.4750
+1                       qtpylib.roc.roc@x4   d       30 -0.384140 -4.0523
+2    technical.bollinger_bands.bb_upper@x4   d       30 -0.383440 -3.9124
+3              technical.MADR.stdcenter@x1   d       30 -0.363660 -3.9067
+4              qtpylib.tdi.rsi_bb_upper@x4   b       30  0.526370  3.8884
+5        talib.LINEARREG_INTERCEPT.real@x4   d       30 -0.374680 -3.8552
+6                   technical.vwma.vwma@x4   d       30 -0.389580 -3.8491
+7         qtpylib.bollinger_bands.upper@x4   d       30 -0.368630 -3.7533
+8                   talib.STDDEV.real@x0.5   a        1  0.064677  3.7098
+9                       talib.TRIX.real@x4   b       30  0.502700  3.6968
+10                    talib.TRANGE.real@x1   a        1  0.075569  3.6963
+11          qtpylib.bollinger_bands.mid@x4   d       30 -0.368260 -3.6953
+12  technical.bollinger_bands.bb_middle@x4   d       30 -0.364930 -3.6458
+13     technical.ichimoku.senkou_span_a@x2   d       30 -0.364470 -3.6285
+14                      talib.TRIX.real@x1   d       30 -0.353090 -3.5864
+15               qtpylib.tdi.rsi_bb_mid@x4   b       30  0.485560  3.5680
+16                talib.AROON.aroondown@x4   a        1 -0.077110 -3.5636
+17                  qtpylib.zlsma.zlsma@x4   d       30  0.350490  3.5633
+18                  talib.MIDPOINT.real@x4   d       30 -0.331720 -3.5503
+19             technical.MADR.stdcenter@x4   b       30  0.491970  3.5474
+800 overlays
+  0/800
+  100/800
+  200/800
+  300/800
+  400/800
+  500/800
+  600/800
+  700/800
+      window                  family  spa_p   rc_p                                                              best   best_t
+   discovery                 all 800 0.0050 0.2350 technical.MADR.stdcenter@x1 OR qtpylib.tdi.rsi_bb_upper@x4 median 4.345523
+   discovery combinations only (760) 0.0045 0.2290 technical.MADR.stdcenter@x1 OR qtpylib.tdi.rsi_bb_upper@x4 median 4.345523
+   discovery       singles only (40) 0.4110 0.4440                          talib.HT_DCPERIOD.real@x1 single tercile 1.656334
+confirmation                 all 800 0.7760 0.8065            talib.TRIX.real@x1 AND talib.AROON.aroondown@x4 median 1.831781
+confirmation combinations only (760) 0.7745 0.8035            talib.TRIX.real@x1 AND talib.AROON.aroondown@x4 median 1.831781
+confirmation       singles only (40) 0.8070 0.6000                             qtpylib.zlsma.zlsma@x4 single tercile 1.176768
+
+discovery: best 5 combinations and best 5 singles by excess t
+   window                              rule_a op                              rule_b threshold  sharpe  base_sharpe  expo_ratio  excess_bp_day  excess_t
+discovery         qtpylib.tdi.rsi_bb_upper@x4 OR technical.ichimoku.senkou_span_a@x2    median   2.265        2.070       0.963          1.830     3.446
+discovery                  talib.TRIX.real@x4 OR technical.ichimoku.senkou_span_a@x2    median   2.265        2.070       0.963          1.830     3.446
+discovery technical.ichimoku.senkou_span_a@x2 OR           qtpylib.tdi.rsi_bb_mid@x4    median   2.265        2.070       0.963          1.830     3.446
+discovery technical.ichimoku.senkou_span_a@x2 OR         technical.MADR.stdcenter@x4    median   2.265        2.070       0.963          1.830     3.446
+discovery         technical.MADR.stdcenter@x1 OR         qtpylib.tdi.rsi_bb_upper@x4    median   2.278        2.070       0.932          2.257     3.400
+   window                      rule_a     op rule_b threshold  sharpe  base_sharpe  expo_ratio  excess_bp_day  excess_t
+discovery   talib.HT_DCPERIOD.real@x1 single          tercile   2.285        2.070       0.651          1.945     2.116
+discovery technical.MADR.stdcenter@x4 single           median   2.151        2.070       0.891          1.462     1.781
+discovery   talib.HT_DCPERIOD.real@x1 single           median   2.199        2.070       0.723          1.670     1.704
+discovery qtpylib.tdi.rsi_bb_upper@x4 single          tercile   2.140        2.070       0.885          1.402     1.669
+discovery qtpylib.tdi.rsi_bb_upper@x4 single           median   2.139        2.070       0.886          1.384     1.656
+
+confirmation: best 5 combinations and best 5 singles by excess t
+      window                      rule_a  op                      rule_b threshold  sharpe  base_sharpe  expo_ratio  excess_bp_day  excess_t
+confirmation          talib.TRIX.real@x1 AND    talib.AROON.aroondown@x4    median   1.693        1.477       0.575          1.613     1.965
+confirmation qtpylib.tdi.rsi_bb_upper@x4 AND      qtpylib.zlsma.zlsma@x4   tercile   1.677        1.477       0.553          1.414     1.858
+confirmation      qtpylib.zlsma.zlsma@x4 AND technical.MADR.stdcenter@x4   tercile   1.641        1.477       0.553          1.278     1.632
+confirmation        talib.TRANGE.real@x1 AND      qtpylib.zlsma.zlsma@x4   tercile   1.648        1.477       0.563          1.064     1.571
+confirmation   qtpylib.tdi.rsi_bb_mid@x4 AND      qtpylib.zlsma.zlsma@x4   tercile   1.620        1.477       0.551          1.169     1.498
+      window                    rule_a     op rule_b threshold  sharpe  base_sharpe  expo_ratio  excess_bp_day  excess_t
+confirmation    qtpylib.zlsma.zlsma@x4 single          tercile   1.686        1.477       0.659          1.557     1.539
+confirmation    qtpylib.zlsma.zlsma@x4 single           median   1.576        1.477       0.753          1.047     0.945
+confirmation    talib.MIDPOINT.real@x4 single          tercile   1.530        1.477       0.544          0.274     0.545
+confirmation        talib.TRIX.real@x1 single           median   1.467        1.477       0.665          0.547     0.515
+confirmation talib.HT_DCPERIOD.real@x1 single           median   1.390        1.477       0.686          0.354     0.335
+discovery-best combination: qtpylib.tdi.rsi_bb_upper@x4 OR technical.ichimoku.senkou_span_a@x2 median: discovery excess t 3.45, confirmation excess t -0.88 (-0.76 bp/day)
+discovery-best single: talib.HT_DCPERIOD.real@x1 single  tercile: discovery excess t 2.12, confirmation excess t -0.28 (-0.25 bp/day)

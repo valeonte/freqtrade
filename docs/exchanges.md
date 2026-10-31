@@ -25,7 +25,7 @@ A exchange configuration for "binance" would look as follows:
 ```json
 "exchange": {
     "name": "binance",
-    "key": "your_exchange_key",
+    "api_key": "your_exchange_api_key",
     "secret": "your_exchange_secret",
     "ccxt_config": {},
     "ccxt_async_config": {},
@@ -34,13 +34,17 @@ A exchange configuration for "binance" would look as follows:
 
 ### Setting rate limits
 
+!!! Warning "Don't change rate limits"
+    We recommend to not set rateLimit explicitly, but let ccxt handle this.  
+    Messing with rate limits manually will change the ccxt ratelimit behavior and usually has a negative impact on the performance and reliability of your trading bot.
+
 Usually, rate limits set by CCXT are reliable and work well.
 In case of problems related to rate-limits (usually DDOS Exceptions in your logs), it's easy to change rateLimit settings to other values.
 
 ```json
 "exchange": {
     "name": "kraken",
-    "key": "your_exchange_key",
+    "api_key": "your_exchange_api_key",
     "secret": "your_exchange_secret",
     "ccxt_config": {"enableRateLimit": true},
     "ccxt_async_config": {
@@ -51,10 +55,6 @@ In case of problems related to rate-limits (usually DDOS Exceptions in your logs
 
 This configuration enables kraken, as well as rate-limiting to avoid bans from the exchange.
 `"rateLimit": 3100` defines a wait-event of 3.1s between each call. This can also be completely disabled by setting `"enableRateLimit"` to false.
-
-!!! Note
-    Optimal settings for rate-limiting depend on the exchange and the size of the whitelist, so an ideal parameter will vary on many other settings.
-    We try to provide sensible defaults per exchange where possible, if you encounter bans please make sure that `"enableRateLimit"` is enabled and increase the `"rateLimit"` parameter step by step.
 
 ## Binance
 
@@ -95,7 +95,7 @@ They can however also be configured via configuration file. Since json doesn't s
 
 ``` json
 // ...
- "key": "<someapikey>",
+ "api_key": "<someapikey>",
  "secret": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBABACAFQA<...>s8KX8=\n-----END PRIVATE KEY-----"
 // ...
 ```
@@ -224,7 +224,7 @@ Kraken Futures uses the exchange id `krakenfutures` and supports isolated future
 ```jsonc
 "exchange": {
     "name": "krakenfutures",
-    "key": "your_exchange_key",
+    "api_key": "your_exchange_api_key",
     "secret": "your_exchange_secret"
 },
 "trading_mode": "futures",
@@ -250,7 +250,7 @@ Kucoin requires a passphrase for each api key, you will therefore need to add th
 ```json
 "exchange": {
     "name": "kucoin",
-    "key": "your_exchange_key",
+    "api_key": "your_exchange_api_key",
     "secret": "your_exchange_secret",
     "password": "your_exchange_api_key_password",
     // ...
@@ -275,12 +275,15 @@ Kucoin accounts may use `KCS` for fees, and if a trade happens to be on `KCS`, f
 
 ## OKX
 
+!!! Tip "Stoploss on Exchange"
+    OKX supports `stoploss_on_exchange` with both stop-limit and stop-market orders on spot and futures markets. You can use either `"limit"` or `"market"` in the `order_types.stoploss` configuration setting to select the stoploss order type.
+
 OKX requires a passphrase for each api key, you will therefore need to add this key into the configuration so your exchange section looks as follows:
 
 ```json
 "exchange": {
     "name": "okx",
-    "key": "your_exchange_key",
+    "api_key": "your_exchange_api_key",
     "secret": "your_exchange_secret",
     "password": "your_exchange_api_key_password",
     // ...
@@ -345,23 +348,14 @@ API Keys for live futures trading must have the following permissions:
 
 We do strongly recommend to limit all API keys to the IP you're going to use it from.
 
-## Bitmart
+### Bybit Demo Mode
 
-Bitmart requires the API key Memo (the name you give the API key) to go along with the exchange key and secret.
-It's therefore required to pass the UID as well.
+Bybit has a [demo mode](https://learn.bybit.com/en/bybit-guide/how-to-use-bybit-demo-trading) - which can be activated by setting `exchange.demo_trading` to `true` in the configuration.
+Bybit uses live markets to simulate your trades (without market impact) - making it work very similar to freqtrade's dry-run mode.  
 
-```json
-"exchange": {
-    "name": "bitmart",
-    "uid": "your_bitmart_api_key_memo",
-    "secret": "your_exchange_secret",
-    "password": "your_exchange_api_key_password",
-    // ...
-}
-```
+You'll need to use separate API keys for demo trading, which you can create on bybit's demo page.
 
-!!! Warning "Necessary Verification"
-    Bitmart requires Verification Lvl2 to successfully trade on the spot market through the API - even though trading via UI works just fine with just Lvl1 verification.
+Demo mode is incompatible with dry-run.
 
 ## Bitget
 
@@ -370,7 +364,7 @@ Bitget requires a passphrase for each api key, you will therefore need to add th
 ```json
 "exchange": {
     "name": "bitget",
-    "key": "your_exchange_key",
+    "api_key": "your_exchange_api_key",
     "secret": "your_exchange_secret",
     "password": "your_exchange_api_key_password",
     // ...
@@ -429,31 +423,50 @@ Hyperliquid handles deposits and withdrawals on the Arbitrum One chain, a Layer 
     * Create a different software wallet, only transfer the funds you want to trade with to that wallet, and use that wallet to trade on Hyperliquid.
     * If you have funds you don't want to use for trading (after making a profit for example), transfer them back to your hardware wallet.
 
-### Hyperliquid Vault / Subaccount
 
-Hyperliquid allows you to create either a vault or a subaccount.  
-To use these with Freqtrade, you will need to use the following configuration pattern:
+!!! Warning "Vaults and Subaccounts"
+    You can only use either a vault or a subaccount - not both at the same time.
+
+### Hyperliquid Subaccount
+
+Hyperliquid allows you to create subaccounts with sufficient previous trading volume.  
+To use subaccounts with Freqtrade, you will need to use the following configuration pattern:
 
 ``` json
 "exchange": {
     "name": "hyperliquid",
-    "walletAddress": "your_master_wallet_address", // Your master wallet address (not the API wallet address and not the vault/subaccount address).
+    "walletAddress": "your_master_wallet_address", // Your master wallet address (not the API wallet or vault address - but not subaccount address).
     "privateKey": "your_api_private_key", // API wallet private key (see https://app.hyperliquid.xyz/API). You'll only need the private key.
     "ccxt_config": {
         "options": {
-            "vaultAddress": "your_vault_address", // Optional, only if you want to use a vault ...
-            "subAccountAddress": "your_subaccount_address" // OR optional, only if you want to use a subaccount
+            "subAccountAddress": "your_subaccount_address" // Required if you want to use a subaccount.
         }
     },
     // ...
 }
 ```
 
-Your balance and trades will now be used from your vault / subaccount - and no longer from your main account.
+Your balance and trades will now be used from your subaccount - and no longer from your main account.
 
-!!! Note
-    You can only use either a vault or a subaccount - not both at the same time.
+### Hyperliquid Vault
 
+Hyperliquid allows you to create vaults. To use vaults with Freqtrade, you will need to use the following configuration pattern:
+
+``` json
+"exchange": {
+    "name": "hyperliquid",
+    "walletAddress": "your_vault_address", // Your vault wallet address (Must also be added below in the ccxt_config.options.vaultAddress field)
+    "privateKey": "your_api_private_key", // API wallet private key (see https://app.hyperliquid.xyz/API). You'll only need the private key.
+    "ccxt_config": {
+        "options": {
+            "vaultAddress": "your_vault_address", // Optional, only if you want to use a vault ... (vault address must also be added to walletAdress)
+        }
+    },
+    // ...
+}
+```
+
+Your balance and trades will now be used from your vault - and no longer from your main account.
 
 ### Historic Hyperliquid data
 
@@ -498,7 +511,7 @@ If your account is required to use an operatorId, you can set it in the configur
 ``` json
 "exchange": {
         "name": "bitvavo",
-        "key": "",
+        "api_key": "",
         "secret": "",
         "ccxt_config": {
             "options": {

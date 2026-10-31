@@ -1,0 +1,239 @@
+{
+    "max_open_trades": 10,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.5,
+    "dry_run": true,
+    "dry_run_wallet": 1000,
+    "cancel_open_orders_on_exit": false,
+    "trading_mode": "spot",
+    "margin_mode": "",
+    "timeframe": "15m",
+    "exchange": {
+        "name": "binance",
+        "ohlcv_candle_limit": 4000,
+        "key": "",
+        "secret": "",
+        "pair_whitelist": [
+            "BTC/USDT",
+            "ETH/USDT",
+            "SOL/USDT",
+            "XRP/USDT",
+            "ZEC/USDT",
+            "DOGE/USDT",
+            "TRX/USDT",
+            "TAO/USDT",
+            "ALGO/USDT",
+            "PEPE/USDT",
+            "BERA/USDT",
+            "NEAR/USDT",
+            "ADA/USDT",
+            "FET/USDT",
+            "XPL/USDT",
+            "ETC/USDT",
+            "SUI/USDT",
+            "LTC/USDT",
+            "BARD/USDT",
+            "TRUMP/USDT",
+            "THETA/USDT",
+            "UNI/USDT",
+            "WLD/USDT",
+            "ZK/USDT",
+            "LINK/USDT",
+            "AVAX/USDT",
+            "JTO/USDT",
+            "VET/USDT",
+            "GAS/USDT",
+            "ENA/USDT",
+            "PAXG/USDT",
+            "ASTER/USDT",
+            "ONT/USDT",
+            "RENDER/USDT",
+            "SHIB/USDT",
+            "DASH/USDT",
+            "XLM/USDT",
+            "CAKE/USDT",
+            "PENGU/USDT",
+            "PUMP/USDT",
+            "SEI/USDT",
+            "BCH/USDT",
+            "ARB/USDT",
+            "HBAR/USDT",
+            "FIL/USDT",
+            "DOT/USDT",
+            "BANANAS31/USDT",
+            "ICP/USDT",
+            "TON/USDT",
+            "DEXE/USDT",
+            "WLFI/USDT",
+            "LUNC/USDT",
+            "ZEN/USDT",
+            "WIF/USDT",
+            "POL/USDT",
+            "BONK/USDT",
+            "APT/USDT",
+            "APE/USDT",
+            "DYDX/USDT",
+            "VIRTUAL/USDT",
+            "IOTA/USDT",
+            "ZRO/USDT",
+            "QTUM/USDT",
+            "AAVE/USDT",
+            "CRV/USDT",
+            "CHZ/USDT",
+            "TIA/USDT",
+            "OP/USDT",
+            "JST/USDT",
+            "PENDLE/USDT",
+            "RUNE/USDT",
+            "NEO/USDT",
+            "ONDO/USDT",
+            "FLOKI/USDT",
+            "QNT/USDT",
+            "RAY/USDT",
+            "EIGEN/USDT",
+            "0G/USDT",
+            "TWT/USDT",
+            "ETHFI/USDT",
+            "SKY/USDT",
+            "S/USDT",
+            "SAND/USDT",
+            "AR/USDT",
+            "RSR/USDT",
+            "PYTH/USDT",
+            "INJ/USDT",
+            "STRK/USDT",
+            "ENS/USDT",
+            "ATOM/USDT",
+            "KAITO/USDT",
+            "LDO/USDT",
+            "AXS/USDT",
+            "GALA/USDT",
+            "CFX/USDT",
+            "FF/USDT"
+        ],
+        "pair_blacklist": [
+            "BNB/.*",
+            "WBTC/.*",
+            "WETH/.*",
+            "WBNB/.*",
+            "WMATIC/.*",
+            "WAVAX/.*",
+            "WSOL/.*",
+            "HBTC/.*",
+            "stETH/.*",
+            "wstETH/.*",
+            "cbETH/.*",
+            "rETH/.*",
+            "BETH/.*",
+            "WBETH/.*",
+            "frxETH/.*",
+            "sfrxETH/.*",
+            "ankrETH/.*",
+            "ETHx/.*",
+            "osETH/.*",
+            "swETH/.*",
+            ".*UP/.*",
+            ".*DOWN/.*",
+            ".*BULL/.*",
+            ".*BEAR/.*",
+            ".*3L/.*",
+            ".*3S/.*",
+            ".*USD/.*",
+            "USD.*/.*"
+        ]
+    },
+    "pairlists": [
+        {
+            "method": "StaticPairList"
+        }
+    ],
+    "entry_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "exit_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "127.0.0.1",
+        "listen_port": 8080,
+        "verbosity": "error",
+        "enable_openapi": false,
+        "jwt_secret_key": "bf5c19f90e009030e388294bd53b2dc28ed5ecf9ffac83325d2752c001aa6571",
+        "ws_token": "196opnDQ19x6xMn-ijwvAYPfDo7DoX1EEg",
+        "CORS_origins": [],
+        "username": "john",
+        "password": "fistikis"
+    },
+    "bot_name": "FactorBot",
+    "strategy_factor_mix": [
+        {
+            "factor": "momentum",
+            "weight": 1,
+            "kwargs": {
+                "start_days_ago": 60,
+                "end_days_ago": 1
+            }
+        },
+        {
+            "factor": "momentum",
+            "weight": 1,
+            "kwargs": {
+                "start_days_ago": 30,
+                "end_days_ago": 1
+            }
+        },
+        {
+            "factor": "volume_momentum",
+            "weight": 1,
+            "kwargs": {
+                "window_days": 7,
+                "recent_volume_days": 5,
+                "baseline_volume_days": 60
+            }
+        },
+        {
+            "factor": "factor_vol_adjusted_momentum",
+            "weight": 1,
+            "kwargs": {
+                "momentum_window_days": 60,
+                "vol_window_days": 30
+            }
+        },
+        {
+            "factor": "factor_vol_adjusted_momentum",
+            "weight": 1,
+            "kwargs": {
+                "momentum_window_days": 30,
+                "vol_window_days": 30
+            }
+        },
+        {
+            "factor": "factor_vol_adjusted_momentum",
+            "weight": 1,
+            "kwargs": {
+                "momentum_window_days": 14,
+                "vol_window_days": 14
+            }
+        },
+        {
+            "factor": "liquidity",
+            "weight": 1,
+            "kwargs": {
+                "window_days": 14
+            }
+        },
+        {
+            "factor": "size",
+            "weight": 1,
+            "kwargs": {
+                "window_days": 14
+            }
+        }
+    ]
+}

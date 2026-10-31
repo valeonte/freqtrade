@@ -8,6 +8,7 @@ from freqtrade.exchange import (
 )
 from freqtrade.ft_types import AnnotationType
 from freqtrade.persistence import Order, PairLocks, Trade
+from freqtrade.strategy.factor_provider import FactorProvider
 from freqtrade.strategy.informative_decorator import informative
 from freqtrade.strategy.interface import IStrategy
 from freqtrade.strategy.parameters import (

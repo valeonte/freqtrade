@@ -1,0 +1,58 @@
+
+2019-20
+                                     pre-tax CAGR %  pre-tax Sharpe  pre-tax max DD %  after-tax CAGR %  after-tax end  orders/yr  trading days/yr  hold days (median)  P(Sharpe <= live)
+label                                                                                                                                                                                    
+Live: six tranches (round 6 orders)          145.89            2.58            -22.69            120.71      243303.07     207.64            45.53               10.83                NaN
+FreqAI classifier, none                       47.32            1.75            -14.00             37.98       95153.01      33.52             8.01               42.50               0.93
+FreqAI classifier, trim                       36.65            1.66            -10.07             29.36       83642.76     179.62            28.02               11.00               0.95
+FreqAI classifier, veto                       27.33            1.39            -10.07             21.93       74311.40     172.12            27.02                4.83               0.97
+FreqAI classifier, standalone                 25.86            1.33            -10.07             20.76       72900.40     231.16            32.02                2.67               0.98
+FreqAI regressor, none                        47.32            1.75            -14.00             37.98       95153.01      33.52             8.01               42.50               0.93
+FreqAI regressor, trim                        43.84            1.86            -10.07             35.16       91300.40      98.57            16.51               16.83               0.90
+FreqAI regressor, veto                        39.06            1.77            -10.07             31.30       86170.04      75.05            13.01                3.17               0.91
+FreqAI regressor, standalone                  40.01            1.81            -10.07             32.07       87177.84     100.07            16.51                2.83               0.90
+
+2021-23
+                                     pre-tax CAGR %  pre-tax Sharpe  pre-tax max DD %  after-tax CAGR %  after-tax end  orders/yr  trading days/yr  hold days (median)  P(Sharpe <= live)
+label                                                                                                                                                                                    
+Live: six tranches (round 6 orders)           49.17            1.57            -22.84             39.85      136539.86     218.01            43.40                3.67                NaN
+FreqAI classifier, none                       49.17            1.57            -22.84             39.85      136539.86     218.01            43.40                3.67               1.00
+FreqAI classifier, trim                       36.64            1.54            -18.65             29.51      108486.28     513.82            86.81                6.67               0.58
+FreqAI classifier, veto                       25.72            1.29            -16.35             20.89       88250.83     446.38            72.12                2.00               0.75
+FreqAI classifier, standalone                  4.98            0.31            -39.88              4.47       57004.62     652.71           100.83                2.83               0.98
+FreqAI regressor, none                        49.17            1.57            -22.84             39.85      136539.86     218.01            43.40                3.67               1.00
+FreqAI regressor, trim                        30.50            1.31            -19.41             24.63       96700.43     506.14            85.47                6.50               0.90
+FreqAI regressor, veto                        14.00            0.76            -18.57             11.70       69644.49     391.63            66.44                2.00               0.96
+FreqAI regressor, standalone                   2.72            0.24            -38.06              2.72       54178.86     581.93            90.81                2.67               0.98
+
+2024-26H1
+                                     pre-tax CAGR %  pre-tax Sharpe  pre-tax max DD %  after-tax CAGR %  after-tax end  orders/yr  trading days/yr  hold days (median)  P(Sharpe <= live)
+label                                                                                                                                                                                    
+Live: six tranches (round 6 orders)           36.87            1.20            -24.00             30.45       97030.29     233.34            45.31               11.00                NaN
+FreqAI classifier, none                       36.87            1.20            -24.00             30.45       97030.29     233.34            45.31               11.00               1.00
+FreqAI classifier, trim                       27.65            1.16            -20.92             22.39       82759.00     671.56           109.05                7.17               0.56
+FreqAI classifier, veto                       19.34            0.98            -20.25             16.25       72789.11     593.38           101.04                2.33               0.67
+FreqAI classifier, standalone                 -0.60            0.15            -53.93             -3.73       45480.90     825.52           129.50                3.00               0.93
+FreqAI regressor, none                        36.87            1.20            -24.00             30.45       97030.29     233.34            45.31               11.00               1.00
+FreqAI regressor, trim                        20.16            0.91            -22.47             16.69       73481.40     628.66            95.02                8.00               0.96
+FreqAI regressor, veto                         6.11            0.40            -26.34              4.27       55494.97     542.46            83.80                3.00               0.96
+FreqAI regressor, standalone                   1.44            0.21            -49.95             -3.03       46305.67     759.77           112.26                3.17               0.92
+
+FreqAI predictions at the decision hours vs the basket's forward 7 days:
+model pair    period  rows   auc     ic  share_bearish
+class  BTC   2019-20  4330 0.415 -0.160          0.457
+class  BTC   2021-23  6523 0.497  0.004          0.414
+class  BTC 2024-26H1  5429 0.526  0.011          0.378
+class  BTC       all 16356 0.481 -0.053          0.414
+class  ETH   2019-20  4330 0.414 -0.163          0.459
+class  ETH   2021-23  6523 0.497  0.003          0.407
+class  ETH 2024-26H1  5429 0.526  0.009          0.382
+class  ETH       all 16356 0.481 -0.055          0.413
+value  BTC   2019-20  4330 0.462 -0.052          0.600
+value  BTC   2021-23  6523 0.491 -0.009          0.549
+value  BTC 2024-26H1  5429 0.523 -0.005          0.399
+value  BTC       all 16356 0.485 -0.042          0.511
+value  ETH   2019-20  4330 0.458 -0.057          0.603
+value  ETH   2021-23  6523 0.483 -0.028          0.535
+value  ETH 2024-26H1  5429 0.521 -0.008          0.396
+value  ETH       all 16356 0.480 -0.052          0.506

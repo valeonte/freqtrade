@@ -1,0 +1,25 @@
+backtest_results
+data
+!*.json
+data_bed
+live_snapshots
+honest_bed/results
+honest_bed/*.log
+candidates/*/results
+candidates/*/*.log
+paper/*.sqlite*
+paper/reports
+onchain_node.json
+models
+candidates/round7/cache
+candidates/round7/exports
+candidates/round8/cache
+candidates/round8/exports
+# Scratch files CI generates with `freqtrade create-userdir` / `new-strategy` (see .github/workflows/ci.yml)
+strategies/AwesomeStrategy*.py
+strategies/sample_strategy.py
+candidates/round9/cache
+candidates/round9/exports
+candidates/round10/cache
+candidates/round10/exports
+candidates/round10/forward

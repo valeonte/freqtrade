@@ -1,0 +1,27 @@
+version,config,description,profit_pct,sharpe,calmar,sortino,max_drawdown_pct,profit_factor,win_rate_pct,total_trades,trades_per_day,market_change_pct
+v00,v00_baseline,Baseline: all 8 factors equal weight,100.56,3.087,29.4198,8.5284,30.51,1.802,52.83,407,1.22,92.55
+v01,v01_momentum_focus,"Multi-TF momentum, drop liq/size/overext",80.2,2.6251,15.3237,7.5866,44.62,1.572,48.3,441,1.32,92.55
+v02,v02_quality_momentum,3x vol-adj mom + 2x overext + mom_30d,82.89,2.0263,19.3265,6.8367,32.48,1.865,52.97,236,0.71,92.55
+v03,v03_multitf_momentum,Long TF momentum 90d + vol_mom dual + vol_adj_mom [OOS WINNER],19.2,0.6733,4.6149,2.3424,23.87,1.347,38.99,159,0.48,92.55
+v04,v04_simple_clean,mom_30d + mom_7d + vol_adj_mom_30d + overext_30d [IS WINNER],71.66,2.4188,16.0486,7.3975,34.93,1.735,45.52,290,0.87,92.55
+v05,v05_longer_windows,mom_60/30d + rev_3d + vol_mom + overext/liq/size 14d,22.47,0.7864,6.6903,1.8584,23.81,1.33,53.37,163,0.49,92.55
+v06,v06_v04_plus_volmom,V04 + vol_mom_7d,107.45,2.5399,20.3526,8.5632,49.59,1.865,47.68,323,0.97,92.55
+v07,v07_short_overext,V04 overext_10d+5d replacing overext_30d,61.84,3.3923,12.5423,5.6289,40.99,1.399,57.52,605,1.82,92.55
+v08,v08_dual_volmom,V04 vol_adj_mom at 30d and 14d,68.71,1.9796,18.1946,6.4201,29.14,1.824,44.44,207,0.62,92.55
+v09,v09_v04_no_overext,V04 without overextension,84.1,1.9266,22.5041,8.6049,26.1,2.035,43.48,184,0.55,92.55
+v10,v10_v04_dual_overext,V04 overext_30d + overext_60d,60.09,3.5353,11.0245,6.6136,46.47,1.285,50.92,866,2.6,92.55
+v11,v11_v04_overext20,V04 overext_20d instead of 30d,57.29,1.9862,11.5554,5.53,40.29,1.603,46.15,273,0.82,92.55
+v12,v12_v04_volmom14,V04 vol_adj_mom_14d instead of 30d,71.35,2.4321,16.4266,6.7884,35.71,1.505,44.44,387,1.16,92.55
+v13,v13_v03_add14d,v03 + mom(14d→1d) added,7.62,0.3369,1.4104,0.9415,31.0,1.152,38.73,142,0.43,92.55
+v14,v14_v03_no_skip,v03: mom(90d→1d) no skip-month,13.55,0.61,2.7357,1.717,28.42,1.235,40.34,176,0.53,92.55
+v15,v15_v03_shorter_volmom,"v03: vol_mom(7d,3d,14d) shorter",3.13,0.1188,0.5185,0.3792,34.66,1.06,37.78,135,0.41,92.55
+v16,v16_v05_no_noise,v05 drop rev+overext+liq+size; dual vol_adj_mom,53.71,1.0061,30.3896,4.8296,11.93,2.202,43.21,81,0.24,92.55
+v17,v17_v05_drop_rev_overext,v05 drop rev+overext; keep liq+size; dual vol_adj_mom,67.6,1.2275,53.2137,5.436,8.5,3.162,50.0,60,0.18,92.55
+v18,v18_hybrid_pure_mom,hybrid: mom(90/60/30d→1d)+vol_mom+dual vol_adj_mom,9.56,0.2551,1.8917,1.0823,28.98,1.266,38.1,63,0.19,92.55
+v19,v19_v16_triple_adj_mom,v16 + vol_adj_mom(14d),66.07,1.2726,34.4948,6.3345,12.97,2.444,45.45,99,0.3,92.55
+v20,v20_v16_dual_volmom,"v16 + vol_mom(14d,3d,30d)",52.95,1.049,22.2788,5.2107,15.48,2.104,43.96,91,0.27,92.55
+v21,v21_v17_triple_adj_mom,v17 + vol_adj_mom(14d) [liq+size],74.09,1.194,98.5131,6.2482,6.53,3.06,51.9,79,0.24,92.55
+v22,v22_v17_dual_volmom,"v17 + vol_mom(14d,3d,30d) [liq+size]",67.68,1.3783,28.6924,6.0477,17.26,2.609,48.84,86,0.26,92.55
+v23,v23_v19_add7d,v19 + mom(7d→1d),61.74,1.1948,28.1443,6.0389,15.33,2.267,41.35,104,0.31,92.55
+v24,v24_v21_no_size,"v21 drop size, keep liq",64.11,1.2434,36.8676,6.3443,11.27,2.559,47.13,87,0.26,92.55
+v25,v25_v19_long_volmom,"v19 + vol_mom(30d,3d,90d)",8.47,0.3088,1.6017,0.9175,30.34,1.184,39.05,105,0.32,92.55

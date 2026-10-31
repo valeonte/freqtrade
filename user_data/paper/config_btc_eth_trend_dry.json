@@ -1,0 +1,62 @@
+{
+  "strategy": "TrendFilterStrategy",
+  "timeframe": "1d",
+  "max_open_trades": 2,
+  "stake_currency": "USDT",
+  "stake_amount": "unlimited",
+  "tradable_balance_ratio": 0.99,
+  "dry_run": true,
+  "dry_run_wallet": 1000,
+  "trading_mode": "spot",
+  "cancel_open_orders_on_exit": false,
+  "db_url": "sqlite:///user_data/paper/btc_eth_trend.dryrun.sqlite",
+  "order_types": {
+    "entry": "market",
+    "exit": "market",
+    "stoploss": "market",
+    "stoploss_on_exchange": false
+  },
+  "entry_pricing": {
+    "price_side": "other",
+    "use_order_book": true,
+    "order_book_top": 1
+  },
+  "exit_pricing": {
+    "price_side": "other",
+    "use_order_book": true,
+    "order_book_top": 1
+  },
+  "unfilledtimeout": {
+    "entry": 10,
+    "exit": 10,
+    "unit": "minutes"
+  },
+  "exchange": {
+    "name": "binance",
+    "key": "",
+    "secret": "",
+    "pair_whitelist": [
+      "BTC/USDT",
+      "ETH/USDT"
+    ]
+  },
+  "pairlists": [
+    {
+      "method": "StaticPairList"
+    }
+  ],
+  "telegram": {
+    "enabled": false,
+    "token": "",
+    "chat_id": ""
+  },
+  "bot_name": "btc-eth-trend-paper",
+  "internals": {
+    "process_throttle_secs": 60
+  },
+  "strategy_settings": {
+    "sma_days": 100,
+    "trend_pair": "BTC/USDT"
+  },
+  "initial_state": "running"
+}

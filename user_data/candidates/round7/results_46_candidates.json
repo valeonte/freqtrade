@@ -1,0 +1,47 @@
+{
+ "posthoc": true,
+ "candidates": [
+  {
+   "kind": "feature",
+   "asset": "basket",
+   "feature": "talib.HT_DCPERIOD.real@x1",
+   "sign": -1.0,
+   "cell": "basket daily h7 use d, IC -0.248, t -4.5"
+  },
+  {
+   "kind": "feature",
+   "asset": "BTC",
+   "feature": "talib.MFI.real@x2",
+   "sign": 1.0,
+   "cell": "BTC daily h7 use d, IC +0.206, t +4.2"
+  },
+  {
+   "kind": "feature",
+   "asset": "basket",
+   "feature": "qtpylib.roc.roc@x4",
+   "sign": -1.0,
+   "cell": "basket daily h30 use d, IC -0.384, t -4.1"
+  },
+  {
+   "kind": "feature",
+   "asset": "basket",
+   "feature": "technical.bollinger_bands.bb_upper@x4",
+   "sign": -1.0,
+   "cell": "basket daily h30 use d, IC -0.383, t -3.9"
+  },
+  {
+   "kind": "feature",
+   "asset": "basket",
+   "feature": "technical.MADR.stdcenter@x1",
+   "sign": -1.0,
+   "cell": "basket daily h30 use d, IC -0.364, t -3.9"
+  },
+  {
+   "kind": "model",
+   "model": "LightGBM",
+   "label": 7,
+   "sample": "off",
+   "cell": "AUC 0.519 (all)"
+  }
+ ]
+}
