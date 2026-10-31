@@ -116,7 +116,7 @@ suggested instead).
 ## Results (2026-10-31)
 
 **Verdict: nothing passes.** 0 of 4 screens beat their shifted-return null, 0 of 10 pre-registered overlays pass,
-three tranches lose more after tax than the rule allows, and the forward log is running. No freqtrade run of an
+three tranches lose more after tax than the rule allows, and the forward log was built, backfilled once and then skipped by the owner's decision (2026-10-31). No freqtrade run of an
 overlay and no holdout look followed. One post-hoc lead (the stablecoin-supply veto, below). Driver:
 `run_round10.sh`; outputs `results_5x_screen.txt` / `_cells.csv.gz` / `_top.csv` / `_null.csv`,
 `results_overlays_56_58_59.*`, `results_overlays_57.*`, `results_58c_posthoc.txt`, `results_60.*`,
@@ -200,7 +200,9 @@ idempotent (a rerun writes nothing). Over the free rows (2026-10-18 → 30) BTC 
 them trading on Binance at the time** (DATA was delisted from Binance in Feb 2026), so the study 35 lead (coins already
 on Binance) had no events. Holdout-window rows (to 2026-10-17) are flagged `holdout_window: true` and were not evaluated.
 
-Suggested crontab line (not installed; the owner's call), daily at 06:15 UTC, after CoinMetrics publishes the previous day:
+**Skipped intentionally (owner's decision, 2026-10-31)**: the log is not scheduled and stops at 2026-10-30. The script stays
+in the repo so the two leads (53b MVRV < 1, study 35 Coinbase listings) can be revisited. The line that would have run it
+daily at 06:15 UTC, for the record:
 
 ```
 15 6 * * * cd /home/fistix/repos/freqtrade && nice -n 19 .env/bin/python user_data/candidates/round10/forward_log.py >> user_data/candidates/round10/forward/cron.log 2>&1
