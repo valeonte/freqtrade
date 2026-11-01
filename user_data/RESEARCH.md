@@ -1,7 +1,7 @@
 # Strategy research: state of play
 
 Read this first if you are picking up strategy research in this fork. It is the one place that
-says what exists, what has been tried, what it found, and the rules. Last updated 2026-10-31 (round 10).
+says what exists, what has been tried, what it found, and the rules. Last updated 2026-11-01 (round 11).
 Keep it current: when you finish a study, add a row to the results and update the open leads.
 
 ## Goal
@@ -87,7 +87,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | Tool | What it does | Checked against |
 | --- | --- | --- |
 | `candidates/positioning/common.py` | Daily replica of the old live bot: `simulate` (two-coin wallet, 20% band, 7.5 bps), `stats`, `PERIODS`, BTC funding loaders | studies 22–26 |
-| `candidates/round4/base.py` | The live rules with any gate / exit / re-entry (`signals`, `run`), exposure-matched yardstick (`matched`), the owner's bar (`passes`, `verdict`), 1h bars (`hourly`, `simulate_bars`, `daily_from_bars`), paired 30-day block bootstrap (`paired_bootstrap`) | reproduces study 25's freqtrade runs |
+| `candidates/round4/base.py` | The live rules with any gate / exit / re-entry (`signals`, `run`), exposure-matched yardstick (`matched`), the owner's bar (`passes`, `verdict`), 1h bars (`hourly`, `simulate_bars`, `daily_from_bars`), paired 30-day block bootstrap (`paired_bootstrap`). **`daily_from_bars` labels each day with the previous day's return** (round 11): fine for bot-vs-bot comparisons, but relabel it (`round11/r11._aligned`) before mixing with daily candles | reproduces study 25's freqtrade runs |
 | `candidates/round7/overlay.py` | **The live bot (six tranches, one wallet) on 1h bars with any per-tranche signal** used as `veto` / `trim` / `extra` / `dial`, exposure scaling, orders/yr, days with an order and FIFO median hold (`activity`) | reproduces study 28 exactly (2.68 / 1.53 / 1.27) and round 6's activity row (219 orders/yr, 45 days, 10-day hold) |
 | `candidates/round6/after_tax.py`, `uk_cgt.py` | Freqtrade orders → sterling account → UK CGT (same-day / 30-day / pool, USDT as a token, tax paid each 31 January); `stats` gives pre- and after-tax CAGR / Sharpe / DD and the badges-of-trade activity. Export orders with `round6/export_orders.py` or `round7/run_ft.sh` | HMRC's seven pooling examples (`test_uk_cgt.py`) |
 | `candidates/round7/r7data.py` | Daily bars at any UTC hour and 4h bars from the 1h candles, the geometric BTC/ETH basket, forward log returns, the bot's on/off and state per bar | 00 UTC bars = Binance's daily candles exactly |
@@ -96,6 +96,7 @@ Anything that survives gets a real freqtrade strategy and a freqtrade backtest.
 | `candidates/round7/study45_combos.py` (`spa_rc`) | Hansen's SPA and White's Reality Check over many overlay variants | — |
 | `user_data/freqaimodels/PurgedLightGBM{Classifier,Regressor}.py`, `strategies/funding_vol_tranches_freqai_strategy.py`, `candidates/round7/configs/freqai_*.json` | FreqAI on the live rules, with the label purge FreqAI lacks and decision-hour training rows (keeps the DI matrix small) | `freqai_use: none` reproduces the live bot's orders |
 | `candidates/round8/study48_screen.py` | Runs study 44's screen (with its shift null) on **any** feature panel: write `cache/<family>/<bar key>_<asset>.parquet` aligned with `r7data.bar_sets()`, pick discovery / confirmation samples; the null's minimum shift drops to a quarter of the sample for short families | study 44's outputs |
+| `candidates/round11/r11.py`, `ft_data.py`, `strategies/funding_vol_tranches_alt_gate_strategy.py` | The six-tranche bot (aligned) plus any daily alt sleeve as a sub-wallet (`simulate_sleeve`, `portfolio`), study 21's pick, point-in-time alt-basket / dominance / own-basket gates, CoinMetrics supply growth, alt perp funding; freqtrade version on synthetic 1h alt candles from daily (judge it on the exported orders marked to market at 00 UTC, not freqtrade's wallet Sharpe) | 0% sleeve reproduces round 10's six-tranche orders exactly |
 | `candidates/round7/run_round7.sh` | Pattern for long jobs: one resumable driver, each step skips finished outputs, checkpoints in a gitignored `cache/`, run under `setsid nohup nice -n 19` | survived several reboots |
 
 Candidate write-ups: each `user_data/candidates/<round or idea>/README.md` states its plan (written before running), every
@@ -109,7 +110,7 @@ below). Everything not marked otherwise is dead.
 - **Trend timing on BTC/ETH (the live bot's family)**: SMA gates and ensembles (3, 6; the SMA100 gate is in the bot), vol targeting (7, adopted), negative
   funding (9, 10, adopted; ETH funding 16), fast exit (25, in the bot), six tranches (28, live), walk-forward/PBO rigour (27), breadth gates
   (29), intraday crash exits (30), trend-quality sizing (31), cadence / low turnover (41), vol-target frontier (32).
-- **Alts and cross-section**: momentum factors (1, 20; low vol is real among alts but loses to BTC/ETH), alt baskets and sleeves (8, 21), reversal (4), funding cross-section (5),
+- **Alts and cross-section**: momentum factors (1, 20; low vol is real among alts but loses to BTC/ETH), alt baskets and sleeves (8, 21), an alt-season gate on the sleeve (62), crowded-long alt picks (63), reversal (4), funding cross-section (5),
   new listings (19), delistings (14), on-chain exchange flows (18), Upbit / Bybit / Coinbase listing events (33–36).
 - **Outside signals**: Fear & Greed, stablecoin supply, hash ribbon, Puell, Coinbase / Korean premiums, Nasdaq / S&P, dollar,
   DVOL (9, 14, 15, 23), positioning: funding highs, OI, long/short ratios, basis (22), macro FOMC / CPI days (24).
@@ -207,6 +208,8 @@ below). Everything not marked otherwise is dead.
 | 58 | Dominance: BTC over the day's top-20 CoinMetrics caps, stablecoin dominance, chain stablecoin supply (USDT, USDC, DAI, BUSD, …); stablecoin dominance rising trim, BTC-dominance BTC/ETH tilt, **study 9's stablecoin-growth gate rebuilt point-in-time** | **Dead: 0 of 3**; one post-hoc lead | Screen 53 discoveries vs null median 32 (95th pct 357). Gate (out while 30d supply growth ≤ 0) 2.40 / 1.78 / 1.19: only 2022 helps. POST-HOC veto neighbour (no new entries then) 2.74 / 1.74 / 1.27, DD −24 / −13 / −22%, beats exposure-matched, shift null p < 0.005, but +0.01 Sharpe since 2024 and the 14-day window fails | `candidates/round10/` |
 | 59 | Cross-venue BTC funding (Binance, Bybit 2020-03 →, Deribit 2019-04 →; OKX and BitMEX unavailable): dispersion, max / min, spreads; dispersion top-decile trim; all / any venue negative as the bot's trigger | **Dead: 0 of 2** | Screen 22 discoveries vs null median 0 (95th pct 71). Dispersion trim 2.61 / 1.50 / 1.34; every venue negative 2.63 / 1.38 / 1.18; any venue 2.44 / 1.30 / 0.58. Binance alone stays the best trigger | `candidates/round10/` |
 | 60 | **Three tranches** (00/08/16 UTC) vs six (study 43): freqtrade, orders exported, after UK CGT | **Not worth it** | Orders 221 → 115 a year, days with an order 45 → 39, disposal lines 46 → 38, same 10-day median hold. After tax −6.8 / −0.7 / −2.8 points by period, 2019–Jun 2026 +52.9% vs +56.1% (£1.20m vs £1.41m); pre-tax Sharpe 2.47 / 1.55 / 1.10 vs 2.58 / 1.57 / 1.20. Six tranches reproduce round 6's orders exactly | `candidates/round10/` |
+| 62 | **Alt-season gate on study 21's low-vol sleeve** (round 11, pre-registered): hold the 20% / 10% sleeve only while (a) the point-in-time top-20 alt basket beat BTC over 60 / 90 days, (b) BTC dominance of the top-20 CoinMetrics caps fell, or (c) the sleeve's own 5 coins beat BTC; plus a CoinMetrics supply-growth filter (> 10% in 180 days out); otherwise the bot gets 100% | **Dead**: passes in the replica by noise, fails in freqtrade | Replica, bot 2.67 / 1.53 / 1.27: primary (a, 90 d, 20%) 2.68 / 1.63 / 1.28, PASS, but doesn't beat exposure-matched, bootstrap P(≤ 0) 0.48 / 0.11 / 0.49, neighbours fail; gate on 38 / 21 / 10% of days. Freqtrade orders marked to market at 00 UTC: bot 2.71 / 1.53 / 1.26, primary 2.61 / 1.57 / 1.22, supply variant 2.61 / 1.59 / 1.22, always-on 2.72 / 1.60 / 1.19. After UK CGT −11.1 / +1.0 / −1.7 points, 322 vs 208 orders/yr, coin disposal lines 99 vs 44. The supply filter dropped 0.7% of alt-days. Found `base.daily_from_bars`' one-day label shift (fake +0.4 Sharpe when mixed with daily data) | `candidates/round11/` |
+| 63 | Crowded longs as an alt pick (exploratory, 2023-11 → Jun 2026 only): of the 15 lowest-vol perp-listed alts, the 5 with the highest 7-day funding, or the lowest-vol 5 with funding > 0; 20% sleeve beside the bot | **Dead** | Bot 1.38; + plain perp low-vol sleeve 1.29; + top-funding pick 1.07 (gain −0.31, P(≤ 0) 1.00; sleeve alone −12%/yr, DD −56%); + funding > 0 1.23 (P 0.88). Crowded alts bleed: the opposite of BTC/ETH's crowded longs (study 22) | `candidates/round11/` |
 | 61 | Forward log (no trading): BTC MVRV and new Coinbase USD products with Binance's price after their first trade, backfilled 2026-07-01 → 10-30 | **Skipped (owner's decision, 2026-10-31)**: not scheduled | 15 new Coinbase USD products 2026-07 → 10-30, none trading on Binance; MVRV 1.43–1.56 after the holdout (never < 1) | `candidates/round10/forward_log.py` |
 
 All write-up paths are under `user_data/`.
@@ -307,6 +310,14 @@ All write-up paths are under `user_data/`.
 - **Exchange flows, options skew and cross-venue funding are all price in another form** (round 10): inflow spikes, put skew,
   inverted vol term structures and funding dispersion appear during sell-offs, after the move; trimming on them sells the dip and
   buying on them while flat buys falling markets. None says anything in a shifted-return null.
+- **An alt-season gate doesn't rescue the alt sleeve** (study 62): holding the low-vol alts only while alts beat BTC keeps
+  study 21's 2021–23 gain (+0.10 Sharpe in the replica) without its 2024–26 loss, but it adds nothing in 2019–20 or
+  2024–26, and in real orders it costs 0.10 / 0.04 Sharpe there and ~11 after-tax points in 2019–20, with 50% more orders.
+  Alts are a 2021 story. Crowded-long alts (highest perp funding) are the worst alts to hold (study 63).
+- **Check the day alignment before mixing return series** (round 11): `round4/base.daily_from_bars` labels each day with
+  the previous day's return. freqtrade's daily wallet Sharpe samples the 23:00 bar, where synthetic alt candles built from
+  daily data are a day stale. Each made an unhelpful sleeve look like +0.4 Sharpe of diversification. Correlate a series
+  with the coins' same-day return (should peak at lag 0) before combining it with anything.
 - **Stablecoin supply growth is a 2022 story** (study 58): rebuilt from chain supply, the shrinking supply of 2022 kept a veto out
   of that year's bear rallies (+0.22 Sharpe in 2021–23) and has done nothing since 2024. Treat study 9's DefiLlama result as the
   same single episode.
@@ -378,6 +389,7 @@ then `pkill -TERM -f config_btc_eth_funding_voltarget_dry`.
   bot, alone, combined or learned; not worth feeding to FreqAI. The only near miss (a LightGBM bot-off model used as a trim,
   study 46) was picked post-hoc from 30 models and trades 45% more; re-check only if a future study finds a model with an AUC
   interval above 0.5 in every period.
+- ~~Alts beside the bot~~ (studies 1, 8, 20, 21, 62, 63): closed in round 11. Low vol is the right way to rank alts, but no gate (alt basket vs BTC, BTC dominance, the sleeve's own momentum, supply growth) makes a sleeve beat the bot in every period, and selecting crowded perps makes it worse.
 - **Something orthogonal to the live bot.** Round 5 (studies 33–38) searched for a different return source
   (cross-venue listing shocks, Korean premiums, BNB farming demand, ETH/BTC relative value) under the owner's
   capital-gains-only rule and found nothing that improves the bot + candidate portfolio in every period: the one
@@ -424,3 +436,4 @@ Round 7 (studies 44–47) used no look: nothing passed before July.
 Round 8 (studies 48–51) used no look: nothing passed before July, and every download stops at 2026-06-30.
 Round 9 (studies 52–55) used no look: no overlay passed and the MVRV sleeve didn't beat the bot before July; every download is cut at 2026-06-30.
 Round 10 (studies 56–61) used no look: nothing passed before July. The forward log (61) backfilled holdout-window rows (2026-07-01 → 10-17) as a log only; nothing was evaluated on them, and the log was then skipped by the owner's decision.
+Round 11 (studies 62–63) used no look: study 62's primary passed the bar only in the vectorised replica and failed on its freqtrade orders before July; study 63 is exploratory and lost. Every series was cut at 2026-06-30.
