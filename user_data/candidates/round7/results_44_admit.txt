@@ -1,0 +1,64 @@
+697 features computed, 582 admitted; dropped:
+reason
+constant in discovery                                   24
+pattern fires                                           20
+lookahead                                                9
+only 68 valid discovery days                             3
+identical to talib.ROC.real@x0.5                         3
+identical to talib.ROC.real@x1                           3
+identical to talib.ROC.real@x2                           3
+identical to talib.ROC.real@x4                           3
+error                                                    2
+only 0 valid discovery days                              2
+identical to talib.BBANDS.middleband@x2                  2
+only 8 valid discovery days                              1
+only 26 valid discovery days                             1
+identical to talib.SAR.real@x1                           1
+identical to talib.MA.real@x0.5                          1
+identical to talib.MA.real@x1                            1
+identical to talib.MA.real@x2                            1
+identical to talib.MA.real@x4                            1
+identical to talib.CMO.real@x0.5                         1
+identical to talib.CMO.real@x1                           1
+identical to talib.CMO.real@x2                           1
+identical to talib.CMO.real@x4                           1
+identical to talib.STOCH.slowk@x0.5                      1
+identical to talib.STOCH.slowk@x1                        1
+identical to talib.STDDEV.real@x0.5                      1
+identical to talib.STDDEV.real@x1                        1
+identical to talib.STDDEV.real@x2                        1
+identical to talib.STDDEV.real@x4                        1
+identical to talib.CDLDOJI.integer@x1                    1
+identical to talib.EMA.real@x0.5                         1
+identical to technical.dema.dema@x0.5                    1
+identical to technical.dema.dema@x1                      1
+identical to technical.dema.dema@x2                      1
+identical to technical.dema.dema@x4                      1
+identical to technical.ichimoku.cloud_green@x2           1
+identical to technical.ichimoku.cloud_green@x4           1
+identical to talib.WILLR.real@x0.5                       1
+identical to talib.WILLR.real@x1                         1
+identical to technical.bollinger_bands.bb_upper@x0.5     1
+identical to technical.bollinger_bands.bb_lower@x0.5     1
+identical to technical.chopiness.chop@x0.5               1
+identical to technical.chopiness.chop@x1                 1
+identical to technical.chopiness.chop@x2                 1
+identical to technical.chopiness.chop@x4                 1
+identical to technical.hull_moving_average.hma@x0.5      1
+identical to technical.hull_moving_average.hma@x1        1
+identical to technical.hull_moving_average.hma@x2        1
+identical to technical.hull_moving_average.hma@x4        1
+identical to qtpylib.zlema.zlema@x0.5                    1
+identical to qtpylib.zlema.zlema@x1                      1
+identical to qtpylib.zlema.zlema@x2                      1
+identical to qtpylib.zlema.zlema@x4                      1
+Name: count, dtype: int64
+helper        317
+momentum      139
+overlap        56
+statistic      32
+pattern        16
+volatility      9
+cycle           7
+volume          6
+Name: count, dtype: int64

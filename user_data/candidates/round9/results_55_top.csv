@@ -1,0 +1,31 @@
+feature,asset,bar,horizon,use,ic,t,n,p,bh,ic_conf,t_conf,p_conf,n_conf,ic_2019-20,ic_2021-23,ic_2024-26H1,group,confirmed,periods_same_sign,survivor,boot_p
+btc_ah,BTC,4h,1,d,-0.07618,-3.782,7195,0.0001558,False,0.02258,1.135,0.2562,7657,-0.05842,-0.04381,0.005265,after hours,False,False,False,0
+btc_ah,BTC,daily,1,d,-0.07488,-3.506,1201,0.0004554,False,0.02321,1.072,0.2836,1276,-0.06162,-0.04234,0.007545,after hours,False,False,False,0
+btc_ah,basket,4h,7,d,-0.08413,-3.484,7159,0.0004937,False,0.009969,0.3881,0.6979,7621,-0.03637,-0.06611,-0.01473,after hours,False,True,False,0.0015
+btc_ah,BTC,4h,7,d,-0.08581,-3.461,7159,0.0005388,False,-0.006591,-0.2513,0.8016,7621,-0.0504,-0.0571,-0.03764,after hours,False,True,False,0.0005
+btc_ah,basket,daily,7,d,-0.08093,-3.292,1195,0.0009941,False,0.009282,0.3559,0.7219,1270,-0.03391,-0.06485,-0.01633,after hours,False,True,False,0
+btc_ah,BTC,daily,7,d,-0.08304,-3.281,1195,0.001034,False,-0.005937,-0.2222,0.8242,1270,-0.04932,-0.05609,-0.03744,after hours,False,True,False,0.0005
+btc_ah,basket,4h,1,d,-0.06633,-3.267,7195,0.001087,False,0.02722,1.373,0.1698,7657,-0.04648,-0.03996,0.01389,after hours,False,False,False,0.0015
+btc_ah,BTC,4h,30,c,-0.09414,-3.267,5467,0.001087,False,0.0004327,0.00971,0.9923,3111,-0.04354,-0.06486,-0.01999,after hours,False,True,False,0.0065
+btc_ah,BTC,daily,30,c,-0.09251,-3.233,1020,0.001227,False,0.01176,0.2997,0.7644,598,-0.03957,-0.06121,-0.008817,after hours,False,True,False,0.0015
+btc_ah,ETH,4h,7,d,-0.07999,-3.226,7159,0.001254,False,0.01533,0.5995,0.5489,7621,-0.03276,-0.06827,-0.004883,after hours,False,True,False,0.002
+btc_ah,basket,4h,14,d,-0.08226,-3.192,7117,0.001413,False,0.02951,1.076,0.2818,7579,-0.05845,-0.06582,0.02099,after hours,False,False,False,0.001
+btc_ah,ETH,daily,7,d,-0.0778,-3.094,1195,0.001975,False,0.01382,0.5323,0.5945,1270,-0.03066,-0.06794,-0.007479,after hours,False,True,False,0.001
+btc_ah,ETH,4h,1,d,-0.06254,-3.086,7195,0.002032,False,0.02397,1.222,0.2217,7657,-0.04864,-0.04045,0.01459,after hours,False,False,False,0.006
+btc_ah,ETH,4h,14,d,-0.08132,-3.072,7117,0.002124,False,0.04074,1.503,0.1329,7579,-0.05629,-0.06981,0.03692,after hours,False,False,False,0.0025
+btc_ah,BTC,daily,1,c,-0.07767,-3.047,1049,0.002313,False,0.06868,2.143,0.03211,624,-0.05803,-0.05676,0.04408,after hours,False,False,False,0.0005
+btc_ah,basket,daily,14,d,-0.0793,-3.025,1188,0.002489,False,0.03009,1.107,0.2682,1263,-0.05217,-0.0685,0.02128,after hours,False,False,False,0.0045
+btc_ah,basket,daily,1,d,-0.06526,-3.016,1201,0.00256,False,0.02753,1.28,0.2004,1276,-0.04856,-0.03827,0.01522,after hours,False,False,False,0.002
+btc_ah,ETH,daily,14,d,-0.07935,-2.959,1188,0.003089,False,0.0407,1.529,0.1263,1263,-0.05153,-0.07302,0.03616,after hours,False,False,False,0.0045
+RIOT_rel20,ETH,daily,30,c,0.28,2.881,1020,0.003965,False,-0.1808,-1.307,0.1911,598,0.3713,0.1536,-0.1655,RIOT,False,False,False,0.0035
+btc_ah,ETH,daily,1,d,-0.06201,-2.866,1201,0.004151,False,0.02389,1.127,0.2598,1276,-0.0521,-0.03838,0.01523,after hours,False,False,False,0.003
+btc_ah,BTC,4h,1,c,-0.06831,-2.861,5641,0.004226,False,0.07985,2.593,0.009527,3252,-0.03902,-0.03331,0.06026,after hours,False,False,False,0.007
+btc_ah,BTC,4h,14,d,-0.07408,-2.851,7117,0.004363,False,0.0106,0.3841,0.7009,7579,-0.05704,-0.05137,-0.00392,after hours,False,True,False,0.0055
+btc_ah,BTC,4h,1,a,-0.04887,-2.828,10569,0.00469,False,0.01757,0.8845,0.3764,7657,-0.003373,-0.04462,-0.0006378,after hours,False,True,False,0.007
+btc_ah,basket,daily,30,c,-0.08068,-2.826,1020,0.004713,False,0.01887,0.5071,0.6121,598,-0.03655,-0.08329,-0.0002043,after hours,False,True,False,0.002
+RIOT_rel20,ETH,4h,30,c,0.2865,2.793,5468,0.005225,False,-0.1633,-1.112,0.2662,3111,0.41,0.1606,-0.1578,RIOT,False,False,False,0
+btc_ah,BTC,daily,1,a,-0.05028,-2.747,1766,0.006013,False,0.01975,0.9166,0.3594,1276,-0.01128,-0.04203,0.002446,after hours,False,False,False,0.0045
+btc_ah,BTC,4h,3,d,-0.06842,-2.703,7183,0.006867,False,0.009424,0.4054,0.6852,7645,-0.0335,-0.03243,-0.02487,after hours,False,True,False,0.01
+btc_ah,basket,daily,1,c,-0.06631,-2.679,1049,0.007381,False,0.0647,1.998,0.04576,624,-0.05328,-0.05329,0.03901,after hours,False,False,False,0.0015
+btc_ah,ETH,4h,1,a,-0.04569,-2.676,10569,0.007456,False,0.02174,1.104,0.2695,7657,-0.03098,-0.04124,0.01181,after hours,False,False,False,0.0105
+btc_ah,BTC,daily,14,d,-0.07086,-2.672,1188,0.00753,False,0.0118,0.4256,0.6704,1263,-0.04961,-0.05371,-0.002347,after hours,False,True,False,0.011

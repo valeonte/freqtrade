@@ -1,0 +1,6 @@
+N,value,expected max Sharpe (null),DSR
+raw N,69.0000,0.6609,0.9983
+effective N,14.8000,0.4866,0.9997
+PBO all trials,69.0000,,0.3102
+PBO 45 grid,45.0000,,0.6603
+PBO study 25,36.0000,,0.6320

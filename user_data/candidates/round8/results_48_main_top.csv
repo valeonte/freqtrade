@@ -1,0 +1,31 @@
+feature,asset,bar,horizon,use,ic,t,n,p,bh,ic_conf,t_conf,p_conf,n_conf,ic_2019-20,ic_2021-23,ic_2024-26H1,group,confirmed,periods_same_sign,survivor,boot_p
+tbr_perp_7d_z,BTC,4h,30,b,0.5149,4.854,3257,1.213e-06,True,0.1085,1.428,0.1533,4372,0.5639,0.3858,0.1197,a flow,False,True,False,0
+tbr_perp_7d_z,BTC,daily,30,b,0.5159,4.844,549,1.273e-06,True,0.1097,1.426,0.154,732,0.5604,0.3936,0.1203,a flow,False,True,False,0
+tbr_perp_1d_z,BTC,4h,30,b,0.318,4.437,3283,9.133e-06,True,0.03404,0.952,0.3411,4372,0.3967,0.2204,0.03311,a flow,False,True,False,0
+tbr_perp_3d_z,BTC,4h,30,b,0.4172,4.435,3274,9.193e-06,True,0.06485,1.146,0.2517,4372,0.4997,0.3131,0.05755,a flow,False,True,False,0
+tbr_perp_7d_z,BTC,4h,14,b,0.3828,4.413,3257,1.019e-05,True,0.01136,0.1459,0.884,4380,0.4714,0.2081,0.0255,a flow,False,True,False,0
+tbr_perp_7d_z,BTC,daily,14,b,0.3874,4.316,549,1.586e-05,True,0.01575,0.2029,0.8392,734,0.4778,0.215,0.02712,a flow,False,True,False,0
+tbr_perp_3d_z,BTC,daily,30,b,0.4082,4.301,552,1.697e-05,True,0.06615,1.127,0.2597,732,0.492,0.3153,0.05414,a flow,False,True,False,0
+whale1m_1d,basket,4h,30,a,0.1577,4.161,3175,3.164e-05,True,0.009341,0.207,0.836,3804,0.6938,0.1222,0.03064,c large trades,False,True,False,0
+whale1m_7d_z,basket,daily,30,c,0.3679,4.105,430,4.038e-05,True,-0.1213,-1.347,0.178,538,,0.1632,-0.07214,c large trades,False,False,False,0
+tbr_perp_1d_z,BTC,daily,30,b,0.3024,4.053,554,5.046e-05,True,0.03344,0.8706,0.384,732,0.4059,0.2111,0.02779,a flow,False,True,False,0
+tbr_perp_7d_z,basket,4h,14,b,0.3364,4.021,3257,5.788e-05,True,-0.004016,-0.04588,0.9634,4380,0.5089,0.1497,0.02814,a flow,False,True,False,0
+whale1m_1d,basket,daily,30,a,0.1709,3.982,645,6.834e-05,True,-0.006188,-0.1328,0.8944,817,0.7009,0.1171,0.01495,c large trades,False,True,False,0.0015
+tbr_perp_7d_z,basket,daily,14,b,0.3388,3.912,549,9.162e-05,True,0.00309,0.03535,0.9718,734,0.5066,0.1557,0.03395,a flow,False,True,False,0
+whaleshare_1d,BTC,4h,30,c,-0.4742,-3.802,3886,0.0001437,True,-0.4965,-3.435,0.0005926,3111,-0.5009,-0.2765,-0.3992,c large trades,True,True,True,0
+whale1m_7d,basket,daily,30,a,0.3097,3.8,775,0.0001448,True,-0.05231,-0.755,0.4502,1162,0.5439,0.1233,0.001633,c large trades,False,True,False,0
+whale1m_7d,basket,4h,30,a,0.3057,3.778,4602,0.0001583,True,-0.04685,-0.6828,0.4947,6867,0.5126,0.1283,0.004639,c large trades,False,True,False,0
+tbr_perp_3d_z,BTC,4h,14,b,0.2792,3.757,3274,0.0001718,True,-0.02063,-0.3313,0.7404,4380,0.3864,0.1642,-0.0341,a flow,False,False,False,0
+whaleshare_1d,BTC,daily,30,c,-0.4583,-3.734,736,0.0001883,True,-0.479,-3.437,0.0005881,598,-0.4923,-0.2705,-0.3845,c large trades,True,True,True,0
+whaleshare_1d,BTC,4h,1,c,-0.1092,-3.716,4060,0.0002027,True,-0.07752,-2.275,0.02288,3252,-0.09652,-0.1038,-0.05005,c large trades,False,True,False,0
+whale100k_7d,BTC,4h,30,d,0.2904,3.701,7022,0.000215,True,0.01381,0.1905,0.8489,7483,0.2084,0.1162,0.04515,c large trades,False,True,False,0
+whaleshare_7d,BTC,4h,30,c,-0.4919,-3.683,3862,0.0002301,True,-0.5176,-3.418,0.0006312,3111,-0.5741,-0.2784,-0.4395,c large trades,True,True,True,0
+whale100k_7d,BTC,daily,30,d,0.2895,3.68,1172,0.0002328,True,0.01578,0.2166,0.8286,1247,0.2033,0.1066,0.04886,c large trades,False,True,False,0.0005
+tbr_perp_7d_z,basket,4h,30,b,0.4077,3.668,3257,0.0002449,True,0.1334,1.558,0.1193,4372,0.5686,0.3118,0.1626,a flow,False,True,False,0
+tbr_perp_3d_z,basket,4h,30,b,0.3462,3.619,3274,0.0002956,True,0.07136,1.17,0.2422,4372,0.5206,0.2596,0.08187,a flow,False,True,False,0
+whaleshare_7d,BTC,4h,14,a,-0.264,-3.602,8633,0.000316,True,-0.2493,-3.064,0.002184,7579,-0.1899,-0.2183,-0.1998,c large trades,False,True,False,0
+tbr_perp_1d_z,basket,4h,30,b,0.2664,3.588,3283,0.0003338,True,0.03566,0.962,0.3361,4372,0.411,0.1894,0.0444,a flow,False,True,False,0
+whaleshare_7d,BTC,daily,30,c,-0.4772,-3.584,731,0.0003378,True,-0.4959,-3.38,0.0007258,598,-0.5789,-0.27,-0.4165,c large trades,True,True,True,0.0015
+whale1m_7d_z,basket,4h,30,c,0.3374,3.569,2306,0.0003581,True,-0.1132,-1.155,0.2479,2749,,0.1347,-0.06071,c large trades,False,False,False,0
+tbr_perp_7d_z,basket,daily,30,b,0.4037,3.562,549,0.0003682,True,0.1345,1.549,0.1213,732,0.5587,0.3165,0.1651,a flow,False,True,False,0
+whaleshare_7d,BTC,4h,14,c,-0.3358,-3.561,3958,0.0003699,True,-0.3998,-3.275,0.001056,3199,-0.3136,-0.2948,-0.3711,c large trades,True,True,True,0

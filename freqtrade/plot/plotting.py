@@ -1,4 +1,5 @@
 import logging
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -40,7 +41,7 @@ try:
     from plotly.subplots import make_subplots
 except ImportError:
     logger.exception("Module plotly not found \n Please install using `pip3 install plotly`")
-    exit(1)
+    sys.exit(1)
 
 
 def init_plotscript(config, markets: list, startup_candles: int = 0):
@@ -78,10 +79,11 @@ def init_plotscript(config, markets: list, startup_candles: int = 0):
     filename = config.get("exportfilename") or config.get("exportdirectory")
     if config.get("no_trades", False):
         no_trades = True
-    elif config["trade_source"] == "file":
-        if not filename or (not filename.is_dir() and not filename.is_file()):
-            logger.warning("Backtest file is missing skipping trades.")
-            no_trades = True
+    elif config["trade_source"] == "file" and (
+        not filename or (not filename.is_dir() and not filename.is_file())
+    ):
+        logger.warning("Backtest file is missing skipping trades.")
+        no_trades = True
     try:
         trades = load_trades(
             config["trade_source"],
@@ -190,7 +192,7 @@ def add_max_drawdown(
             mode="markers",
             name=f"Max drawdown {drawdown.relative_account_drawdown:.2%}",
             text=f"Max drawdown {drawdown.relative_account_drawdown:.2%}",
-            marker=dict(symbol="square-open", size=9, line=dict(width=2), color="green"),
+            marker={"symbol": "square-open", "size": 9, "line": {"width": 2}, "color": "green"},
         )
         fig.add_trace(drawdown, row, 1)
     except ValueError:
@@ -263,7 +265,7 @@ def plot_trades(fig, trades: pd.DataFrame) -> make_subplots:
         trades["desc"] = trades.apply(
             lambda row: (
                 f"{row['profit_ratio']:.2%}, "
-                + (f"{row['enter_tag']}, " if row["enter_tag"] is not None else "")
+                + (f"{row['enter_tag']}, " if pd.notna(row["enter_tag"]) else "")
                 + f"{row['exit_reason']}, "
                 + f"{row['trade_duration']} min"
             ),
@@ -275,7 +277,7 @@ def plot_trades(fig, trades: pd.DataFrame) -> make_subplots:
             mode="markers",
             name="Trade entry",
             text=trades["desc"],
-            marker=dict(symbol="circle-open", size=11, line=dict(width=2), color="cyan"),
+            marker={"symbol": "circle-open", "size": 11, "line": {"width": 2}, "color": "cyan"},
         )
 
         trade_exits = go.Scatter(
@@ -284,7 +286,7 @@ def plot_trades(fig, trades: pd.DataFrame) -> make_subplots:
             text=trades.loc[trades["profit_ratio"] > 0, "desc"],
             mode="markers",
             name="Exit - Profit",
-            marker=dict(symbol="square-open", size=11, line=dict(width=2), color="green"),
+            marker={"symbol": "square-open", "size": 11, "line": {"width": 2}, "color": "green"},
         )
         trade_exits_loss = go.Scatter(
             x=trades.loc[trades["profit_ratio"] <= 0, "close_date"],
@@ -292,7 +294,7 @@ def plot_trades(fig, trades: pd.DataFrame) -> make_subplots:
             text=trades.loc[trades["profit_ratio"] <= 0, "desc"],
             mode="markers",
             name="Exit - Loss",
-            marker=dict(symbol="square-open", size=11, line=dict(width=2), color="red"),
+            marker={"symbol": "square-open", "size": 11, "line": {"width": 2}, "color": "red"},
         )
         fig.add_trace(trade_entries, 1, 1)
         fig.add_trace(trade_exits, 1, 1)
@@ -356,7 +358,7 @@ def plot_area(
     :param indicator_b: indicator name as populated in strategy
     :param label: label for the filled area
     :param fill_color: color to be used for the filled area
-    :return: fig with added  filled_traces plot
+    :return: fig with added filled_traces plot
     """
     if indicator_a in data and indicator_b in data:
         # make lines invisible to get the area plotted, only.
@@ -383,7 +385,7 @@ def add_areas(fig, row: int, data: pd.DataFrame, indicators) -> make_subplots:
     :param data: candlestick DataFrame
     :param indicators: dict with indicators. ie.: plot_config['main_plot'] or
                             plot_config['subplots'][subplot_label]
-    :return: fig with added  filled_traces plot
+    :return: fig with added filled_traces plot
     """
     for indicator, ind_conf in indicators.items():
         if "fill_to" in ind_conf:
@@ -416,12 +418,12 @@ def create_scatter(data, column_name, color, direction) -> go.Scatter | None:
                 y=df_short.close,
                 mode="markers",
                 name=column_name,
-                marker=dict(
-                    symbol=f"triangle-{direction}-dot",
-                    size=9,
-                    line=dict(width=1),
-                    color=color,
-                ),
+                marker={
+                    "symbol": f"triangle-{direction}-dot",
+                    "size": 9,
+                    "line": {"width": 1},
+                    "color": color,
+                },
             )
             return shorts
         else:

@@ -1,0 +1,7 @@
+window,family,spa_p,rc_p,best,best_t
+discovery,all 800,0.0050,0.2350,technical.MADR.stdcenter@x1 OR qtpylib.tdi.rsi_bb_upper@x4 median,4.3455
+discovery,combinations only (760),0.0045,0.2290,technical.MADR.stdcenter@x1 OR qtpylib.tdi.rsi_bb_upper@x4 median,4.3455
+discovery,singles only (40),0.4110,0.4440,talib.HT_DCPERIOD.real@x1 single tercile,1.6563
+confirmation,all 800,0.7760,0.8065,talib.TRIX.real@x1 AND talib.AROON.aroondown@x4 median,1.8318
+confirmation,combinations only (760),0.7745,0.8035,talib.TRIX.real@x1 AND talib.AROON.aroondown@x4 median,1.8318
+confirmation,singles only (40),0.8070,0.6000,qtpylib.zlsma.zlsma@x4 single tercile,1.1768

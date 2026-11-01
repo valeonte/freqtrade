@@ -1,0 +1,210 @@
+59 panels loaded 6 features
+  disc BTC daily h=1 done
+  disc BTC daily h=3 done
+  disc BTC daily h=7 done
+  disc BTC daily h=14 done
+  disc BTC daily h=30 done
+  disc BTC 4h h=1 done
+  disc BTC 4h h=3 done
+  disc BTC 4h h=7 done
+  disc BTC 4h h=14 done
+  disc BTC 4h h=30 done
+  disc ETH daily h=1 done
+  disc ETH daily h=3 done
+  disc ETH daily h=7 done
+  disc ETH daily h=14 done
+  disc ETH daily h=30 done
+  disc ETH 4h h=1 done
+  disc ETH 4h h=3 done
+  disc ETH 4h h=7 done
+  disc ETH 4h h=14 done
+  disc ETH 4h h=30 done
+  disc basket daily h=1 done
+  disc basket daily h=3 done
+  disc basket daily h=7 done
+  disc basket daily h=14 done
+  disc basket daily h=30 done
+  disc basket 4h h=1 done
+  disc basket 4h h=3 done
+  disc basket 4h h=7 done
+  disc basket 4h h=14 done
+  disc basket 4h h=30 done
+  conf BTC daily h=1 done
+  conf BTC daily h=3 done
+  conf BTC daily h=7 done
+  conf BTC daily h=14 done
+  conf BTC daily h=30 done
+  conf BTC 4h h=1 done
+  conf BTC 4h h=3 done
+  conf BTC 4h h=7 done
+  conf BTC 4h h=14 done
+  conf BTC 4h h=30 done
+  conf ETH daily h=1 done
+  conf ETH daily h=3 done
+  conf ETH daily h=7 done
+  conf ETH daily h=14 done
+  conf ETH daily h=30 done
+  conf ETH 4h h=1 done
+  conf ETH 4h h=3 done
+  conf ETH 4h h=7 done
+  conf ETH 4h h=14 done
+  conf ETH 4h h=30 done
+  conf basket daily h=1 done
+  conf basket daily h=3 done
+  conf basket daily h=7 done
+  conf basket daily h=14 done
+  conf basket daily h=30 done
+  conf basket 4h h=1 done
+  conf basket 4h h=3 done
+  conf basket 4h h=7 done
+  conf basket 4h h=14 done
+  conf basket 4h h=30 done
+  2019-20 BTC daily h=1 done
+  2019-20 BTC daily h=3 done
+  2019-20 BTC daily h=7 done
+  2019-20 BTC daily h=14 done
+  2019-20 BTC daily h=30 done
+  2019-20 BTC 4h h=1 done
+  2019-20 BTC 4h h=3 done
+  2019-20 BTC 4h h=7 done
+  2019-20 BTC 4h h=14 done
+  2019-20 BTC 4h h=30 done
+  2019-20 ETH daily h=1 done
+  2019-20 ETH daily h=3 done
+  2019-20 ETH daily h=7 done
+  2019-20 ETH daily h=14 done
+  2019-20 ETH daily h=30 done
+  2019-20 ETH 4h h=1 done
+  2019-20 ETH 4h h=3 done
+  2019-20 ETH 4h h=7 done
+  2019-20 ETH 4h h=14 done
+  2019-20 ETH 4h h=30 done
+  2019-20 basket daily h=1 done
+  2019-20 basket daily h=3 done
+  2019-20 basket daily h=7 done
+  2019-20 basket daily h=14 done
+  2019-20 basket daily h=30 done
+  2019-20 basket 4h h=1 done
+  2019-20 basket 4h h=3 done
+  2019-20 basket 4h h=7 done
+  2019-20 basket 4h h=14 done
+  2019-20 basket 4h h=30 done
+  2021-23 BTC daily h=1 done
+  2021-23 BTC daily h=3 done
+  2021-23 BTC daily h=7 done
+  2021-23 BTC daily h=14 done
+  2021-23 BTC daily h=30 done
+  2021-23 BTC 4h h=1 done
+  2021-23 BTC 4h h=3 done
+  2021-23 BTC 4h h=7 done
+  2021-23 BTC 4h h=14 done
+  2021-23 BTC 4h h=30 done
+  2021-23 ETH daily h=1 done
+  2021-23 ETH daily h=3 done
+  2021-23 ETH daily h=7 done
+  2021-23 ETH daily h=14 done
+  2021-23 ETH daily h=30 done
+  2021-23 ETH 4h h=1 done
+  2021-23 ETH 4h h=3 done
+  2021-23 ETH 4h h=7 done
+  2021-23 ETH 4h h=14 done
+  2021-23 ETH 4h h=30 done
+  2021-23 basket daily h=1 done
+  2021-23 basket daily h=3 done
+  2021-23 basket daily h=7 done
+  2021-23 basket daily h=14 done
+  2021-23 basket daily h=30 done
+  2021-23 basket 4h h=1 done
+  2021-23 basket 4h h=3 done
+  2021-23 basket 4h h=7 done
+  2021-23 basket 4h h=14 done
+  2021-23 basket 4h h=30 done
+  2024-26H1 BTC daily h=1 done
+  2024-26H1 BTC daily h=3 done
+  2024-26H1 BTC daily h=7 done
+  2024-26H1 BTC daily h=14 done
+  2024-26H1 BTC daily h=30 done
+  2024-26H1 BTC 4h h=1 done
+  2024-26H1 BTC 4h h=3 done
+  2024-26H1 BTC 4h h=7 done
+  2024-26H1 BTC 4h h=14 done
+  2024-26H1 BTC 4h h=30 done
+  2024-26H1 ETH daily h=1 done
+  2024-26H1 ETH daily h=3 done
+  2024-26H1 ETH daily h=7 done
+  2024-26H1 ETH daily h=14 done
+  2024-26H1 ETH daily h=30 done
+  2024-26H1 ETH 4h h=1 done
+  2024-26H1 ETH 4h h=3 done
+  2024-26H1 ETH 4h h=7 done
+  2024-26H1 ETH 4h h=14 done
+  2024-26H1 ETH 4h h=30 done
+  2024-26H1 basket daily h=1 done
+  2024-26H1 basket daily h=3 done
+  2024-26H1 basket daily h=7 done
+  2024-26H1 basket daily h=14 done
+  2024-26H1 basket daily h=30 done
+  2024-26H1 basket 4h h=1 done
+  2024-26H1 basket 4h h=3 done
+  2024-26H1 basket 4h h=7 done
+  2024-26H1 basket 4h h=14 done
+  2024-26H1 basket 4h h=30 done
+
+59: 720 cells (6 features), discovery ('2018-03-01', '2022-12-31')
+BH 10% discoveries: real 22; null mean 16.0, median 0, 95th pct 71, max 232; share of null reps >= real 0.195
+max |t| real 3.64; null max |t| median 3.42, 95th pct 4.12; share of null reps with max >= real 0.310
+|t| > 3: real 21, null mean 10.1, 95th pct 39
+confirmed (Holm 5%, same sign): 0; survivors: 0
+
+by group:
+               cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+group                                                              
+dispersion      240  12          0          0   1.414243   3.509132
+max/min         240  10          0          0   0.856403   3.637455
+venue spread    240   0          0          0   0.671357   2.717537
+
+by use:
+      cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+use                                                       
+a      180   6          0          0   0.982322   3.471110
+b      180   0          0          0   0.797291   2.708565
+c      180   8          0          0   1.059765   3.637455
+d      180   8          0          0   1.082384   3.509132
+
+top 30 cells by discovery |t|:
+ feature  asset   bar  horizon use     ic      t    bh  ic_conf  t_conf  survivor  boot_p  ic_2019-20  ic_2021-23  ic_2024-26H1
+   fmin basket daily       30   c -0.361 -3.637  True   -0.172  -1.359     False   0.000      -0.606      -0.240        -0.187
+   fmin    BTC daily       30   c -0.384 -3.532  True   -0.114  -0.861     False   0.001      -0.660      -0.225        -0.125
+   disp    ETH    4h       14   d  0.213  3.509  True    0.029   0.468     False   0.000       0.315       0.184        -0.029
+   fmin basket    4h       30   c -0.348 -3.503  True   -0.170  -1.254     False   0.000      -0.597      -0.241        -0.189
+   disp basket    4h        1   a  0.083  3.471  True    0.025   1.096     False   0.001       0.123       0.059         0.006
+   disp    ETH daily       14   d  0.221  3.431  True    0.031   0.494     False   0.001       0.311       0.188        -0.035
+   fmin    BTC    4h       30   c -0.357 -3.348  True   -0.117  -0.825     False   0.000      -0.657      -0.213        -0.134
+   fmin    ETH daily       30   c -0.311 -3.329  True   -0.192  -1.514     False   0.001      -0.522      -0.235        -0.208
+   fmin    BTC    4h       30   d -0.261 -3.323  True   -0.087  -0.904     False   0.000      -0.383      -0.173        -0.049
+   disp basket daily        1   a  0.083  3.298  True    0.025   1.026     False   0.001       0.122       0.059         0.007
+   fmin    BTC daily       30   d -0.264 -3.275  True   -0.069  -0.696     False   0.001      -0.377      -0.171        -0.038
+   disp    ETH    4h        1   a  0.079  3.262  True    0.020   0.880     False   0.002       0.107       0.060         0.007
+   fmin    ETH    4h       30   c -0.306 -3.262  True   -0.183  -1.349     False   0.000      -0.510      -0.243        -0.205
+   fmin    BTC daily       14   c -0.316 -3.223  True   -0.001  -0.010     False   0.001      -0.499      -0.200         0.099
+   fmin    BTC    4h       14   c -0.316 -3.173  True    0.028   0.243     False   0.000      -0.507      -0.200         0.140
+   disp    ETH    4h       14   a  0.236  3.158  True    0.035   0.520     False   0.000       0.219       0.214        -0.048
+ disp_z    ETH    4h       14   d  0.215  3.141  True    0.002   0.042     False   0.000       0.329       0.189        -0.045
+   disp    ETH daily       14   a  0.236  3.130  True    0.035   0.514     False   0.004       0.219       0.214        -0.049
+   disp basket daily       14   d  0.198  3.056  True    0.029   0.443     False   0.004       0.290       0.159        -0.050
+   disp basket    4h       14   d  0.189  3.056  True    0.028   0.429     False   0.000       0.299       0.155        -0.046
+   disp    ETH daily        1   a  0.078  3.056  True    0.020   0.842     False   0.002       0.106       0.059         0.007
+ disp_z basket    4h       14   d  0.204  2.992  True   -0.008  -0.128     False   0.000       0.244       0.180        -0.075
+   fmin basket    4h       14   c -0.290 -2.931 False   -0.022  -0.201     False   0.000      -0.451      -0.215         0.072
+ disp_z    ETH daily       14   d  0.208  2.899 False    0.006   0.092     False   0.014       0.286       0.184        -0.043
+ disp_z    ETH    4h       14   a  0.237  2.884 False    0.003   0.046     False   0.000       0.198       0.198        -0.060
+   fmin basket daily       14   c -0.283 -2.866 False   -0.056  -0.554     False   0.003      -0.451      -0.204         0.029
+   fmax    BTC    4h        1   c -0.093 -2.866 False    0.010   0.274     False   0.008      -0.103      -0.081         0.006
+   disp    BTC    4h        1   a  0.068  2.861 False    0.026   1.141     False   0.004       0.121       0.039         0.000
+   disp basket    4h        3   a  0.114  2.834 False    0.025   0.673     False   0.005       0.176       0.074        -0.005
+ disp_z basket daily       14   d  0.198  2.808 False   -0.006  -0.089     False   0.013       0.195       0.177        -0.074
+
+top cell per group, bot-on (b) / bot-off (c) / partial (d) uses:
+  dispersion: disp ETH 4h h14 use d: IC +0.213 t +3.51, conf IC +0.029 t +0.47
+  max/min: fmin basket daily h30 use c: IC -0.361 t -3.64, conf IC -0.172 t -1.36
+  venue spread: deribit_minus_binance ETH 4h h14 use c: IC -0.258 t -2.72, conf IC -0.154 t -1.53

@@ -1,0 +1,17 @@
+six tranches reproduce round 6, 20190101-20201231: True (417 vs 417 orders)
+six tranches reproduce round 6, 20210101-20231231: True (655 vs 655 orders)
+six tranches reproduce round 6, 20240101-20260630: True (582 vs 582 orders)
+six tranches reproduce round 6, 20190101-20260630: True (1657 vs 1657 orders)
+                variant    period  pre-tax CAGR %  pre-tax Sharpe  pre-tax max DD %  after-tax CAGR %  after-tax max DD %  after-tax end   tax paid  orders/yr  trading days/yr  coin disposal lines/yr  hold days (median)  sold within 30d %
+    six tranches (live)   2019-20          145.89            2.58            -22.69            120.71              -22.69     243,303.07  58,638.35     207.64            45.53                   43.53               10.83              58.59
+    six tranches (live)   2021-23           49.17            1.57            -22.84             39.85              -22.84     136,539.86  24,246.34     218.01            43.40                   44.07                3.67              77.89
+    six tranches (live) 2024-26H1           36.87            1.20            -24.00             30.45              -28.89      97,030.29  11,823.32     233.34            45.31                   47.71               11.00              76.36
+    six tranches (live)       all           65.51            1.76            -24.00             56.13              -31.60   1,408,586.05 420,938.24     221.13            44.97                   45.51               10.50              73.90
+three tranches 00/08/16   2019-20          137.95            2.47            -23.84            113.92              -23.84     228,565.10  54,209.75     111.08            39.53                   36.02               11.00              59.83
+three tranches 00/08/16   2021-23           47.92            1.55            -21.76             39.18              -21.76     134,576.93  22,919.03     112.85            38.39                   37.73                3.67              78.02
+three tranches 00/08/16 2024-26H1           33.44            1.10            -23.95             27.67              -28.50      91,954.87  10,341.43     120.68            38.49                   39.29               11.00              76.68
+three tranches 00/08/16       all           61.86            1.68            -23.95             52.89              -31.26   1,203,805.29 356,618.14     115.43            39.10                   38.17               10.33              74.22
+
+after-tax CAGR, three minus six (points): {'2019-20': -6.79, '2021-23': -0.67, '2024-26H1': -2.78, 'all': -3.24}
+order cut: {'2019-20': 0.465, '2021-23': 0.482, '2024-26H1': 0.483, 'all': 0.478}
+verdict (within 2 points after tax in every period and >= 25% fewer orders): NOT WORTH IT

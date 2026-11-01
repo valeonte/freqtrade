@@ -1,0 +1,113 @@
+Result for strategy FundingVolTranchesFreqaiStrategy
+                                                BACKTESTING REPORT
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃     Pair ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃      Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ BTC/USDT │     10 │         8.24 │         555.293 │        55.53 │ 10 days, 18:48:00 │    8     0     2  80.0 │
+│ ETH/USDT │     11 │         8.29 │         534.109 │        53.41 │  9 days, 17:49:00 │    9     0     2  81.8 │
+│    TOTAL │     21 │         8.27 │        1089.402 │       108.94 │  10 days, 5:43:00 │   17     0     4  81.0 │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴───────────────────┴────────────────────────┘
+                                         LEFT OPEN TRADES REPORT
+┏━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  Pair ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ TOTAL │      0 │          0.0 │           0.000 │          0.0 │         0:00 │    0     0     0     0 │
+└───────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┘
+                                                  ENTER TAG STATS
+┏━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  Enter Tag ┃ Entries ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ tranche_on │      21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │
+│      TOTAL │      21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │
+└────────────┴─────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                                 EXIT REASON STATS
+┏━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Exit Reason ┃ Exits ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│     all_off │    21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │
+│       TOTAL │    21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │
+└─────────────┴───────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                                         MIXED TAG STATS
+┏━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  Enter Tag ┃ Exit Reason ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ tranche_on │     all_off │     21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │
+│      TOTAL │             │     21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │
+└────────────┴─────────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                  YEAR BREAKDOWN
+┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃       Year ┃ Trades ┃ Tot Profit USDT ┃ Profit Factor ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ 31/12/2020 │     21 │        1089.402 │        280.58 │   17     0     4  81.0 │
+└────────────┴────────┴─────────────────┴───────────────┴────────────────────────┘
+                                   SUMMARY METRICS
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                                 ┃ Value                                     ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Backtesting from                       │ 2020-07-20 00:00:00                       │
+│ Backtesting to                         │ 2020-12-31 00:00:00                       │
+│ Trading Mode                           │ Spot                                      │
+│ Max open trades                        │ 2                                         │
+│                                        │                                           │
+│ Total/Daily Avg Trades                 │ 21 / 0.13                                 │
+│ Starting balance                       │ 1000 USDT                                 │
+│ Final balance                          │ 2089.402 USDT                             │
+│ Absolute profit                        │ 1089.402 USDT                             │
+│ Total profit %                         │ 108.94%                                   │
+│ CAGR %                                 │ 415.52%                                   │
+│ Sharpe (closed trades)                 │ 0.95                                      │
+│ Sortino (closed trades)                │ 103.98                                    │
+│ Calmar (closed trades)                 │ 4135.31                                   │
+│ SQN                                    │ 1.74                                      │
+│ Mean profit p-value                    │ 0.0966                                    │
+│ Profit factor                          │ 280.58                                    │
+│ Expectancy (Ratio)                     │ 51.88 (53.25)                             │
+│ Avg. daily profit                      │ 6.643 USDT                                │
+│ Avg. stake amount                      │ 57.318 USDT                               │
+│ Market change                          │ 214.60%                                   │
+│ Total trade volume                     │ 15075.141 USDT                            │
+│                                        │                                           │
+│ Best Pair                              │ BTC/USDT 55.53%                           │
+│ Worst Pair                             │ ETH/USDT 53.41%                           │
+│ Best trade                             │ BTC/USDT 69.59%                           │
+│ Worst trade                            │ BTC/USDT -0.88%                           │
+│ Best day                               │ 915.269 USDT                              │
+│ Worst day                              │ -3.455 USDT                               │
+│ Days win/draw/lose                     │ 10 / 145 / 2                              │
+│ Min/Max/Avg. Duration Winners          │ 1d 00:00 / 79d 20:00 / 12d 08:42          │
+│ Min/Max/Avg. Duration Losers           │ 1d 00:00 / 1d 20:00 / 1d 05:00            │
+│ Max Consecutive Wins / Loss            │ 7 / 2                                     │
+│ Rejected Entry signals                 │ 0                                         │
+│ Entry/Exit Timeouts                    │ 0 / 0                                     │
+│                                        │                                           │
+│ Min/Max balance (closed trades)        │ 1013.01 USDT / 2089.402 USDT              │
+│ Max % of account underwater            │ 0.31%                                     │
+│ Absolute drawdown                      │ 3.455 USDT (0.31%)                        │
+│ Drawdown duration                      │ 20 days 00:00:00                          │
+│ Profit at drawdown start               │ 125.923 USDT                              │
+│ Profit at drawdown end                 │ 122.468 USDT                              │
+│ Drawdown start                         │ 2020-08-17 20:00:00                       │
+│ Drawdown end                           │ 2020-09-06 20:00:00                       │
+│                                        │                                           │
+│ Wallet based Metrics                   │                                           │
+│ Min/Max balance (wallet balance)       │ 994.906 USDT / 2114.216 USDT              │
+│ Min/Max balance dates (wallet balance) │ 2020-07-24 07:00:00 / 2020-12-28 15:00:00 │
+│ Max % of account underwater (balance)  │ 10.98%                                    │
+│ Absolute drawdown (wallet balance)     │ 198.686 USDT (10.98%)                     │
+│ Drawdown duration                      │ 2 days 03:00:00                           │
+│ Profit at drawdown start               │ 809.824 USDT                              │
+│ Profit at drawdown end                 │ 611.137 USDT                              │
+│ Drawdown start                         │ 2020-11-24 16:00:00                       │
+│ Drawdown end                           │ 2020-11-26 19:00:00                       │
+│ Sharpe (daily wallet balance)          │ 4.88                                      │
+│ Sortino (daily wallet balance)         │ 6.91                                      │
+│ Calmar (daily wallet balance)          │ 116.31                                    │
+└────────────────────────────────────────┴───────────────────────────────────────────┘
+
+Backtested 2020-07-20 00:00:00 -> 2020-12-31 00:00:00 | Max open trades : 2
+                                                                      STRATEGY SUMMARY
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃                         Strategy ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃          Drawdown ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ FundingVolTranchesFreqaiStrategy │     21 │         8.27 │        1089.402 │       108.94 │ 10 days, 5:43:00 │   17     0     4  81.0 │ 3.455 USDT  0.31% │
+└──────────────────────────────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┴───────────────────┘

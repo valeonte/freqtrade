@@ -1,0 +1,14 @@
+config,description,profit_pct,sharpe,calmar,sortino,max_drawdown_pct,profit_factor,win_rate_pct,total_trades,trades_per_day,market_change_pct
+v00_baseline,baseline,100.56,3.087,29.4198,8.5284,30.51,1.802,52.83,407,1.22,92.55
+v01_momentum_focus,momentum_focus,80.2,2.6251,15.3237,7.5866,44.62,1.572,48.3,441,1.32,92.55
+v02_quality_momentum,quality_momentum,82.89,2.0263,19.3265,6.8367,32.48,1.865,52.97,236,0.71,92.55
+v03_multitf_momentum,multitf_momentum,19.2,0.6733,4.6149,2.3424,23.87,1.347,38.99,159,0.48,92.55
+v04_simple_clean,simple_clean,71.66,2.4188,16.0486,7.3975,34.93,1.735,45.52,290,0.87,92.55
+v05_longer_windows,longer_windows,22.47,0.7864,6.6903,1.8584,23.81,1.33,53.37,163,0.49,92.55
+v06_v04_plus_volmom,v04_plus_volmom,107.45,2.5399,20.3526,8.5632,49.59,1.865,47.68,323,0.97,92.55
+v07_short_overext,short_overext,61.84,3.3923,12.5423,5.6289,40.99,1.399,57.52,605,1.82,92.55
+v08_dual_volmom,dual_volmom,68.71,1.9796,18.1946,6.4201,29.14,1.824,44.44,207,0.62,92.55
+v09_v04_no_overext,v04_no_overext,84.1,1.9266,22.5041,8.6049,26.1,2.035,43.48,184,0.55,92.55
+v10_v04_dual_overext,v04_dual_overext,60.09,3.5353,11.0245,6.6136,46.47,1.285,50.92,866,2.6,92.55
+v11_v04_overext20,v04_overext20,57.29,1.9862,11.5554,5.53,40.29,1.603,46.15,273,0.82,92.55
+v12_v04_volmom14,v04_volmom14,71.35,2.4321,16.4266,6.7884,35.71,1.505,44.44,387,1.16,92.55

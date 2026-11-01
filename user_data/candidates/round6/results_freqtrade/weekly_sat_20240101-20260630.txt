@@ -1,0 +1,115 @@
+Result for strategy FundingVolCadenceStrategy
+                                               BACKTESTING REPORT
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃     Pair ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ ETH/USDT │     16 │         6.25 │         491.218 │        49.12 │ 30 days, 4:30:00 │    8     0     8  50.0 │
+│ BTC/USDT │     16 │         2.39 │         222.951 │         22.3 │ 30 days, 4:30:00 │    7     0     9  43.8 │
+│    TOTAL │     32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                         LEFT OPEN TRADES REPORT
+┏━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  Pair ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃ Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ TOTAL │      0 │          0.0 │           0.000 │          0.0 │         0:00 │    0     0     0     0 │
+└───────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────┴────────────────────────┘
+                                                  ENTER TAG STATS
+┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Enter Tag ┃ Entries ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│   uptrend │      32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+│     TOTAL │      32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+└───────────┴─────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                                 EXIT REASON STATS
+┏━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Exit Reason ┃ Exits ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│   downtrend │    32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+│       TOTAL │    32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+└─────────────┴───────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                                        MIXED TAG STATS
+┏━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Enter Tag ┃ Exit Reason ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│   uptrend │   downtrend │     32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+│     TOTAL │             │     32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │
+└───────────┴─────────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+                                  YEAR BREAKDOWN
+┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃       Year ┃ Trades ┃ Tot Profit USDT ┃ Profit Factor ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ 31/12/2024 │     12 │         715.503 │          5.21 │    7     0     5  58.3 │
+│ 31/12/2025 │     12 │         225.718 │          1.36 │    6     0     6  50.0 │
+│ 31/12/2026 │      8 │        -227.052 │          0.22 │    2     0     6  25.0 │
+└────────────┴────────┴─────────────────┴───────────────┴────────────────────────┘
+                                   SUMMARY METRICS
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                                 ┃ Value                                     ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Backtesting from                       │ 2024-01-01 00:00:00                       │
+│ Backtesting to                         │ 2026-06-30 00:00:00                       │
+│ Trading Mode                           │ Spot                                      │
+│ Max open trades                        │ 2                                         │
+│                                        │                                           │
+│ Total/Daily Avg Trades                 │ 32 / 0.04                                 │
+│ Starting balance                       │ 1000 USDT                                 │
+│ Final balance                          │ 1714.169 USDT                             │
+│ Absolute profit                        │ 714.169 USDT                              │
+│ Total profit %                         │ 71.42%                                    │
+│ CAGR %                                 │ 24.10%                                    │
+│ Sharpe (closed trades)                 │ 0.10                                      │
+│ Sortino (closed trades)                │ 0.29                                      │
+│ Calmar (closed trades)                 │ 5.74                                      │
+│ SQN                                    │ 0.86                                      │
+│ Mean profit p-value                    │ 0.394                                     │
+│ Profit factor                          │ 1.65                                      │
+│ Expectancy (Ratio)                     │ 22.32 (0.35)                              │
+│ Avg. daily profit                      │ 0.784 USDT                                │
+│ Avg. stake amount                      │ 607.921 USDT                              │
+│ Market change                          │ -0.23%                                    │
+│ Total trade volume                     │ 44521.474 USDT                            │
+│                                        │                                           │
+│ Best Pair                              │ ETH/USDT 49.12%                           │
+│ Worst Pair                             │ BTC/USDT 22.30%                           │
+│ Best trade                             │ ETH/USDT 92.37%                           │
+│ Worst trade                            │ ETH/USDT -24.63%                          │
+│ Best day                               │ 664.259 USDT                              │
+│ Worst day                              │ -244.986 USDT                             │
+│ Days win/draw/lose                     │ 8 / 874 / 8                               │
+│ Min/Max/Avg. Duration Winners          │ 7d 00:00 / 105d 00:00 / 45d 17:36         │
+│ Min/Max/Avg. Duration Losers           │ 7d 00:00 / 35d 00:00 / 16d 11:18          │
+│ Max Consecutive Wins / Loss            │ 4 / 4                                     │
+│ Rejected Entry signals                 │ 0                                         │
+│ Entry/Exit Timeouts                    │ 0 / 0                                     │
+│                                        │                                           │
+│ Min/Max balance (closed trades)        │ 974.7 USDT / 2318.948 USDT                │
+│ Max % of account underwater            │ 26.08%                                    │
+│ Absolute drawdown                      │ 604.78 USDT (26.08%)                      │
+│ Drawdown duration                      │ 308 days 00:00:00                         │
+│ Profit at drawdown start               │ 1318.948 USDT                             │
+│ Profit at drawdown end                 │ 714.169 USDT                              │
+│ Drawdown start                         │ 2025-08-23 00:00:00                       │
+│ Drawdown end                           │ 2026-06-27 00:00:00                       │
+│                                        │                                           │
+│ Wallet based Metrics                   │                                           │
+│ Min/Max balance (wallet balance)       │ 988.711 USDT / 2354.988 USDT              │
+│ Min/Max balance dates (wallet balance) │ 2024-01-08 00:00:00 / 2025-08-14 00:00:00 │
+│ Max % of account underwater (balance)  │ 27.46%                                    │
+│ Absolute drawdown (wallet balance)     │ 646.661 USDT (27.46%)                     │
+│ Drawdown duration                      │ 316 days 00:00:00                         │
+│ Profit at drawdown start               │ 1354.988 USDT                             │
+│ Profit at drawdown end                 │ 708.328 USDT                              │
+│ Drawdown start                         │ 2025-08-14 00:00:00                       │
+│ Drawdown end                           │ 2026-06-26 00:00:00                       │
+│ Sharpe (daily wallet balance)          │ 0.86                                      │
+│ Sortino (daily wallet balance)         │ 1.00                                      │
+│ Calmar (daily wallet balance)          │ 5.46                                      │
+└────────────────────────────────────────┴───────────────────────────────────────────┘
+
+Backtested 2024-01-01 00:00:00 -> 2026-06-30 00:00:00 | Max open trades : 2
+                                                                    STRATEGY SUMMARY
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+┃                  Strategy ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃            Drawdown ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+│ FundingVolCadenceStrategy │     32 │         4.32 │         714.169 │        71.42 │ 30 days, 4:30:00 │   15     0    17  46.9 │ 604.78 USDT  26.08% │
+└───────────────────────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┴─────────────────────┘

@@ -1,0 +1,210 @@
+53 panels loaded 10 features
+  disc BTC daily h=1 done
+  disc BTC daily h=3 done
+  disc BTC daily h=7 done
+  disc BTC daily h=14 done
+  disc BTC daily h=30 done
+  disc BTC 4h h=1 done
+  disc BTC 4h h=3 done
+  disc BTC 4h h=7 done
+  disc BTC 4h h=14 done
+  disc BTC 4h h=30 done
+  disc ETH daily h=1 done
+  disc ETH daily h=3 done
+  disc ETH daily h=7 done
+  disc ETH daily h=14 done
+  disc ETH daily h=30 done
+  disc ETH 4h h=1 done
+  disc ETH 4h h=3 done
+  disc ETH 4h h=7 done
+  disc ETH 4h h=14 done
+  disc ETH 4h h=30 done
+  disc basket daily h=1 done
+  disc basket daily h=3 done
+  disc basket daily h=7 done
+  disc basket daily h=14 done
+  disc basket daily h=30 done
+  disc basket 4h h=1 done
+  disc basket 4h h=3 done
+  disc basket 4h h=7 done
+  disc basket 4h h=14 done
+  disc basket 4h h=30 done
+  conf BTC daily h=1 done
+  conf BTC daily h=3 done
+  conf BTC daily h=7 done
+  conf BTC daily h=14 done
+  conf BTC daily h=30 done
+  conf BTC 4h h=1 done
+  conf BTC 4h h=3 done
+  conf BTC 4h h=7 done
+  conf BTC 4h h=14 done
+  conf BTC 4h h=30 done
+  conf ETH daily h=1 done
+  conf ETH daily h=3 done
+  conf ETH daily h=7 done
+  conf ETH daily h=14 done
+  conf ETH daily h=30 done
+  conf ETH 4h h=1 done
+  conf ETH 4h h=3 done
+  conf ETH 4h h=7 done
+  conf ETH 4h h=14 done
+  conf ETH 4h h=30 done
+  conf basket daily h=1 done
+  conf basket daily h=3 done
+  conf basket daily h=7 done
+  conf basket daily h=14 done
+  conf basket daily h=30 done
+  conf basket 4h h=1 done
+  conf basket 4h h=3 done
+  conf basket 4h h=7 done
+  conf basket 4h h=14 done
+  conf basket 4h h=30 done
+  2019-20 BTC daily h=1 done
+  2019-20 BTC daily h=3 done
+  2019-20 BTC daily h=7 done
+  2019-20 BTC daily h=14 done
+  2019-20 BTC daily h=30 done
+  2019-20 BTC 4h h=1 done
+  2019-20 BTC 4h h=3 done
+  2019-20 BTC 4h h=7 done
+  2019-20 BTC 4h h=14 done
+  2019-20 BTC 4h h=30 done
+  2019-20 ETH daily h=1 done
+  2019-20 ETH daily h=3 done
+  2019-20 ETH daily h=7 done
+  2019-20 ETH daily h=14 done
+  2019-20 ETH daily h=30 done
+  2019-20 ETH 4h h=1 done
+  2019-20 ETH 4h h=3 done
+  2019-20 ETH 4h h=7 done
+  2019-20 ETH 4h h=14 done
+  2019-20 ETH 4h h=30 done
+  2019-20 basket daily h=1 done
+  2019-20 basket daily h=3 done
+  2019-20 basket daily h=7 done
+  2019-20 basket daily h=14 done
+  2019-20 basket daily h=30 done
+  2019-20 basket 4h h=1 done
+  2019-20 basket 4h h=3 done
+  2019-20 basket 4h h=7 done
+  2019-20 basket 4h h=14 done
+  2019-20 basket 4h h=30 done
+  2021-23 BTC daily h=1 done
+  2021-23 BTC daily h=3 done
+  2021-23 BTC daily h=7 done
+  2021-23 BTC daily h=14 done
+  2021-23 BTC daily h=30 done
+  2021-23 BTC 4h h=1 done
+  2021-23 BTC 4h h=3 done
+  2021-23 BTC 4h h=7 done
+  2021-23 BTC 4h h=14 done
+  2021-23 BTC 4h h=30 done
+  2021-23 ETH daily h=1 done
+  2021-23 ETH daily h=3 done
+  2021-23 ETH daily h=7 done
+  2021-23 ETH daily h=14 done
+  2021-23 ETH daily h=30 done
+  2021-23 ETH 4h h=1 done
+  2021-23 ETH 4h h=3 done
+  2021-23 ETH 4h h=7 done
+  2021-23 ETH 4h h=14 done
+  2021-23 ETH 4h h=30 done
+  2021-23 basket daily h=1 done
+  2021-23 basket daily h=3 done
+  2021-23 basket daily h=7 done
+  2021-23 basket daily h=14 done
+  2021-23 basket daily h=30 done
+  2021-23 basket 4h h=1 done
+  2021-23 basket 4h h=3 done
+  2021-23 basket 4h h=7 done
+  2021-23 basket 4h h=14 done
+  2021-23 basket 4h h=30 done
+  2024-26H1 BTC daily h=1 done
+  2024-26H1 BTC daily h=3 done
+  2024-26H1 BTC daily h=7 done
+  2024-26H1 BTC daily h=14 done
+  2024-26H1 BTC daily h=30 done
+  2024-26H1 BTC 4h h=1 done
+  2024-26H1 BTC 4h h=3 done
+  2024-26H1 BTC 4h h=7 done
+  2024-26H1 BTC 4h h=14 done
+  2024-26H1 BTC 4h h=30 done
+  2024-26H1 ETH daily h=1 done
+  2024-26H1 ETH daily h=3 done
+  2024-26H1 ETH daily h=7 done
+  2024-26H1 ETH daily h=14 done
+  2024-26H1 ETH daily h=30 done
+  2024-26H1 ETH 4h h=1 done
+  2024-26H1 ETH 4h h=3 done
+  2024-26H1 ETH 4h h=7 done
+  2024-26H1 ETH 4h h=14 done
+  2024-26H1 ETH 4h h=30 done
+  2024-26H1 basket daily h=1 done
+  2024-26H1 basket daily h=3 done
+  2024-26H1 basket daily h=7 done
+  2024-26H1 basket daily h=14 done
+  2024-26H1 basket daily h=30 done
+  2024-26H1 basket 4h h=1 done
+  2024-26H1 basket 4h h=3 done
+  2024-26H1 basket 4h h=7 done
+  2024-26H1 basket 4h h=14 done
+  2024-26H1 basket 4h h=30 done
+
+53: 1,200 cells (10 features), discovery ('2018-03-01', '2022-12-31')
+BH 10% discoveries: real 0; null mean 102.5, median 73, 95th pct 315, max 364; share of null reps >= real 1.000
+max |t| real 3.09; null max |t| median 4.00, 95th pct 4.96; share of null reps with max >= real 0.975
+|t| > 3: real 1, null mean 49.5, 95th pct 116
+confirmed (Holm 5%, same sign): 0; survivors: 0
+
+by group:
+                cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+group                                                               
+MVRV             480   0          0          0   0.789044   2.986156
+NV divergence    480   0          0          0   0.848000   3.089715
+activity         240   0          0          0   0.919163   2.991081
+
+by use:
+      cells  bh  confirmed  survivors  med_abs_t  max_abs_t
+use                                                       
+a      300   0          0          0   0.884103   2.991081
+b      300   0          0          0   0.716640   2.383499
+c      300   0          0          0   0.914728   2.261844
+d      300   0          0          0   0.906249   3.089715
+
+top 30 cells by discovery |t|:
+    feature  asset   bar  horizon use     ic      t    bh  ic_conf  t_conf  survivor  boot_p  ic_2019-20  ic_2021-23  ic_2024-26H1
+   nvdiv30    ETH daily       30   d -0.247 -3.090 False    0.103   0.991     False   0.002      -0.334      -0.202         0.213
+    tx_g30    ETH    4h        1   a  0.058  2.991 False    0.004   0.182     False   0.008       0.040       0.068         0.010
+mvrv_chg90    BTC    4h        1   a  0.062  2.986 False    0.004   0.178     False   0.010       0.066       0.032         0.010
+   nvdiv30    ETH    4h       30   d -0.244 -2.962 False    0.078   0.765     False   0.000      -0.329      -0.204         0.193
+mvrv_chg30    ETH daily       30   d -0.231 -2.814 False    0.102   1.157     False   0.004      -0.199      -0.189         0.143
+mvrv_chg90    BTC daily        1   a  0.062  2.810 False    0.004   0.158     False   0.014       0.064       0.031         0.010
+    tx_g30    ETH daily        1   a  0.058  2.792 False    0.004   0.166     False   0.011       0.041       0.069         0.010
+mvrv_chg30    ETH    4h       30   d -0.216 -2.670 False    0.082   0.978     False   0.000      -0.191      -0.191         0.123
+mvrv_chg90    BTC    4h        3   a  0.093  2.615 False    0.001   0.033     False   0.021       0.075       0.050         0.006
+    tx_g30    ETH    4h        3   a  0.087  2.554 False    0.008   0.203     False   0.018       0.053       0.104         0.014
+mvrv_chg90    BTC daily        3   a  0.092  2.486 False    0.001   0.026     False   0.036       0.074       0.050         0.006
+   nvdiv90    ETH    4h        3   d -0.097 -2.467 False    0.031   0.739     False   0.021      -0.177      -0.085         0.028
+    tx_g30    ETH daily        3   a  0.087  2.438 False    0.008   0.197     False   0.029       0.053       0.105         0.014
+   nvdiv30    BTC    4h        7   d  0.109  2.430 False    0.080   1.445     False   0.013       0.190       0.062         0.092
+   nvdiv90    BTC    4h        1   a  0.050  2.428 False   -0.009  -0.397     False   0.027       0.042       0.034         0.013
+   nvdiv30    BTC daily        7   d  0.110  2.424 False    0.077   1.363     False   0.018       0.185       0.063         0.090
+mvrv_chg90 basket    4h        1   a  0.049  2.418 False    0.015   0.649     False   0.032       0.026       0.026         0.015
+    tx_g30 basket daily       30   d -0.276 -2.418 False   -0.084  -0.696     False   0.013      -0.184      -0.229        -0.076
+   adr_g30 basket daily       14   b  0.230  2.383 False    0.004   0.037     False   0.029       0.266      -0.053         0.071
+   nvdiv90    ETH daily        3   d -0.097 -2.351 False    0.037   0.856     False   0.018      -0.172      -0.082         0.038
+mvrv_chg90    ETH    4h        3   d -0.091 -2.333 False    0.010   0.244     False   0.030      -0.113      -0.118        -0.013
+   nvdiv90    ETH    4h       30   d -0.211 -2.314 False    0.035   0.321     False   0.001      -0.204      -0.166         0.039
+   adr_g30 basket    4h       14   b  0.220  2.313 False    0.010   0.101     False   0.001       0.258      -0.048         0.082
+mvrv_chg90    ETH daily        3   d -0.096 -2.313 False    0.017   0.425     False   0.042      -0.112      -0.120         0.001
+    tx_g30 basket    4h       30   d -0.268 -2.313 False   -0.096  -0.816     False   0.000      -0.191      -0.232        -0.090
+   nvdiv90    BTC daily        1   a  0.050  2.296 False   -0.010  -0.396     False   0.032       0.041       0.034         0.013
+mvrv_chg90 basket daily        1   a  0.049  2.267 False    0.015   0.598     False   0.057       0.024       0.026         0.014
+   adr_g30 basket    4h       30   c -0.287 -2.262 False   -0.176  -1.138     False   0.000      -0.007      -0.043        -0.376
+   nvdiv90    ETH daily       30   d -0.204 -2.256 False    0.076   0.660     False   0.024      -0.201      -0.161         0.094
+  log_mvrv    BTC    4h        3   c -0.100 -2.248 False   -0.061  -1.043     False   0.029      -0.044      -0.158         0.014
+
+top cell per group, bot-on (b) / bot-off (c) / partial (d) uses:
+  MVRV: mvrv_chg30 ETH daily h30 use d: IC -0.231 t -2.81, conf IC +0.102 t +1.16
+  NV divergence: nvdiv30 ETH daily h30 use d: IC -0.247 t -3.09, conf IC +0.103 t +0.99
+  activity: tx_g30 basket daily h30 use d: IC -0.276 t -2.42, conf IC -0.084 t -0.70
